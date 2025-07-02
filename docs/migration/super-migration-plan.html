@@ -1,0 +1,1716 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🚀 SUPER Plan de Migración: Cloudflare → Vercel + Supabase</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      h1 {
+        color: #38bdf8;
+        border-bottom: 3px solid #0ea5e9;
+        padding-bottom: 20px;
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 1.3em;
+        color: #94a3b8;
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+
+      h2 {
+        color: #06b6d4;
+        margin-top: 50px;
+        border-left: 6px solid #22d3ee;
+        padding-left: 25px;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
+      h3 {
+        color: #67e8f9;
+        margin-top: 35px;
+        font-size: 1.4em;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+        color: white;
+        padding: 50px;
+        border-radius: 20px;
+        margin: 40px 0;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(220, 38, 38, 0.3);
+      }
+
+      .hero h2 {
+        margin: 0;
+        border: none;
+        color: white;
+        font-size: 2.2em;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero p {
+        font-size: 1.2em;
+        margin: 25px 0 0 0;
+        opacity: 0.95;
+      }
+
+      .phase {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 2px solid #334155;
+        border-radius: 16px;
+        padding: 40px;
+        margin: 40px 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .phase-1 {
+        border-color: #ef4444;
+        box-shadow: 0 10px 25px rgba(239, 68, 68, 0.2);
+      }
+      .phase-2 {
+        border-color: #f97316;
+        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.2);
+      }
+      .phase-3 {
+        border-color: #eab308;
+        box-shadow: 0 10px 25px rgba(234, 179, 8, 0.2);
+      }
+      .phase-4 {
+        border-color: #22c55e;
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.2);
+      }
+      .phase-5 {
+        border-color: #3b82f6;
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+      }
+
+      .phase h3 {
+        margin-top: 0;
+        font-size: 1.8em;
+      }
+
+      .step-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .step-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 30px;
+        transition: all 0.3s ease;
+      }
+
+      .step-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
+        border-color: #3b82f6;
+      }
+
+      .step-card h4 {
+        color: #38bdf8;
+        margin: 0 0 20px 0;
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .command-block {
+        background: #0d1117;
+        border: 2px solid #21262d;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        overflow-x: auto;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .command-block code {
+        color: #e6edf3;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 14px;
+        line-height: 1.8;
+        display: block;
+        white-space: pre;
+      }
+
+      .command {
+        color: #7dd3fc;
+      }
+      .comment {
+        color: #8b949e;
+        font-style: italic;
+      }
+      .path {
+        color: #a5d6ff;
+      }
+      .success {
+        color: #56d364;
+      }
+      .warning {
+        color: #f85149;
+      }
+
+      .checklist {
+        background: rgba(34, 197, 94, 0.1);
+        border: 2px solid #22c55e;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+      }
+
+      .checklist h4 {
+        color: #4ade80;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .checklist ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .checklist li {
+        margin: 8px 0;
+        color: #dcfce7;
+      }
+
+      .warning-box {
+        background: rgba(239, 68, 68, 0.1);
+        border: 2px solid #ef4444;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+      }
+
+      .warning-box h4 {
+        color: #fca5a5;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .links-section {
+        background: linear-gradient(135deg, #581c87 0%, #7c3aed 100%);
+        border: 2px solid #a855f7;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(168, 85, 247, 0.2);
+      }
+
+      .links-section h3 {
+        color: #c084fc;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+      }
+
+      .link-card {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 25px;
+        text-decoration: none;
+        color: #e5e7eb;
+        transition: all 0.3s ease;
+      }
+
+      .link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(168, 85, 247, 0.25);
+        border-color: #a855f7;
+      }
+
+      .link-card h4 {
+        color: #ddd6fe;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin: 30px 0;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 25px;
+        border-radius: 12px;
+        border-left: 5px solid;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-item.day-1 {
+        border-color: #ef4444;
+      }
+      .timeline-item.day-2 {
+        border-color: #f97316;
+      }
+      .timeline-item.day-3 {
+        border-color: #eab308;
+      }
+      .timeline-item.day-4 {
+        border-color: #22c55e;
+      }
+      .timeline-item.day-5 {
+        border-color: #3b82f6;
+      }
+      .timeline-item.day-6 {
+        border-color: #8b5cf6;
+      }
+      .timeline-item.day-7 {
+        border-color: #ec4899;
+      }
+
+      .timeline-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+      }
+
+      .timeline-day {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        color: white;
+        min-width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 25px;
+        font-weight: bold;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        font-size: 1.1em;
+      }
+
+      .emoji {
+        font-size: 1.8em;
+        margin-right: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+          margin: 10px;
+        }
+
+        h1 {
+          font-size: 2.2em;
+        }
+
+        .step-grid,
+        .links-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .command-block {
+          font-size: 12px;
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 SUPER Plan de Migración</h1>
+      <p class="subtitle">Cloudflare Workers → Vercel + Supabase + Next.js</p>
+
+      <div class="hero">
+        <h2>🎯 Plan Maestro: 7 Días para la Libertad</h2>
+        <p>
+          De arquitectura compleja a desarrollo súper rápido.<br />
+          Folder temporal → Repositorio dedicado → Velocidad 8x
+        </p>
+      </div>
+
+      <div class="warning-box">
+        <h4>⚠️ Estrategia de Transición</h4>
+        <p>
+          <strong>Paso 1:</strong> Crear <code>udance-new/</code> en el root del proyecto actual<br />
+          <strong>Paso 2:</strong> Desarrollar todo el sistema nuevo en esa carpeta<br />
+          <strong>Paso 3:</strong> Crear repositorio Git dedicado cuando esté listo<br />
+          <strong>Ventaja:</strong> Cero riesgo, desarrollo paralelo, migración controlada
+        </p>
+      </div>
+
+      <h2>📅 Timeline Completo</h2>
+      <div class="timeline">
+        <div class="timeline-item day-1">
+          <div class="timeline-day">D1</div>
+          <div>
+            <strong>Setup & Servicios</strong><br />
+            Folder structure, Supabase, Vercel, Google OAuth, Turborepo base
+          </div>
+        </div>
+        <div class="timeline-item day-2">
+          <div class="timeline-day">D2</div>
+          <div>
+            <strong>Packages Core</strong><br />
+            UI responsive, API client, state management, configs compartidos
+          </div>
+        </div>
+        <div class="timeline-item day-3">
+          <div class="timeline-day">D3</div>
+          <div>
+            <strong>Next.js App</strong><br />
+            App Router, layouts responsive, PWA config, service workers
+          </div>
+        </div>
+        <div class="timeline-item day-4">
+          <div class="timeline-day">D4</div>
+          <div>
+            <strong>Auth & Features</strong><br />
+            Google OAuth, dashboards responsive, database migration
+          </div>
+        </div>
+        <div class="timeline-item day-5">
+          <div class="timeline-day">D5</div>
+          <div>
+            <strong>Mobile Web</strong><br />
+            Touch optimization, PWA features, performance tuning
+          </div>
+        </div>
+        <div class="timeline-item day-6">
+          <div class="timeline-day">D6</div>
+          <div>
+            <strong>Deployment</strong><br />
+            Vercel production, environment setup, testing completo
+          </div>
+        </div>
+        <div class="timeline-item day-7">
+          <div class="timeline-day">D7</div>
+          <div>
+            <strong>Go Live</strong><br />
+            DNS switch, data migration, legacy decommission
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-1">
+        <h3><span class="emoji">🏗️</span>FASE 1: Setup Inicial (Día 1)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>📁 Crear Estructura del Proyecto</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># En el root del proyecto actual</span>
+                <span class="command">mkdir udance-new</span>
+                <span class="command">cd udance-new</span>
+
+                <span class="comment"># Initializar pnpm monorepo</span>
+                <span class="command">pnpm init</span>
+                <span class="command">echo "node_modules" > .gitignore</span>
+
+                <span class="comment"># Crear estructura base</span>
+                <span class="command"
+                  >mkdir -p apps/web packages/{ui,api-client,store,utils,config}</span
+                >
+                <span class="command">mkdir -p docs .github/workflows</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>⚙️ Configurar Workspace</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># pnpm-workspace.yaml</span>
+                <span class="path">packages:</span>
+                - <span class="path">"apps/*"</span> - <span class="path">"packages/*"</span>
+
+                <span class="comment"># package.json root</span>
+                <span class="path">{</span>
+                <span class="path">"name": "udance-new",</span>
+                <span class="path">"private": true,</span>
+                <span class="path">"scripts": {</span>
+                <span class="path">"dev": "turbo dev",</span>
+                <span class="path">"build": "turbo build",</span>
+                <span class="path">"test": "turbo test"</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📦 Instalar Turborepo</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">pnpm add -D turbo @turbo/gen</span>
+
+                <span class="comment"># Crear turbo.json</span>
+                <span class="command">npx @turbo/gen@latest init</span>
+
+                <span class="comment"># Configurar pipeline básico</span>
+                <span class="path">{</span>
+                <span class="path">"pipeline": {</span>
+                <span class="path">"dev": { "cache": false, "persistent": true },</span>
+                <span class="path"
+                  >"build": { "dependsOn": ["^build"], "outputs": [".next/**", "dist/**"] },</span
+                >
+                <span class="path">"test": { "dependsOn": ["^build"] }</span>
+                <span class="path">}</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+        </div>
+
+        <div class="checklist">
+          <h4>✅ Checklist Día 1</h4>
+          <ul>
+            <li>[ ] Folder <code>udance-new/</code> creado en project root</li>
+            <li>[ ] Estructura monorepo con apps/ y packages/</li>
+            <li>[ ] Turborepo configurado y funcionando</li>
+            <li>[ ] pnpm workspace funcional</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase phase-2">
+        <h3><span class="emoji">🎨</span>FASE 2: Servicios Externos (Día 1-2)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>🗄️ Setup Supabase</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># 1. Ir a https://supabase.com</span>
+                <span class="comment"># 2. Crear nuevo proyecto: "udance-production"</span>
+                <span class="comment"># 3. Guardar credentials</span>
+
+                <span class="success">Project URL: https://xxxxx.supabase.co</span>
+                <span class="success">API Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+                <span class="success">Service Role: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+
+                <span class="comment"
+                  ># 4. Configurar Google OAuth en Authentication > Providers</span
+                >
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🚀 Setup Vercel</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># 1. Ir a https://vercel.com</span>
+                <span class="comment"># 2. Conectar con GitHub</span>
+                <span class="comment"># 3. Instalar Vercel CLI</span>
+
+                <span class="command">npm i -g vercel</span>
+                <span class="command">vercel login</span>
+
+                <span class="comment"># 4. Link project (desde apps/web después)</span>
+                <span class="command">vercel link</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🔐 Google OAuth Setup</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># 1. Ir a https://console.cloud.google.com</span>
+                <span class="comment"># 2. Crear nuevo proyecto o usar existente</span>
+                <span class="comment"># 3. APIs & Services > Credentials</span>
+                <span class="comment"># 4. Create OAuth 2.0 Client ID</span>
+
+                <span class="success">Client ID: 1234567890-xxxxx.apps.googleusercontent.com</span>
+                <span class="success">Client Secret: GOCSPX-xxxxx</span>
+
+                <span class="comment"># 5. Authorized redirect URIs:</span>
+                <span class="path">https://xxxxx.supabase.co/auth/v1/callback</span>
+                <span class="path">http://localhost:3000/auth/callback</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-3">
+        <h3><span class="emoji">📦</span>FASE 3: Packages Compartidos (Día 2)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>🎨 Package UI Responsive</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd packages/ui</span>
+                <span class="command">pnpm init</span>
+                <span class="command">pnpm add react react-dom tailwindcss</span>
+                <span class="command">pnpm add -D typescript @types/react @types/react-dom</span>
+
+                <span class="comment"># Crear componentes base:</span>
+                <span class="command">mkdir -p src/components/{Button,Card,Navigation,Modal}</span>
+                <span class="command">mkdir -p src/hooks src/utils src/styles</span>
+
+                <span class="comment"># Setup Tailwind mobile-first</span>
+                <span class="command">npx tailwindcss init -p</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🔌 Package API Client</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd packages/api-client</span>
+                <span class="command">pnpm init</span>
+                <span class="command">pnpm add @supabase/supabase-js</span>
+                <span class="command">pnpm add -D typescript</span>
+
+                <span class="comment"># Crear estructura:</span>
+                <span class="command">mkdir -p src/{auth,database,realtime,storage}</span>
+
+                <span class="comment"># src/index.ts</span>
+                <span class="path">export * from './auth'</span>
+                <span class="path">export * from './database'</span>
+                <span class="path">export * from './realtime'</span>
+                <span class="path">export { createClient } from './client'</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>💾 Package Store (Zustand)</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd packages/store</span>
+                <span class="command">pnpm init</span>
+                <span class="command">pnpm add zustand</span>
+                <span class="command">pnpm add -D typescript</span>
+
+                <span class="comment"># Crear stores:</span>
+                <span class="command">mkdir -p src/{auth,ui,data}</span>
+
+                <span class="comment"># src/auth/auth-store.ts</span>
+                <span class="path">import { create } from 'zustand'</span>
+                <span class="path">import { persist } from 'zustand/middleware'</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-4">
+        <h3><span class="emoji">🌐</span>FASE 4: Next.js App (Día 3-4)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>⚡ Create Next.js 15 App</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd apps</span>
+                <span class="command"
+                  >npx create-next-app@latest web --typescript --tailwind --app --src-dir</span
+                >
+
+                <span class="comment"># Instalar dependencias adicionales</span>
+                <span class="command">cd web</span>
+                <span class="command">pnpm add @supabase/ssr zustand framer-motion</span>
+                <span class="command">pnpm add next-pwa workbox-webpack-plugin</span>
+
+                <span class="comment"># Link packages locales</span>
+                <span class="command"
+                  >pnpm add ui@workspace:* api-client@workspace:* store@workspace:*</span
+                >
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📱 Configure Responsive Layouts</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># src/app structure</span>
+                <span class="command">mkdir -p src/app/{(desktop),(mobile),auth,dashboard}</span>
+                <span class="command">mkdir -p src/components/{layouts,mobile,desktop}</span>
+                <span class="command">mkdir -p src/hooks src/utils</span>
+
+                <span class="comment"># src/hooks/useMediaQuery.ts</span>
+                <span class="path">export function useMediaQuery(query: string) {</span>
+                <span class="path">const [matches, setMatches] = useState(false)</span>
+                <span class="comment">// Implementation...</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🔧 PWA Configuration</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># next.config.js</span>
+                <span class="path">const withPWA = require('next-pwa')({</span>
+                <span class="path">dest: 'public',</span>
+                <span class="path">register: true,</span>
+                <span class="path">skipWaiting: true,</span>
+                <span class="path">disable: process.env.NODE_ENV === 'development'</span>
+                <span class="path">})</span>
+
+                <span class="comment"># public/manifest.json</span>
+                <span class="path">{</span>
+                <span class="path">"name": "UDance",</span>
+                <span class="path">"short_name": "UDance",</span>
+                <span class="path">"display": "standalone",</span>
+                <span class="path">"theme_color": "#3b82f6"</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-5">
+        <h3><span class="emoji">🔐</span>FASE 5: Auth & Features (Día 4-5)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>🔑 Google OAuth Integration</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># .env.local</span>
+                <span class="path">NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co</span>
+                <span class="path">NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...</span>
+                <span class="path">SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...</span>
+
+                <span class="comment"># src/lib/supabase.ts</span>
+                <span class="path">import { createClient } from '@supabase/supabase-js'</span>
+
+                <span class="path">export const supabase = createClient(</span>
+                <span class="path">process.env.NEXT_PUBLIC_SUPABASE_URL!,</span>
+                <span class="path">process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!</span>
+                <span class="path">)</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📊 Database Schema Migration</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment">-- En Supabase SQL Editor</span>
+
+                <span class="path">CREATE TABLE users (</span>
+                <span class="path">id uuid DEFAULT gen_random_uuid() PRIMARY KEY,</span>
+                <span class="path">email text UNIQUE NOT NULL,</span>
+                <span class="path">full_name text,</span>
+                <span class="path">role text DEFAULT 'student',</span>
+                <span class="path">created_at timestamp DEFAULT now()</span>
+                <span class="path">);</span>
+
+                <span class="comment">-- Enable RLS</span>
+                <span class="path">ALTER TABLE users ENABLE ROW LEVEL SECURITY;</span>
+
+                <span class="comment">-- Create policies</span>
+                <span class="path">CREATE POLICY "Users can view own profile" ON users</span>
+                <span class="path">FOR SELECT USING (auth.uid() = id);</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📱 Responsive Dashboards</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># src/app/dashboard/layout.tsx</span>
+                <span class="path">export default function DashboardLayout() {</span>
+                <span class="path">const isMobile = useMediaQuery('(max-width: 768px)')</span>
+
+                <span class="path">return (</span>
+                <span class="path">&lt;div className="flex h-screen"&gt;</span>
+                <span class="path"
+                  >{isMobile ? &lt;MobileNav /&gt; : &lt;DesktopSidebar /&gt;}</span
+                >
+                <span class="path">&lt;main className="flex-1 overflow-auto"&gt;</span>
+                <span class="path">{children}</span>
+                <span class="path">&lt;/main&gt;</span>
+                <span class="path">&lt;/div&gt;</span>
+                <span class="path">)</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="links-section">
+        <h3><span class="emoji">🔗</span>Links y Recursos Esenciales</h3>
+
+        <div class="links-grid">
+          <a href="https://supabase.com/dashboard" class="link-card" target="_blank">
+            <h4>Supabase Dashboard</h4>
+            <p>Crear proyecto, configurar auth, design database schema</p>
+          </a>
+
+          <a href="https://vercel.com/dashboard" class="link-card" target="_blank">
+            <h4>Vercel Dashboard</h4>
+            <p>Deploy automático, environment variables, domain config</p>
+          </a>
+
+          <a
+            href="https://console.cloud.google.com/apis/credentials"
+            class="link-card"
+            target="_blank"
+          >
+            <h4>Google Cloud Console</h4>
+            <p>Crear OAuth credentials para Supabase integration</p>
+          </a>
+
+          <a href="https://turbo.build/repo/docs" class="link-card" target="_blank">
+            <h4>Turborepo Docs</h4>
+            <p>Monorepo configuration, pipeline setup, caching</p>
+          </a>
+
+          <a
+            href="https://nextjs.org/docs/app/building-your-application/optimizing/mobile"
+            class="link-card"
+            target="_blank"
+          >
+            <h4>Next.js Mobile Optimization</h4>
+            <p>Responsive design, PWA setup, performance optimization</p>
+          </a>
+
+          <a href="https://github.com/new" class="link-card" target="_blank">
+            <h4>GitHub New Repository</h4>
+            <p>Crear repo cuando el proyecto esté listo para migrar</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <h4>✅ Checklist Final de Migración</h4>
+        <ul>
+          <li>
+            [ ] <strong>Día 1:</strong> Folder <code>udance-new/</code> con estructura completa
+          </li>
+          <li>[ ] <strong>Día 2:</strong> Todos los packages funcionando y linkados</li>
+          <li>[ ] <strong>Día 3:</strong> Next.js app con layouts responsive</li>
+          <li>[ ] <strong>Día 4:</strong> Google OAuth funcionando end-to-end</li>
+          <li>[ ] <strong>Día 5:</strong> PWA features y mobile optimization</li>
+          <li>[ ] <strong>Día 6:</strong> Deploy en Vercel production ready</li>
+          <li>[ ] <strong>Día 7:</strong> DNS switch y migración de datos</li>
+        </ul>
+      </div>
+
+      <div class="hero">
+        <h2>🎯 Resultado Final</h2>
+        <p>
+          <strong
+            >Un proyecto completamente nuevo, súper rápido de desarrollar,<br />
+            que funciona perfectamente en todos los dispositivos.</strong
+          ><br /><br />
+          De semanas de configuración a horas de features reales.
+        </p>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px; color: #64748b">
+        <p><em>Plan ejecutable paso a paso para migración exitosa</em></p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🚀 SUPER Plan de Migración: Cloudflare → Vercel + Supabase</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      h1 {
+        color: #38bdf8;
+        border-bottom: 3px solid #0ea5e9;
+        padding-bottom: 20px;
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 1.3em;
+        color: #94a3b8;
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+
+      h2 {
+        color: #06b6d4;
+        margin-top: 50px;
+        border-left: 6px solid #22d3ee;
+        padding-left: 25px;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
+      h3 {
+        color: #67e8f9;
+        margin-top: 35px;
+        font-size: 1.4em;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+        color: white;
+        padding: 50px;
+        border-radius: 20px;
+        margin: 40px 0;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(220, 38, 38, 0.3);
+      }
+
+      .hero h2 {
+        margin: 0;
+        border: none;
+        color: white;
+        font-size: 2.2em;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero p {
+        font-size: 1.2em;
+        margin: 25px 0 0 0;
+        opacity: 0.95;
+      }
+
+      .phase {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 2px solid #334155;
+        border-radius: 16px;
+        padding: 40px;
+        margin: 40px 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .phase-1 {
+        border-color: #ef4444;
+        box-shadow: 0 10px 25px rgba(239, 68, 68, 0.2);
+      }
+      .phase-2 {
+        border-color: #f97316;
+        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.2);
+      }
+      .phase-3 {
+        border-color: #eab308;
+        box-shadow: 0 10px 25px rgba(234, 179, 8, 0.2);
+      }
+      .phase-4 {
+        border-color: #22c55e;
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.2);
+      }
+      .phase-5 {
+        border-color: #3b82f6;
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+      }
+
+      .phase h3 {
+        margin-top: 0;
+        font-size: 1.8em;
+      }
+
+      .step-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .step-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 30px;
+        transition: all 0.3s ease;
+      }
+
+      .step-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
+        border-color: #3b82f6;
+      }
+
+      .step-card h4 {
+        color: #38bdf8;
+        margin: 0 0 20px 0;
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .command-block {
+        background: #0d1117;
+        border: 2px solid #21262d;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        overflow-x: auto;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .command-block code {
+        color: #e6edf3;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 14px;
+        line-height: 1.8;
+        display: block;
+        white-space: pre;
+      }
+
+      .command {
+        color: #7dd3fc;
+      }
+      .comment {
+        color: #8b949e;
+        font-style: italic;
+      }
+      .path {
+        color: #a5d6ff;
+      }
+      .success {
+        color: #56d364;
+      }
+      .warning {
+        color: #f85149;
+      }
+
+      .checklist {
+        background: rgba(34, 197, 94, 0.1);
+        border: 2px solid #22c55e;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+      }
+
+      .checklist h4 {
+        color: #4ade80;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .checklist ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .checklist li {
+        margin: 8px 0;
+        color: #dcfce7;
+      }
+
+      .warning-box {
+        background: rgba(239, 68, 68, 0.1);
+        border: 2px solid #ef4444;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+      }
+
+      .warning-box h4 {
+        color: #fca5a5;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .links-section {
+        background: linear-gradient(135deg, #581c87 0%, #7c3aed 100%);
+        border: 2px solid #a855f7;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(168, 85, 247, 0.2);
+      }
+
+      .links-section h3 {
+        color: #c084fc;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+      }
+
+      .link-card {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 25px;
+        text-decoration: none;
+        color: #e5e7eb;
+        transition: all 0.3s ease;
+      }
+
+      .link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(168, 85, 247, 0.25);
+        border-color: #a855f7;
+      }
+
+      .link-card h4 {
+        color: #ddd6fe;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin: 30px 0;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 25px;
+        border-radius: 12px;
+        border-left: 5px solid;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-item.day-1 {
+        border-color: #ef4444;
+      }
+      .timeline-item.day-2 {
+        border-color: #f97316;
+      }
+      .timeline-item.day-3 {
+        border-color: #eab308;
+      }
+      .timeline-item.day-4 {
+        border-color: #22c55e;
+      }
+      .timeline-item.day-5 {
+        border-color: #3b82f6;
+      }
+      .timeline-item.day-6 {
+        border-color: #8b5cf6;
+      }
+      .timeline-item.day-7 {
+        border-color: #ec4899;
+      }
+
+      .timeline-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+      }
+
+      .timeline-day {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        color: white;
+        min-width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 25px;
+        font-weight: bold;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        font-size: 1.1em;
+      }
+
+      .emoji {
+        font-size: 1.8em;
+        margin-right: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+          margin: 10px;
+        }
+
+        h1 {
+          font-size: 2.2em;
+        }
+
+        .step-grid,
+        .links-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .command-block {
+          font-size: 12px;
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 SUPER Plan de Migración</h1>
+      <p class="subtitle">Cloudflare Workers → Vercel + Supabase + Next.js</p>
+
+      <div class="hero">
+        <h2>🎯 Plan Maestro: 7 Días para la Libertad</h2>
+        <p>
+          De arquitectura compleja a desarrollo súper rápido.<br />
+          Folder temporal → Repositorio dedicado → Velocidad 8x
+        </p>
+      </div>
+
+      <div class="warning-box">
+        <h4>⚠️ Estrategia de Transición</h4>
+        <p>
+          <strong>Paso 1:</strong> Crear <code>udance-new/</code> en el root del proyecto actual<br />
+          <strong>Paso 2:</strong> Desarrollar todo el sistema nuevo en esa carpeta<br />
+          <strong>Paso 3:</strong> Crear repositorio Git dedicado cuando esté listo<br />
+          <strong>Ventaja:</strong> Cero riesgo, desarrollo paralelo, migración controlada
+        </p>
+      </div>
+
+      <h2>📅 Timeline Completo</h2>
+      <div class="timeline">
+        <div class="timeline-item day-1">
+          <div class="timeline-day">D1</div>
+          <div>
+            <strong>Setup & Servicios</strong><br />
+            Folder structure, Supabase, Vercel, Google OAuth, Turborepo base
+          </div>
+        </div>
+        <div class="timeline-item day-2">
+          <div class="timeline-day">D2</div>
+          <div>
+            <strong>Packages Core</strong><br />
+            UI responsive, API client, state management, configs compartidos
+          </div>
+        </div>
+        <div class="timeline-item day-3">
+          <div class="timeline-day">D3</div>
+          <div>
+            <strong>Next.js App</strong><br />
+            App Router, layouts responsive, PWA config, service workers
+          </div>
+        </div>
+        <div class="timeline-item day-4">
+          <div class="timeline-day">D4</div>
+          <div>
+            <strong>Auth & Features</strong><br />
+            Google OAuth, dashboards responsive, database migration
+          </div>
+        </div>
+        <div class="timeline-item day-5">
+          <div class="timeline-day">D5</div>
+          <div>
+            <strong>Mobile Web</strong><br />
+            Touch optimization, PWA features, performance tuning
+          </div>
+        </div>
+        <div class="timeline-item day-6">
+          <div class="timeline-day">D6</div>
+          <div>
+            <strong>Deployment</strong><br />
+            Vercel production, environment setup, testing completo
+          </div>
+        </div>
+        <div class="timeline-item day-7">
+          <div class="timeline-day">D7</div>
+          <div>
+            <strong>Go Live</strong><br />
+            DNS switch, data migration, legacy decommission
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-1">
+        <h3><span class="emoji">🏗️</span>FASE 1: Setup Inicial (Día 1)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>📁 Crear Estructura del Proyecto</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># En el root del proyecto actual</span>
+                <span class="command">mkdir udance-new</span>
+                <span class="command">cd udance-new</span>
+
+                <span class="comment"># Initializar pnpm monorepo</span>
+                <span class="command">pnpm init</span>
+                <span class="command">echo "node_modules" > .gitignore</span>
+
+                <span class="comment"># Crear estructura base</span>
+                <span class="command"
+                  >mkdir -p apps/web packages/{ui,api-client,store,utils,config}</span
+                >
+                <span class="command">mkdir -p docs .github/workflows</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>⚙️ Configurar Workspace</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># pnpm-workspace.yaml</span>
+                <span class="path">packages:</span>
+                - <span class="path">"apps/*"</span> - <span class="path">"packages/*"</span>
+
+                <span class="comment"># package.json root</span>
+                <span class="path">{</span>
+                <span class="path">"name": "udance-new",</span>
+                <span class="path">"private": true,</span>
+                <span class="path">"scripts": {</span>
+                <span class="path">"dev": "turbo dev",</span>
+                <span class="path">"build": "turbo build",</span>
+                <span class="path">"test": "turbo test"</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📦 Instalar Turborepo</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">pnpm add -D turbo @turbo/gen</span>
+
+                <span class="comment"># Crear turbo.json</span>
+                <span class="command">npx @turbo/gen@latest init</span>
+
+                <span class="comment"># Configurar pipeline básico</span>
+                <span class="path">{</span>
+                <span class="path">"pipeline": {</span>
+                <span class="path">"dev": { "cache": false, "persistent": true },</span>
+                <span class="path"
+                  >"build": { "dependsOn": ["^build"], "outputs": [".next/**", "dist/**"] },</span
+                >
+                <span class="path">"test": { "dependsOn": ["^build"] }</span>
+                <span class="path">}</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+        </div>
+
+        <div class="checklist">
+          <h4>✅ Checklist Día 1</h4>
+          <ul>
+            <li>[ ] Folder <code>udance-new/</code> creado en project root</li>
+            <li>[ ] Estructura monorepo con apps/ y packages/</li>
+            <li>[ ] Turborepo configurado y funcionando</li>
+            <li>[ ] pnpm workspace funcional</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase phase-2">
+        <h3><span class="emoji">🎨</span>FASE 2: Servicios Externos (Día 1-2)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>🗄️ Setup Supabase</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># 1. Ir a https://supabase.com</span>
+                <span class="comment"># 2. Crear nuevo proyecto: "udance-production"</span>
+                <span class="comment"># 3. Guardar credentials</span>
+
+                <span class="success">Project URL: https://xxxxx.supabase.co</span>
+                <span class="success">API Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+                <span class="success">Service Role: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+
+                <span class="comment"
+                  ># 4. Configurar Google OAuth en Authentication > Providers</span
+                >
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🚀 Setup Vercel</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># 1. Ir a https://vercel.com</span>
+                <span class="comment"># 2. Conectar con GitHub</span>
+                <span class="comment"># 3. Instalar Vercel CLI</span>
+
+                <span class="command">npm i -g vercel</span>
+                <span class="command">vercel login</span>
+
+                <span class="comment"># 4. Link project (desde apps/web después)</span>
+                <span class="command">vercel link</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🔐 Google OAuth Setup</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># 1. Ir a https://console.cloud.google.com</span>
+                <span class="comment"># 2. Crear nuevo proyecto o usar existente</span>
+                <span class="comment"># 3. APIs & Services > Credentials</span>
+                <span class="comment"># 4. Create OAuth 2.0 Client ID</span>
+
+                <span class="success">Client ID: 1234567890-xxxxx.apps.googleusercontent.com</span>
+                <span class="success">Client Secret: GOCSPX-xxxxx</span>
+
+                <span class="comment"># 5. Authorized redirect URIs:</span>
+                <span class="path">https://xxxxx.supabase.co/auth/v1/callback</span>
+                <span class="path">http://localhost:3000/auth/callback</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-3">
+        <h3><span class="emoji">📦</span>FASE 3: Packages Compartidos (Día 2)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>🎨 Package UI Responsive</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd packages/ui</span>
+                <span class="command">pnpm init</span>
+                <span class="command">pnpm add react react-dom tailwindcss</span>
+                <span class="command">pnpm add -D typescript @types/react @types/react-dom</span>
+
+                <span class="comment"># Crear componentes base:</span>
+                <span class="command">mkdir -p src/components/{Button,Card,Navigation,Modal}</span>
+                <span class="command">mkdir -p src/hooks src/utils src/styles</span>
+
+                <span class="comment"># Setup Tailwind mobile-first</span>
+                <span class="command">npx tailwindcss init -p</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🔌 Package API Client</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd packages/api-client</span>
+                <span class="command">pnpm init</span>
+                <span class="command">pnpm add @supabase/supabase-js</span>
+                <span class="command">pnpm add -D typescript</span>
+
+                <span class="comment"># Crear estructura:</span>
+                <span class="command">mkdir -p src/{auth,database,realtime,storage}</span>
+
+                <span class="comment"># src/index.ts</span>
+                <span class="path">export * from './auth'</span>
+                <span class="path">export * from './database'</span>
+                <span class="path">export * from './realtime'</span>
+                <span class="path">export { createClient } from './client'</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>💾 Package Store (Zustand)</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd packages/store</span>
+                <span class="command">pnpm init</span>
+                <span class="command">pnpm add zustand</span>
+                <span class="command">pnpm add -D typescript</span>
+
+                <span class="comment"># Crear stores:</span>
+                <span class="command">mkdir -p src/{auth,ui,data}</span>
+
+                <span class="comment"># src/auth/auth-store.ts</span>
+                <span class="path">import { create } from 'zustand'</span>
+                <span class="path">import { persist } from 'zustand/middleware'</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-4">
+        <h3><span class="emoji">🌐</span>FASE 4: Next.js App (Día 3-4)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>⚡ Create Next.js 15 App</h4>
+            <div class="command-block">
+              <code>
+                <span class="command">cd apps</span>
+                <span class="command"
+                  >npx create-next-app@latest web --typescript --tailwind --app --src-dir</span
+                >
+
+                <span class="comment"># Instalar dependencias adicionales</span>
+                <span class="command">cd web</span>
+                <span class="command">pnpm add @supabase/ssr zustand framer-motion</span>
+                <span class="command">pnpm add next-pwa workbox-webpack-plugin</span>
+
+                <span class="comment"># Link packages locales</span>
+                <span class="command"
+                  >pnpm add ui@workspace:* api-client@workspace:* store@workspace:*</span
+                >
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📱 Configure Responsive Layouts</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># src/app structure</span>
+                <span class="command">mkdir -p src/app/{(desktop),(mobile),auth,dashboard}</span>
+                <span class="command">mkdir -p src/components/{layouts,mobile,desktop}</span>
+                <span class="command">mkdir -p src/hooks src/utils</span>
+
+                <span class="comment"># src/hooks/useMediaQuery.ts</span>
+                <span class="path">export function useMediaQuery(query: string) {</span>
+                <span class="path">const [matches, setMatches] = useState(false)</span>
+                <span class="comment">// Implementation...</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>🔧 PWA Configuration</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># next.config.js</span>
+                <span class="path">const withPWA = require('next-pwa')({</span>
+                <span class="path">dest: 'public',</span>
+                <span class="path">register: true,</span>
+                <span class="path">skipWaiting: true,</span>
+                <span class="path">disable: process.env.NODE_ENV === 'development'</span>
+                <span class="path">})</span>
+
+                <span class="comment"># public/manifest.json</span>
+                <span class="path">{</span>
+                <span class="path">"name": "UDance",</span>
+                <span class="path">"short_name": "UDance",</span>
+                <span class="path">"display": "standalone",</span>
+                <span class="path">"theme_color": "#3b82f6"</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase phase-5">
+        <h3><span class="emoji">🔐</span>FASE 5: Auth & Features (Día 4-5)</h3>
+
+        <div class="step-grid">
+          <div class="step-card">
+            <h4>🔑 Google OAuth Integration</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># .env.local</span>
+                <span class="path">NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co</span>
+                <span class="path">NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...</span>
+                <span class="path">SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...</span>
+
+                <span class="comment"># src/lib/supabase.ts</span>
+                <span class="path">import { createClient } from '@supabase/supabase-js'</span>
+
+                <span class="path">export const supabase = createClient(</span>
+                <span class="path">process.env.NEXT_PUBLIC_SUPABASE_URL!,</span>
+                <span class="path">process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!</span>
+                <span class="path">)</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📊 Database Schema Migration</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment">-- En Supabase SQL Editor</span>
+
+                <span class="path">CREATE TABLE users (</span>
+                <span class="path">id uuid DEFAULT gen_random_uuid() PRIMARY KEY,</span>
+                <span class="path">email text UNIQUE NOT NULL,</span>
+                <span class="path">full_name text,</span>
+                <span class="path">role text DEFAULT 'student',</span>
+                <span class="path">created_at timestamp DEFAULT now()</span>
+                <span class="path">);</span>
+
+                <span class="comment">-- Enable RLS</span>
+                <span class="path">ALTER TABLE users ENABLE ROW LEVEL SECURITY;</span>
+
+                <span class="comment">-- Create policies</span>
+                <span class="path">CREATE POLICY "Users can view own profile" ON users</span>
+                <span class="path">FOR SELECT USING (auth.uid() = id);</span>
+              </code>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h4>📱 Responsive Dashboards</h4>
+            <div class="command-block">
+              <code>
+                <span class="comment"># src/app/dashboard/layout.tsx</span>
+                <span class="path">export default function DashboardLayout() {</span>
+                <span class="path">const isMobile = useMediaQuery('(max-width: 768px)')</span>
+
+                <span class="path">return (</span>
+                <span class="path">&lt;div className="flex h-screen"&gt;</span>
+                <span class="path"
+                  >{isMobile ? &lt;MobileNav /&gt; : &lt;DesktopSidebar /&gt;}</span
+                >
+                <span class="path">&lt;main className="flex-1 overflow-auto"&gt;</span>
+                <span class="path">{children}</span>
+                <span class="path">&lt;/main&gt;</span>
+                <span class="path">&lt;/div&gt;</span>
+                <span class="path">)</span>
+                <span class="path">}</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="links-section">
+        <h3><span class="emoji">🔗</span>Links y Recursos Esenciales</h3>
+
+        <div class="links-grid">
+          <a href="https://supabase.com/dashboard" class="link-card" target="_blank">
+            <h4>Supabase Dashboard</h4>
+            <p>Crear proyecto, configurar auth, design database schema</p>
+          </a>
+
+          <a href="https://vercel.com/dashboard" class="link-card" target="_blank">
+            <h4>Vercel Dashboard</h4>
+            <p>Deploy automático, environment variables, domain config</p>
+          </a>
+
+          <a
+            href="https://console.cloud.google.com/apis/credentials"
+            class="link-card"
+            target="_blank"
+          >
+            <h4>Google Cloud Console</h4>
+            <p>Crear OAuth credentials para Supabase integration</p>
+          </a>
+
+          <a href="https://turbo.build/repo/docs" class="link-card" target="_blank">
+            <h4>Turborepo Docs</h4>
+            <p>Monorepo configuration, pipeline setup, caching</p>
+          </a>
+
+          <a
+            href="https://nextjs.org/docs/app/building-your-application/optimizing/mobile"
+            class="link-card"
+            target="_blank"
+          >
+            <h4>Next.js Mobile Optimization</h4>
+            <p>Responsive design, PWA setup, performance optimization</p>
+          </a>
+
+          <a href="https://github.com/new" class="link-card" target="_blank">
+            <h4>GitHub New Repository</h4>
+            <p>Crear repo cuando el proyecto esté listo para migrar</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <h4>✅ Checklist Final de Migración</h4>
+        <ul>
+          <li>
+            [ ] <strong>Día 1:</strong> Folder <code>udance-new/</code> con estructura completa
+          </li>
+          <li>[ ] <strong>Día 2:</strong> Todos los packages funcionando y linkados</li>
+          <li>[ ] <strong>Día 3:</strong> Next.js app con layouts responsive</li>
+          <li>[ ] <strong>Día 4:</strong> Google OAuth funcionando end-to-end</li>
+          <li>[ ] <strong>Día 5:</strong> PWA features y mobile optimization</li>
+          <li>[ ] <strong>Día 6:</strong> Deploy en Vercel production ready</li>
+          <li>[ ] <strong>Día 7:</strong> DNS switch y migración de datos</li>
+        </ul>
+      </div>
+
+      <div class="hero">
+        <h2>🎯 Resultado Final</h2>
+        <p>
+          <strong
+            >Un proyecto completamente nuevo, súper rápido de desarrollar,<br />
+            que funciona perfectamente en todos los dispositivos.</strong
+          ><br /><br />
+          De semanas de configuración a horas de features reales.
+        </p>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px; color: #64748b">
+        <p><em>Plan ejecutable paso a paso para migración exitosa</em></p>
+      </div>
+    </div>
+  </body>
+</html>

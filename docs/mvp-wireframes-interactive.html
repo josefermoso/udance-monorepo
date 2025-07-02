@@ -1,0 +1,4930 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UDance - MVP #1 Wireframes Interactivos</title>
+    <style>
+      /* Importar fuentes del sistema de diseño real */
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;600&display=swap");
+
+      :root {
+        /* Colores del sistema de diseño real */
+        --magenta-100: #ffe6ed;
+        --magenta-300: #ff809f;
+        --magenta-500: #ff3366;
+        --magenta-700: #991f47;
+        --magenta-900: #330a18;
+
+        --blue-100: #edf5fc;
+        --blue-300: #9dcbee;
+        --blue-500: #4a90e2;
+        --blue-700: #246497;
+        --blue-900: #0a273b;
+
+        --purple-100: #f3e6f5;
+        --purple-300: #ce80d6;
+        --purple-500: #9b59b6;
+        --purple-700: #5e356e;
+        --purple-900: #1f1225;
+
+        --gray-100: #f8f9fa;
+        --gray-300: #c4c9d1;
+        --gray-500: #2c3e50;
+        --gray-700: #1a2530;
+        --gray-900: #080c10;
+
+        /* Gradientes del sistema real */
+        --gradient-primary: linear-gradient(135deg, #ff3366, #9b59b6);
+        --gradient-warm: linear-gradient(135deg, #ff3366, #ff8e3c);
+        --gradient-cool: linear-gradient(45deg, #4a90e2, #2c3e50);
+        --gradient-rainbow: linear-gradient(
+          135deg,
+          rgb(74, 234, 220) 0%,
+          rgb(151, 120, 209) 20%,
+          rgb(207, 42, 186) 40%,
+          rgb(238, 44, 130) 60%,
+          rgb(251, 105, 98) 80%,
+          rgb(254, 248, 76) 100%
+        );
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        color: var(--gray-500);
+        background: var(--gray-100);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .header h1 {
+        font-family: "Montserrat", sans-serif;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 3rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .nav-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .nav-tab {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--gray-300);
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+        color: var(--gray-500);
+      }
+
+      .nav-tab:hover {
+        background: var(--gradient-warm);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 51, 102, 0.3);
+      }
+
+      .nav-tab.active {
+        background: var(--gradient-primary);
+        color: white;
+        border-color: transparent;
+      }
+
+      .content-section {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Componente Card base (estilo real) */
+      .card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-with-gradient-border {
+        position: relative;
+        border-radius: 8px;
+        padding: 1px;
+      }
+
+      .card-with-gradient-border::before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        background: var(--gradient-rainbow);
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 0;
+      }
+
+      .card-with-gradient-border:hover::before {
+        opacity: 1;
+      }
+
+      .card-with-gradient-border .card {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Estilos de botones reales */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        white-space: nowrap;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        font-family: "Roboto", sans-serif;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: none;
+        text-decoration: none;
+        padding: 8px 16px;
+        height: 36px;
+      }
+
+      .btn-primary {
+        background: var(--magenta-500);
+        color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-primary:hover {
+        background: var(--magenta-700);
+      }
+
+      .btn-outline {
+        border: 1px solid var(--gray-300);
+        background: white;
+        color: var(--gray-500);
+      }
+
+      .btn-outline:hover {
+        background: var(--purple-500);
+        color: white;
+        border-color: var(--purple-500);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--gray-500);
+        border: 1px solid transparent;
+      }
+
+      .btn-ghost:hover {
+        background: var(--purple-100);
+        color: var(--purple-700);
+      }
+
+      /* Input styles reales */
+      .input {
+        display: flex;
+        height: 36px;
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid var(--gray-300);
+        background: transparent;
+        padding: 8px 12px;
+        font-size: 0.875rem;
+        font-family: "Roboto", sans-serif;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      .input:focus {
+        outline: none;
+        border-color: var(--blue-500);
+        box-shadow: 0 0 0 1px var(--blue-500);
+      }
+
+      .input::placeholder {
+        color: var(--gray-300);
+      }
+
+      /* Badge styles reales */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        padding: 2px 8px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        font-family: "Roboto", sans-serif;
+        transition: all 0.2s ease;
+      }
+
+      .badge-default {
+        background: var(--gray-100);
+        color: var(--gray-700);
+      }
+
+      .badge-primary {
+        background: var(--magenta-100);
+        color: var(--magenta-700);
+      }
+
+      .badge-secondary {
+        background: var(--blue-100);
+        color: var(--blue-700);
+      }
+
+      /* Navbar real styles */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--gray-300);
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .navbar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: between;
+        height: 64px;
+        gap: 32px;
+      }
+
+      .navbar-logo {
+        font-family: "Montserrat", sans-serif;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-decoration: none;
+        flex-shrink: 0;
+      }
+
+      .navbar-search {
+        flex: 1;
+        max-width: 400px;
+        position: relative;
+      }
+
+      .navbar-search .input {
+        padding-left: 40px;
+        background: var(--gray-100);
+      }
+
+      .navbar-search .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-300);
+        width: 16px;
+        height: 16px;
+      }
+
+      .navbar-nav {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .navbar-link {
+        padding: 8px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--gray-700);
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+      }
+
+      .navbar-link:hover {
+        background: var(--gradient-warm);
+        color: white;
+      }
+
+      .navbar-link.active {
+        background: var(--gradient-warm);
+        color: white;
+      }
+
+      /* Layout específico homepage */
+      .homepage-layout {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 24px;
+        margin: 20px 0;
+      }
+
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      /* Hero section real */
+      .hero-section {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+      }
+
+      .hero-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--gray-500);
+        margin-bottom: 16px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.125rem;
+        color: var(--gray-300);
+        margin-bottom: 32px;
+      }
+
+      .ai-chat-input {
+        max-width: 600px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .ai-chat-input .input {
+        height: 48px;
+        font-size: 1rem;
+        padding-right: 120px;
+        border: 2px solid var(--gray-300);
+      }
+
+      .ai-chat-input .input:focus {
+        border-color: var(--magenta-500);
+        box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
+      }
+
+      .ai-chat-button {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .ai-chat-button:hover {
+        transform: translateY(-50%) scale(1.05);
+      }
+
+      /* Event cards reales */
+      .events-carousel {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      }
+
+      .events-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .events-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--gray-500);
+      }
+
+      .events-grid {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+
+      .event-card {
+        flex: 0 0 256px;
+        height: 320px;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .event-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .event-card:hover .event-card-image {
+        transform: scale(1.1);
+      }
+
+      .event-card-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.85) 50%,
+          transparent 100%
+        );
+        padding: 20px;
+        color: white;
+      }
+
+      .event-card-date {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--gray-700);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+
+      .event-card-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .event-card-location {
+        font-size: 0.875rem;
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      /* News section real */
+      .news-section {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      }
+
+      .news-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .news-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--gray-500);
+      }
+
+      .news-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+      }
+
+      .news-main {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .news-main-article {
+        height: 200px;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .news-side {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .news-small-article {
+        height: 94px;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .news-article-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .news-article:hover .news-article-image {
+        transform: scale(1.1);
+      }
+
+      .news-article-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.85) 50%,
+          transparent 100%
+        );
+        padding: 12px;
+        color: white;
+      }
+
+      .news-article-title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        line-height: 1.3;
+      }
+
+      .news-small-article .news-article-title {
+        font-size: 0.875rem;
+      }
+
+      /* Map section real */
+      .map-section {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      }
+
+      .map-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .map-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--gray-500);
+      }
+
+      .map-filters {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+
+      .map-content {
+        height: 400px;
+        background: var(--gray-100);
+        border-radius: 8px;
+        border: 2px dashed var(--gray-300);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray-300);
+        font-style: italic;
+      }
+
+      /* Sidebar events real */
+      .sidebar-events {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      }
+
+      .sidebar-events-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .sidebar-events-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-500);
+      }
+
+      .sidebar-events-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .sidebar-event-card {
+        display: flex;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--gray-300);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .sidebar-event-card:hover {
+        border-color: var(--magenta-500);
+        background: var(--magenta-100);
+      }
+
+      .sidebar-event-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 6px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .sidebar-event-content {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .sidebar-event-title {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--gray-500);
+        margin-bottom: 4px;
+        line-height: 1.3;
+      }
+
+      .sidebar-event-details {
+        font-size: 0.75rem;
+        color: var(--gray-300);
+        line-height: 1.2;
+      }
+
+      /* Wireframe styles actualizados */
+      .wireframe {
+        border: 2px dashed var(--gray-300);
+        background: var(--gray-100);
+        margin: 20px 0;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+      }
+
+      .wireframe:hover {
+        border-color: var(--magenta-500);
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .wireframe-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: var(--magenta-500);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .wireframe-content {
+        padding: 40px 20px 20px;
+        text-align: center;
+        color: var(--gray-300);
+        font-style: italic;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .interaction-note {
+        background: var(--blue-100);
+        border-left: 4px solid var(--blue-500);
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        color: var(--blue-700);
+      }
+
+      /* Modal styles actualizados */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 0;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow: hidden;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        animation: modalSlideIn 0.3s ease-out;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-50px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .modal-header {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 20px 24px;
+        display: flex;
+        justify-content: between;
+        align-items: center;
+      }
+
+      .modal-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+      }
+
+      .modal-close:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .modal-body {
+        padding: 24px;
+        overflow-y: auto;
+        max-height: calc(80vh - 80px);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .homepage-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          order: -1;
+        }
+
+        .news-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .news-side {
+          grid-template-columns: 1fr;
+        }
+
+        .navbar-content {
+          flex-direction: column;
+          height: auto;
+          padding: 16px;
+          gap: 16px;
+        }
+
+        .navbar-search {
+          order: 3;
+          max-width: none;
+        }
+      }
+
+      /* Componentes específicos para wireframes */
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .preview-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .preview-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        border-color: var(--magenta-500);
+      }
+
+      .preview-card h3 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-500);
+        margin-bottom: 8px;
+      }
+
+      .preview-card p {
+        color: var(--gray-300);
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+
+      .step-container {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        margin: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        border-left: 4px solid var(--magenta-500);
+      }
+
+      .step-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .step-number {
+        background: var(--gradient-primary);
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+
+      .step-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-500);
+      }
+
+      .component-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .component-card {
+        border: 2px solid var(--blue-300);
+        border-radius: 12px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(5px);
+      }
+
+      .component-card:hover {
+        border-color: var(--magenta-500);
+        background: white;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(255, 51, 102, 0.25);
+      }
+
+      .component-title {
+        font-weight: 600;
+        color: var(--gray-700);
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .component-description {
+        font-size: 0.9rem;
+        color: var(--gray-500);
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      /* Tags/hashtags style */
+      .tag {
+        display: inline-block;
+        background: transparent;
+        color: var(--gray-300);
+        font-size: 0.75rem;
+        font-weight: 500;
+        margin-right: 8px;
+        margin-bottom: 4px;
+      }
+
+      .tag:hover {
+        color: var(--magenta-500);
+      }
+
+      /* Ver todos button style */
+      .view-all-btn {
+        background: transparent;
+        border: 1px solid var(--gray-300);
+        color: var(--gray-300);
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .view-all-btn:hover {
+        border-color: var(--magenta-500);
+        color: var(--magenta-500);
+        background: var(--magenta-100);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>UDance - MVP #1 Wireframes Interactivos</h1>
+        <p style="text-align: center; color: var(--gray-300); font-size: 1.125rem">
+          Diseño visual actualizado con el sistema real de componentes React
+        </p>
+      </div>
+
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('homepage')">🏠 Homepage</button>
+        <button class="nav-tab" onclick="showSection('componentes')">🧩 Componentes</button>
+        <button class="nav-tab" onclick="showSection('pantallas')">📋 Pantallas Detalle</button>
+        <button class="nav-tab" onclick="showSection('flujos')">🔄 Flujos</button>
+      </div>
+
+      <!-- HOMEPAGE SECTION -->
+      <div id="homepage" class="content-section active">
+        <h2
+          style="
+            font-family: &quot;Montserrat&quot;, sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+          "
+        >
+          🏠 Homepage - Layout Principal
+        </h2>
+
+        <div class="interaction-note">
+          <strong>💡 Interacción:</strong> Haz clic en cualquier sección para ver detalles de
+          implementación y mapeo de componentes.
+        </div>
+
+        <!-- Navbar -->
+        <div class="navbar" onclick="showModal('navbar-modal')">
+          <div class="navbar-content">
+            <a href="#" class="navbar-logo">Donde Bailo</a>
+            <div class="navbar-search">
+              <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+              <input
+                type="text"
+                class="input"
+                placeholder="Busca eventos, lugares, profesores y más"
+              />
+            </div>
+            <nav class="navbar-nav">
+              <a href="#" class="navbar-link active">Calendario</a>
+              <a href="#" class="navbar-link">Comunidad</a>
+              <a href="#" class="navbar-link">Noticias</a>
+              <a href="#" class="navbar-link">Artículos</a>
+            </nav>
+          </div>
+        </div>
+
+        <div class="homepage-layout">
+          <!-- Main Content -->
+          <div class="main-content">
+            <!-- Hero Section -->
+            <div class="hero-section" onclick="showModal('hero-modal')">
+              <h1 class="hero-title">¿Qué te gustaría bailar hoy?</h1>
+              <p class="hero-subtitle">
+                Descubre clases, eventos y la comunidad de baile perfecta para ti
+              </p>
+              <div class="ai-chat-input">
+                <input
+                  type="text"
+                  class="input"
+                  placeholder="Ej: Quiero aprender tango en Palermo para principiantes..."
+                />
+                <button class="ai-chat-button">Buscar ✨</button>
+              </div>
+            </div>
+
+            <!-- News Section -->
+            <div class="news-section" onclick="showModal('news-modal')" style="position: relative">
+              <!-- Triangular title overlay -->
+              <div
+                class="section-title-triangle"
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  z-index: 10;
+                  background: var(--gradient-warm);
+                  clip-path: polygon(0 0, 180px 0, 0 156px);
+                  width: 180px;
+                  height: 156px;
+                  color: white;
+                  padding: 16px;
+                "
+              >
+                <h2
+                  style="
+                    font-family: &quot;Montserrat&quot;, sans-serif;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                  "
+                >
+                  Noticias
+                </h2>
+                <span
+                  style="
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  ver todo →
+                </span>
+              </div>
+              <div class="news-grid">
+                <div class="news-main">
+                  <div class="news-main-article news-article">
+                    <img
+                      src="https://images.unsplash.com/photo-1518834107812-67b0b7c58434?q=80&w=1000&auto=format&fit=crop"
+                      alt="Competencia Hip Hop"
+                      class="news-article-image"
+                    />
+                    <div class="news-article-overlay">
+                      <h3 class="news-article-title">Competencia Hip Hop Nacional</h3>
+                    </div>
+                  </div>
+                  <div class="news-main-article news-article">
+                    <img
+                      src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?q=80&w=1000&auto=format&fit=crop"
+                      alt="Masterclass Ana López"
+                      class="news-article-image"
+                    />
+                    <div class="news-article-overlay">
+                      <h3 class="news-article-title">Masterclass: Ana López</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="news-side">
+                  <div class="news-small-article news-article">
+                    <img
+                      src="https://images.unsplash.com/photo-1504609813442-a8924e83f76e?q=80&w=1000&auto=format&fit=crop"
+                      alt="Programa de Becas"
+                      class="news-article-image"
+                    />
+                    <div class="news-article-overlay">
+                      <h4 class="news-article-title">Programa de Becas 2024</h4>
+                    </div>
+                  </div>
+                  <div class="news-small-article news-article">
+                    <img
+                      src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop"
+                      alt="Workshop Kizomba"
+                      class="news-article-image"
+                    />
+                    <div class="news-article-overlay">
+                      <h4 class="news-article-title">Workshop de Kizomba</h4>
+                    </div>
+                  </div>
+                  <div class="news-small-article news-article">
+                    <img
+                      src="https://images.unsplash.com/photo-1594736797933-d0d4b1c94f8e?q=80&w=1000&auto=format&fit=crop"
+                      alt="Festival de Salsa"
+                      class="news-article-image"
+                    />
+                    <div class="news-article-overlay">
+                      <h4 class="news-article-title">Festival de Salsa</h4>
+                    </div>
+                  </div>
+                  <div class="news-small-article news-article">
+                    <img
+                      src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1000&auto=format&fit=crop"
+                      alt="Encuentro de Tango"
+                      class="news-article-image"
+                    />
+                    <div class="news-article-overlay">
+                      <h4 class="news-article-title">Encuentro de Tango</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map Section with FilterSidebar -->
+            <div class="map-section" onclick="showModal('map-modal')" style="position: relative">
+              <!-- Triangular title overlay -->
+              <div
+                class="section-title-triangle"
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  z-index: 10;
+                  background: var(--gradient-primary);
+                  clip-path: polygon(0 0, 200px 0, 0 160px);
+                  width: 200px;
+                  height: 160px;
+                  color: white;
+                  padding: 16px;
+                "
+              >
+                <h2
+                  style="
+                    font-family: &quot;Montserrat&quot;, sans-serif;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                  "
+                >
+                  Donde Bailo
+                </h2>
+                <span
+                  style="
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  mapa interactivo
+                </span>
+              </div>
+
+              <div
+                class="map-layout"
+                style="
+                  display: flex;
+                  gap: 20px;
+                  border: 4px solid transparent;
+                  background: var(--gradient-primary);
+                  border-radius: 12px;
+                  padding: 4px;
+                "
+              >
+                <div
+                  style="
+                    background: white;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    display: flex;
+                    width: 100%;
+                  "
+                >
+                  <!-- Filter Sidebar -->
+                  <div
+                    class="filter-sidebar"
+                    style="
+                      width: 300px;
+                      background: white;
+                      padding: 20px;
+                      border-right: 1px solid var(--gray-300);
+                    "
+                  >
+                    <h3
+                      style="
+                        font-family: &quot;Montserrat&quot;, sans-serif;
+                        font-size: 1.125rem;
+                        font-weight: 600;
+                        margin-bottom: 16px;
+                        color: var(--gray-500);
+                      "
+                    >
+                      Filtros
+                    </h3>
+
+                    <!-- Fechas -->
+                    <div style="margin-bottom: 20px">
+                      <h4
+                        style="
+                          font-weight: 600;
+                          margin-bottom: 8px;
+                          color: var(--gray-500);
+                          font-size: 0.875rem;
+                        "
+                      >
+                        Fechas
+                      </h4>
+                      <div style="display: flex; flex-direction: column; gap: 6px">
+                        <label
+                          style="
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            font-size: 0.875rem;
+                            color: var(--gray-300);
+                          "
+                        >
+                          <input type="radio" name="fecha" checked /> Esta Semana
+                        </label>
+                        <label
+                          style="
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            font-size: 0.875rem;
+                            color: var(--gray-300);
+                          "
+                        >
+                          <input type="radio" name="fecha" /> Este Mes
+                        </label>
+                        <label
+                          style="
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            font-size: 0.875rem;
+                            color: var(--gray-300);
+                          "
+                        >
+                          <input type="radio" name="fecha" /> Días Específicos
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Estilos de Baile -->
+                    <div style="margin-bottom: 20px">
+                      <h4
+                        style="
+                          font-weight: 600;
+                          margin-bottom: 8px;
+                          color: var(--gray-500);
+                          font-size: 0.875rem;
+                        "
+                      >
+                        Estilos de Baile
+                      </h4>
+                      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Tango ×</span
+                        >
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Salsa ×</span
+                        >
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Bachata ×</span
+                        >
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gray-100);
+                            color: var(--gray-500);
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >+ Agregar</span
+                        >
+                      </div>
+                    </div>
+
+                    <!-- Ubicación -->
+                    <div style="margin-bottom: 20px">
+                      <h4
+                        style="
+                          font-weight: 600;
+                          margin-bottom: 8px;
+                          color: var(--gray-500);
+                          font-size: 0.875rem;
+                        "
+                      >
+                        Ubicación
+                      </h4>
+                      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Centro ×</span
+                        >
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Palermo ×</span
+                        >
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gray-100);
+                            color: var(--gray-500);
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >+ Más</span
+                        >
+                      </div>
+                    </div>
+
+                    <!-- Tipos de Evento -->
+                    <div style="margin-bottom: 20px">
+                      <h4
+                        style="
+                          font-weight: 600;
+                          margin-bottom: 8px;
+                          color: var(--gray-500);
+                          font-size: 0.875rem;
+                        "
+                      >
+                        Tipos de Evento
+                      </h4>
+                      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Clases ×</span
+                        >
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Eventos ×</span
+                        >
+                        <span
+                          class="badge"
+                          style="
+                            background: var(--gradient-warm);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.75rem;
+                          "
+                          >Baile Social ×</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Map Content -->
+                  <div
+                    class="map-content"
+                    style="
+                      flex: 1;
+                      height: 500px;
+                      background: var(--gray-100);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      color: var(--gray-300);
+                      font-style: italic;
+                      position: relative;
+                    "
+                  >
+                    🗺️ Mapa interactivo con marcadores de estudios y eventos
+                    <br />
+                    <small>Componente: MapView + marcadores personalizados</small>
+
+                    <!-- Simulated map markers -->
+                    <div
+                      style="
+                        position: absolute;
+                        top: 20%;
+                        left: 30%;
+                        background: white;
+                        padding: 8px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        font-size: 0.75rem;
+                        color: var(--gray-500);
+                      "
+                    >
+                      📍 Studio Tango
+                    </div>
+                    <div
+                      style="
+                        position: absolute;
+                        top: 60%;
+                        left: 60%;
+                        background: white;
+                        padding: 8px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        font-size: 0.75rem;
+                        color: var(--gray-500);
+                      "
+                    >
+                      📍 Salsa Club
+                    </div>
+                    <div
+                      style="
+                        position: absolute;
+                        top: 40%;
+                        left: 70%;
+                        background: white;
+                        padding: 8px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        font-size: 0.75rem;
+                        color: var(--gray-500);
+                      "
+                    >
+                      📍 Evento Bachata
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="sidebar">
+            <div
+              class="sidebar-events"
+              onclick="showModal('events-modal')"
+              style="position: relative"
+            >
+              <!-- Triangular title overlay -->
+              <div
+                class="section-title-triangle"
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  z-index: 10;
+                  background: var(--gradient-cool);
+                  clip-path: polygon(0 0, 170px 0, 0 140px);
+                  width: 180px;
+                  height: 156px;
+                  color: white;
+                  padding: 16px;
+                "
+              >
+                <h3
+                  style="
+                    font-family: &quot;Montserrat&quot;, sans-serif;
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                  "
+                >
+                  Eventos
+                </h3>
+                <span
+                  style="
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  ver todo →
+                </span>
+              </div>
+              <div class="sidebar-events-list">
+                <div class="sidebar-event-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1518834107812-67b0b7c58434?q=80&w=200&auto=format&fit=crop"
+                    alt="Ballet"
+                    class="sidebar-event-image"
+                  />
+                  <div class="sidebar-event-content">
+                    <h4 class="sidebar-event-title">Presentación de Ballet</h4>
+                    <p class="sidebar-event-details">📍 Teatro Principal<br />⏰ Nov 15, 20:00</p>
+                  </div>
+                </div>
+                <div class="sidebar-event-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?q=80&w=200&auto=format&fit=crop"
+                    alt="Salsa"
+                    class="sidebar-event-image"
+                  />
+                  <div class="sidebar-event-content">
+                    <h4 class="sidebar-event-title">Noche de Salsa</h4>
+                    <p class="sidebar-event-details">📍 Club Havana<br />⏰ Nov 16, 21:00</p>
+                  </div>
+                </div>
+                <div class="sidebar-event-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1504609813442-a8924e83f76e?q=80&w=200&auto=format&fit=crop"
+                    alt="Tango"
+                    class="sidebar-event-image"
+                  />
+                  <div class="sidebar-event-content">
+                    <h4 class="sidebar-event-title">Milonga en San Telmo</h4>
+                    <p class="sidebar-event-details">📍 Café Tortoni<br />⏰ Nov 17, 22:00</p>
+                  </div>
+                </div>
+                <div class="sidebar-event-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=200&auto=format&fit=crop"
+                    alt="Hip Hop"
+                    class="sidebar-event-image"
+                  />
+                  <div class="sidebar-event-content">
+                    <h4 class="sidebar-event-title">Battle de Hip Hop</h4>
+                    <p class="sidebar-event-details">📍 Centro Cultural<br />⏰ Nov 18, 19:00</p>
+                  </div>
+                </div>
+                <div class="sidebar-event-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1594736797933-d0d4b1c94f8e?q=80&w=200&auto=format&fit=crop"
+                    alt="Bachata"
+                    class="sidebar-event-image"
+                  />
+                  <div class="sidebar-event-content">
+                    <h4 class="sidebar-event-title">Workshop de Bachata</h4>
+                    <p class="sidebar-event-details">📍 Studio Dance<br />⏰ Nov 19, 18:00</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPONENTES SECTION -->
+      <div id="componentes" class="content-section">
+        <h2
+          style="
+            font-family: &quot;Montserrat&quot;, sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+          "
+        >
+          🧩 Componentes Base del Sistema
+        </h2>
+
+        <div class="interaction-note">
+          <strong>💡 Interacción:</strong> Haz clic en cada componente para ver su wireframe
+          detallado.
+        </div>
+
+        <!-- Componentes de Búsqueda y Discovery -->
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <h3 class="step-title">🔍 Componentes de Búsqueda</h3>
+          </div>
+          <div class="component-grid">
+            <div class="component-card" onclick="showModal('chat-input-modal')">
+              <div class="component-title">💬 ChatInput IA</div>
+              <div class="component-description">
+                Input inteligente: "Quiero aprender algo caribeño y divertido" → Sugiere
+                Salsa/Bachata
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('results-grid-modal')">
+              <div class="component-title">🔍 ResultsGrid</div>
+              <div class="component-description">
+                Grid de clases con filtros: estilo, zona, horario, nivel, instructor
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('map-component-modal')">
+              <div class="component-title">🗺️ MapComponent</div>
+              <div class="component-description">
+                Mapa interactivo con marcadores de estudios, filtros integrados, vista satelital
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('filter-sidebar-modal')">
+              <div class="component-title">⚙️ FilterSidebar</div>
+              <div class="component-description">
+                Panel de filtros: estilos de baile, fechas, ubicación, nivel, precio
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Componentes de Reserva -->
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <h3 class="step-title">📋 Componentes de Reserva</h3>
+          </div>
+          <div class="component-grid">
+            <div class="component-card" onclick="showModal('booking-form-modal')">
+              <div class="component-title">📝 BookingForm</div>
+              <div class="component-description">
+                Formulario simple: nombre, teléfono, nivel de baile. SIN pagos online.
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('class-card-modal')">
+              <div class="component-title">📚 ClassCard</div>
+              <div class="component-description">
+                Card de clase: horario, instructor, nivel, precio, botón "Reservar"
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('instructor-card-modal')">
+              <div class="component-title">👨‍🏫 InstructorCard</div>
+              <div class="component-description">
+                Perfil de instructor: foto, especialidades, rating, horarios disponibles
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('studio-card-modal')">
+              <div class="component-title">🏢 StudioCard</div>
+              <div class="component-description">
+                Card de estudio: fotos, ubicación, clases disponibles, contacto directo
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Componentes de Eventos -->
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <h3 class="step-title">🎪 Componentes de Eventos</h3>
+          </div>
+          <div class="component-grid">
+            <div class="component-card" onclick="showModal('event-card-modal')">
+              <div class="component-title">🎉 EventCard</div>
+              <div class="component-description">
+                Card de evento con imagen de fondo, fecha visible, información del instructor,
+                ubicación, precios. Gradiente border arcoíris en hover, efecto zoom en imagen,
+                overlay oscuro interactivo. Tamaños: small (256px), medium (512px), large (768px).
+                Layout vertical y horizontal disponibles.
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('qr-generator-modal')">
+              <div class="component-title">📱 QR Generator</div>
+              <div class="component-description">
+                Generación de QR para eventos, visualización, descarga, check-in
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('event-list-modal')">
+              <div class="component-title">📅 EventList</div>
+              <div class="component-description">
+                Lista de eventos: próximos, filtros por estilo, vista calendario
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('attendance-tracker-modal')">
+              <div class="component-title">✅ AttendanceTracker</div>
+              <div class="component-description">
+                Seguimiento de asistencia via QR, listas en tiempo real
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Componentes de UI Base -->
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <h3 class="step-title">🎨 Componentes UI Base</h3>
+          </div>
+          <div class="component-grid">
+            <div class="component-card" onclick="showModal('navbar-modal')">
+              <div class="component-title">🧭 NavBar</div>
+              <div class="component-description">
+                Navegación principal: logo, búsqueda, usuario, menú responsive
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('news-card-modal')">
+              <div class="component-title">📰 NewsCard</div>
+              <div class="component-description">
+                Card de noticia con imagen de fondo, título superpuesto, gradiente rainbow border en
+                hover, efecto zoom interactivo. Tamaños: main-article (640px), sub-article (350px),
+                other-big (350x180px), other-article (200x180px). Layouts vertical y horizontal
+                disponibles.
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('review-component-modal')">
+              <div class="component-title">⭐ ReviewComponent</div>
+              <div class="component-description">
+                Sistema de reseñas: estrellas, comentarios, verificación
+              </div>
+            </div>
+            <div class="component-card" onclick="showModal('notification-modal')">
+              <div class="component-title">🔔 NotificationCenter</div>
+              <div class="component-description">
+                Centro de notificaciones: alertas, confirmaciones, recordatorios
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANTALLAS DETALLE SECTION -->
+      <div id="pantallas" class="content-section">
+        <h2
+          style="
+            font-family: &quot;Montserrat&quot;, sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+          "
+        >
+          📋 Pantallas Detalle - Wireframes Completos
+        </h2>
+
+        <div class="interaction-note">
+          <strong>💡 Interacción:</strong> Cada wireframe muestra la estructura completa de las
+          pantallas de detalle.
+        </div>
+
+        <!-- Event Detail Wireframe -->
+        <div class="wireframe" onclick="showModal('event-detail-wireframe-modal')">
+          <div class="wireframe-label">Event Detail</div>
+          <div class="wireframe-content">
+            <strong>🎪 Pantalla Detalle Evento Social</strong><br />
+            Header con imagen → Info instructor → Precios y horarios → Ubicación y transporte →
+            Programa detallado → Botón reserva
+          </div>
+        </div>
+
+        <!-- News Detail Wireframe -->
+        <div class="wireframe" onclick="showModal('news-detail-wireframe-modal')">
+          <div class="wireframe-label">News Detail</div>
+          <div class="wireframe-content">
+            <strong>📰 Pantalla Detalle Noticia</strong><br />
+            Header con imagen → Contenido completo → Eventos relacionados → Precios → Acciones de
+            compartir
+          </div>
+        </div>
+
+        <!-- Studio Detail Wireframe -->
+        <div class="wireframe" onclick="showModal('studio-detail-wireframe-modal')">
+          <div class="wireframe-label">Studio Detail</div>
+          <div class="wireframe-content">
+            <strong>🏢 Pantalla Detalle Estudio</strong><br />
+            Header con galería → Información general → Horarios y clases → Lista de instructores →
+            Reseñas → Opciones de reserva
+          </div>
+        </div>
+
+        <!-- Instructor Detail Wireframe -->
+        <div class="wireframe" onclick="showModal('instructor-detail-wireframe-modal')">
+          <div class="wireframe-label">Instructor Detail</div>
+          <div class="wireframe-content">
+            <strong>👨‍🏫 Pantalla Detalle Instructor</strong><br />
+            Header con foto → Especialidades → Horarios de clases → Precios → Reseñas de estudiantes
+            → Botón contactar
+          </div>
+        </div>
+      </div>
+
+      <!-- FLUJOS SECTION -->
+      <div id="flujos" class="content-section">
+        <h2
+          style="
+            font-family: &quot;Montserrat&quot;, sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+          "
+        >
+          🔄 Flujos del Sistema
+        </h2>
+
+        <div class="interaction-note">
+          <strong>💡 Interacción:</strong> Flujos específicos por objetivo de usuario. Haz clic para
+          expandir detalles.
+        </div>
+
+        <!-- Navegación de Flujos -->
+        <div style="display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap">
+          <button class="btn btn-primary" onclick="showFlowSection('estudiante')">
+            👥 Flujos Estudiante
+          </button>
+          <button class="btn btn-outline" onclick="showFlowSection('eventos')">
+            🎪 Flujos Eventos
+          </button>
+          <button class="btn btn-outline" onclick="showFlowSection('estudio')">
+            🏢 Flujos Estudio
+          </button>
+          <button class="btn btn-outline" onclick="showFlowSection('instructor')">
+            👨‍🏫 Flujos Instructor
+          </button>
+          <button class="btn btn-outline" onclick="showFlowSection('revendedor')">
+            🎫 Flujos Revendedor
+          </button>
+          <button class="btn btn-outline" onclick="showFlowSection('patrocinador')">
+            💰 Flujos Patrocinador
+          </button>
+        </div>
+
+        <!-- FLUJOS DE ESTUDIANTE -->
+        <div id="flujos-estudiante" class="flow-section active">
+          <h3
+            style="
+              color: var(--magenta-500);
+              margin: 30px 0 20px;
+              font-family: &quot;Montserrat&quot;, sans-serif;
+              font-size: 1.5rem;
+            "
+          >
+            👥 Flujos del Estudiante (6 objetivos específicos)
+          </h3>
+
+          <!-- Flujo 1: Aprender estilo específico -->
+          <div class="step-container" style="border-left: 4px solid var(--magenta-500)">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <h4 class="step-title">🎯 "Quiero aprender a bailar [estilo específico]"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f8f9ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">💬</div>
+                <div style="font-size: 12px; font-weight: 600">ChatInput IA</div>
+                <div style="font-size: 10px; color: var(--gray-300)">"Quiero tango"</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f8f9ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔍</div>
+                <div style="font-size: 12px; font-weight: 600">Filtros Auto</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Estilo = Tango</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f8f9ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📍</div>
+                <div style="font-size: 12px; font-weight: 600">Resultados</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Lista + mapa</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f8f9ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📞</div>
+                <div style="font-size: 12px; font-weight: 600">Contacto</div>
+                <div style="font-size: 10px; color: var(--gray-300)">WhatsApp directo</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 2: Eventos fin de semana -->
+          <div class="step-container" style="border-left: 4px solid var(--blue-500)">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <h4 class="step-title">🎪 "Qué eventos hay este fin de semana"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📅</div>
+                <div style="font-size: 12px; font-weight: 600">EventList</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Próximos eventos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔽</div>
+                <div style="font-size: 12px; font-weight: 600">Filtros Fecha</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Este fin de semana</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👁️</div>
+                <div style="font-size: 12px; font-weight: 600">Detalles</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Info completa</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">✅</div>
+                <div style="font-size: 12px; font-weight: 600">Me apunto</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Registro gratis</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 3: Búsqueda por ubicación -->
+          <div class="step-container" style="border-left: 4px solid var(--purple-500)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <h4 class="step-title">📍 "Dónde puedo bailar cerca de mi trabajo"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🗺️</div>
+                <div style="font-size: 12px; font-weight: 600">MapView</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Vista principal</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📍</div>
+                <div style="font-size: 12px; font-weight: 600">Geolocalización</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Mi ubicación</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📏</div>
+                <div style="font-size: 12px; font-weight: 600">Radio filtro</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Distancia</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🏢</div>
+                <div style="font-size: 12px; font-weight: 600">Estudios cerca</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Lista + marcadores</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 4: Instructor específico -->
+          <div class="step-container" style="border-left: 4px solid var(--orange-500)">
+            <div class="step-header">
+              <div class="step-number">4</div>
+              <h4 class="step-title">👨‍🏫 "Quiero clases con instructor específico"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👤</div>
+                <div style="font-size: 12px; font-weight: 600">InstructorCard</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Perfil completo</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📅</div>
+                <div style="font-size: 12px; font-weight: 600">Horarios</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Disponibilidad</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">⭐</div>
+                <div style="font-size: 12px; font-weight: 600">Reviews</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Valoraciones</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📲</div>
+                <div style="font-size: 12px; font-weight: 600">Contactar</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Directo</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 5: Opciones económicas -->
+          <div class="step-container" style="border-left: 4px solid var(--green-500)">
+            <div class="step-header">
+              <div class="step-number">5</div>
+              <h4 class="step-title">💰 "Opciones económicas para estudiante"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔍</div>
+                <div style="font-size: 12px; font-weight: 600">FilterSidebar</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Filtro precio</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">💵</div>
+                <div style="font-size: 12px; font-weight: 600">Rango precio</div>
+                <div style="font-size: 10px; color: var(--gray-300)">$ 0 - $ 5000</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🏷️</div>
+                <div style="font-size: 12px; font-weight: 600">Ofertas</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Descuentos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📚</div>
+                <div style="font-size: 12px; font-weight: 600">Clases grupales</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Más económicas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 6: Última hora -->
+          <div class="step-container" style="border-left: 4px solid var(--red-500)">
+            <div class="step-header">
+              <div class="step-number">6</div>
+              <h4 class="step-title">⚡ "Clases de último minuto - hoy"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">⏰</div>
+                <div style="font-size: 12px; font-weight: 600">Filtro tiempo</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Hoy / Mañana</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🚨</div>
+                <div style="font-size: 12px; font-weight: 600">Disponibilidad</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Tiempo real</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📍</div>
+                <div style="font-size: 12px; font-weight: 600">Cerca de mí</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Geolocalización</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">⚡</div>
+                <div style="font-size: 12px; font-weight: 600">Reserva rápida</div>
+                <div style="font-size: 10px; color: var(--gray-300)">1-click</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLUJOS DE EVENTOS -->
+        <div id="flujos-eventos" class="flow-section" style="display: none">
+          <h3
+            style="
+              color: var(--blue-500);
+              margin: 30px 0 20px;
+              font-family: &quot;Montserrat&quot;, sans-serif;
+              font-size: 1.5rem;
+            "
+          >
+            🎪 Flujos de Eventos (4 objetivos específicos)
+          </h3>
+
+          <!-- Flujo 1: Descubrir evento por estilo -->
+          <div class="step-container" style="border-left: 4px solid var(--blue-500)">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <h4 class="step-title">🎯 "Buscar eventos de [estilo específico]"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🎪</div>
+                <div style="font-size: 12px; font-weight: 600">EventList</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Lista principal</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔽</div>
+                <div style="font-size: 12px; font-weight: 600">Filtro estilo</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Salsa, Tango, etc</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👁️</div>
+                <div style="font-size: 12px; font-weight: 600">EventCard</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Detalles evento</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">✅</div>
+                <div style="font-size: 12px; font-weight: 600">Registro</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Me apunto</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 2: Evento + QR -->
+          <div class="step-container" style="border-left: 4px solid var(--magenta-500)">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <h4 class="step-title">📱 "Apuntarse a evento y recibir QR"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📝</div>
+                <div style="font-size: 12px; font-weight: 600">EventRegistration</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Datos básicos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">⚡</div>
+                <div style="font-size: 12px; font-weight: 600">Confirmación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Instantánea</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📲</div>
+                <div style="font-size: 12px; font-weight: 600">QR Generator</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Código único</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📧</div>
+                <div style="font-size: 12px; font-weight: 600">Email + App</div>
+                <div style="font-size: 10px; color: var(--gray-300)">QR enviado</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 3: Check-in evento -->
+          <div class="step-container" style="border-left: 4px solid var(--purple-500)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <h4 class="step-title">🎯 "Check-in en evento con QR"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📱</div>
+                <div style="font-size: 12px; font-weight: 600">QR en móvil</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Usuario muestra</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📷</div>
+                <div style="font-size: 12px; font-weight: 600">Escáner</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Organizador escanea</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">✅</div>
+                <div style="font-size: 12px; font-weight: 600">Verificación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Válido/Inválido</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📊</div>
+                <div style="font-size: 12px; font-weight: 600">AttendanceTracker</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Lista actualizada</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 4: Organizar evento -->
+          <div class="step-container" style="border-left: 4px solid var(--orange-500)">
+            <div class="step-header">
+              <div class="step-number">4</div>
+              <h4 class="step-title">🎪 "Organizar mi propio evento"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📝</div>
+                <div style="font-size: 12px; font-weight: 600">EventForm</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Crear evento</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👁️</div>
+                <div style="font-size: 12px; font-weight: 600">Publicación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Visible en app</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📊</div>
+                <div style="font-size: 12px; font-weight: 600">Dashboard</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Gestión inscriptos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📷</div>
+                <div style="font-size: 12px; font-weight: 600">QR Scanner</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Check-in día evento</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLUJOS DE ESTUDIO -->
+        <div id="flujos-estudio" class="flow-section" style="display: none">
+          <h3
+            style="
+              color: var(--purple-500);
+              margin: 30px 0 20px;
+              font-family: &quot;Montserrat&quot;, sans-serif;
+              font-size: 1.5rem;
+            "
+          >
+            🏢 Flujos del Estudio (4 objetivos específicos)
+          </h3>
+
+          <!-- Flujo 1: Registro inicial -->
+          <div class="step-container" style="border-left: 4px solid var(--purple-500)">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <h4 class="step-title">📝 "Registrar mi estudio en la plataforma"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📋</div>
+                <div style="font-size: 12px; font-weight: 600">StudioForm</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Datos básicos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📸</div>
+                <div style="font-size: 12px; font-weight: 600">Fotos</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Galería estudio</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">✅</div>
+                <div style="font-size: 12px; font-weight: 600">Verificación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Aprobación manual</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👁️</div>
+                <div style="font-size: 12px; font-weight: 600">Publicación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Visible en app</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 2: Gestionar clases -->
+          <div class="step-container" style="border-left: 4px solid var(--blue-500)">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <h4 class="step-title">📅 "Gestionar horarios y clases"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">⏰</div>
+                <div style="font-size: 12px; font-weight: 600">ClassSchedule</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Horarios</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👨‍🏫</div>
+                <div style="font-size: 12px; font-weight: 600">Instructores</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Asignar profesores</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">💰</div>
+                <div style="font-size: 12px; font-weight: 600">Precios</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Tarifas por clase</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔄</div>
+                <div style="font-size: 12px; font-weight: 600">Actualización</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Tiempo real</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 3: Recibir contactos -->
+          <div class="step-container" style="border-left: 4px solid var(--green-500)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <h4 class="step-title">📬 "Gestionar estudiantes interesados"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔔</div>
+                <div style="font-size: 12px; font-weight: 600">Notificaciones</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Nuevos interesados</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👤</div>
+                <div style="font-size: 12px; font-weight: 600">Datos contacto</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Nombre, teléfono</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📞</div>
+                <div style="font-size: 12px; font-weight: 600">Contacto directo</div>
+                <div style="font-size: 10px; color: var(--gray-300)">WhatsApp/Teléfono</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📊</div>
+                <div style="font-size: 12px; font-weight: 600">Dashboard</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Estadísticas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 4: Promocionar estudio -->
+          <div class="step-container" style="border-left: 4px solid var(--orange-500)">
+            <div class="step-header">
+              <div class="step-number">4</div>
+              <h4 class="step-title">📢 "Promocionar mi estudio"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📰</div>
+                <div style="font-size: 12px; font-weight: 600">NewsArticle</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Crear noticias</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🎪</div>
+                <div style="font-size: 12px; font-weight: 600">Eventos</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Organizar eventos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🏷️</div>
+                <div style="font-size: 12px; font-weight: 600">Ofertas</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Descuentos especiales</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📈</div>
+                <div style="font-size: 12px; font-weight: 600">Analytics</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Métricas promoción</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLUJOS DE INSTRUCTOR -->
+        <div id="flujos-instructor" class="flow-section" style="display: none">
+          <h3
+            style="
+              color: var(--orange-500);
+              margin: 30px 0 20px;
+              font-family: &quot;Montserrat&quot;, sans-serif;
+              font-size: 1.5rem;
+            "
+          >
+            👨‍🏫 Flujos del Instructor (3 objetivos específicos)
+          </h3>
+
+          <!-- Flujo 1: Crear perfil instructor -->
+          <div class="step-container" style="border-left: 4px solid var(--orange-500)">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <h4 class="step-title">👤 "Crear mi perfil como instructor"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📝</div>
+                <div style="font-size: 12px; font-weight: 600">InstructorProfile</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Datos personales</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🎭</div>
+                <div style="font-size: 12px; font-weight: 600">Especialidades</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Estilos que enseña</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🎥</div>
+                <div style="font-size: 12px; font-weight: 600">Portfolio</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Fotos/videos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff8f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">💰</div>
+                <div style="font-size: 12px; font-weight: 600">Tarifas</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Precios por clase</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 2: Gestionar disponibilidad -->
+          <div class="step-container" style="border-left: 4px solid var(--blue-500)">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <h4 class="step-title">📅 "Gestionar mi disponibilidad"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📅</div>
+                <div style="font-size: 12px; font-weight: 600">Calendario</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Horarios libres</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📍</div>
+                <div style="font-size: 12px; font-weight: 600">Ubicaciones</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Dónde da clases</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👥</div>
+                <div style="font-size: 12px; font-weight: 600">Modalidades</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Individual/Grupal</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔄</div>
+                <div style="font-size: 12px; font-weight: 600">Actualización</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Tiempo real</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 3: Conectar con estudiantes -->
+          <div class="step-container" style="border-left: 4px solid var(--green-500)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <h4 class="step-title">🤝 "Conectar con estudiantes"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔔</div>
+                <div style="font-size: 12px; font-weight: 600">Solicitudes</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Estudiantes interesados</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">💬</div>
+                <div style="font-size: 12px; font-weight: 600">Chat directo</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Coordinación</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📅</div>
+                <div style="font-size: 12px; font-weight: 600">Agendar clase</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Confirmar horario</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">⭐</div>
+                <div style="font-size: 12px; font-weight: 600">Reviews</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Valoraciones</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLUJOS DE REVENDEDOR -->
+        <div id="flujos-revendedor" class="flow-section" style="display: none">
+          <h3
+            style="
+              color: var(--yellow-500);
+              margin: 30px 0 20px;
+              font-family: &quot;Montserrat&quot;, sans-serif;
+              font-size: 1.5rem;
+            "
+          >
+            🎫 Flujos del Revendedor/Organizador (4 objetivos específicos)
+          </h3>
+
+          <!-- Flujo 1: Crear evento -->
+          <div class="step-container" style="border-left: 4px solid var(--yellow-500)">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <h4 class="step-title">🎪 "Crear y publicar mi evento"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fffbf0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📝</div>
+                <div style="font-size: 12px; font-weight: 600">EventCreationForm</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Datos del evento</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fffbf0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📸</div>
+                <div style="font-size: 12px; font-weight: 600">Media Upload</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Fotos/videos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fffbf0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">✅</div>
+                <div style="font-size: 12px; font-weight: 600">Publicación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Visible en app</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fffbf0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📢</div>
+                <div style="font-size: 12px; font-weight: 600">Promoción</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Marketing del evento</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 2: Gestionar inscripciones -->
+          <div class="step-container" style="border-left: 4px solid var(--blue-500)">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <h4 class="step-title">👥 "Gestionar inscripciones y contactos"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📋</div>
+                <div style="font-size: 12px; font-weight: 600">AttendeesList</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Lista inscriptos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📞</div>
+                <div style="font-size: 12px; font-weight: 600">ContactManager</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Datos contacto</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">💬</div>
+                <div style="font-size: 12px; font-weight: 600">Comunicación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">WhatsApp/Email</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📊</div>
+                <div style="font-size: 12px; font-weight: 600">Analytics</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Métricas evento</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 3: Generar QR para asistentes -->
+          <div class="step-container" style="border-left: 4px solid var(--magenta-500)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <h4 class="step-title">📲 "Generar QR para asistente específico"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📞</div>
+                <div style="font-size: 12px; font-weight: 600">Contacto directo</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Persona me contacta</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📝</div>
+                <div style="font-size: 12px; font-weight: 600">ManualRegistration</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Registro manual</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔄</div>
+                <div style="font-size: 12px; font-weight: 600">QR Generator</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Genera QR único</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📧</div>
+                <div style="font-size: 12px; font-weight: 600">Envío QR</div>
+                <div style="font-size: 10px; color: var(--gray-300)">WhatsApp/Email</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 4: Check-in día del evento -->
+          <div class="step-container" style="border-left: 4px solid var(--green-500)">
+            <div class="step-header">
+              <div class="step-number">4</div>
+              <h4 class="step-title">✅ "Gestionar check-in día del evento"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📱</div>
+                <div style="font-size: 12px; font-weight: 600">QR Scanner App</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Escanear códigos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">✅</div>
+                <div style="font-size: 12px; font-weight: 600">Validación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Código válido/inválido</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📊</div>
+                <div style="font-size: 12px; font-weight: 600">AttendanceTracker</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Lista tiempo real</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0fff8; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📈</div>
+                <div style="font-size: 12px; font-weight: 600">EventDashboard</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Estadísticas evento</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLUJOS DE PATROCINADOR -->
+        <div id="flujos-patrocinador" class="flow-section" style="display: none">
+          <h3
+            style="
+              color: var(--red-500);
+              margin: 30px 0 20px;
+              font-family: &quot;Montserrat&quot;, sans-serif;
+              font-size: 1.5rem;
+            "
+          >
+            💰 Flujos del Patrocinador (3 objetivos específicos)
+          </h3>
+
+          <!-- Flujo 1: Patrocinar evento -->
+          <div class="step-container" style="border-left: 4px solid var(--red-500)">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <h4 class="step-title">🎪 "Patrocinar un evento"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🔍</div>
+                <div style="font-size: 12px; font-weight: 600">Buscar eventos</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Por audiencia/estilo</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📊</div>
+                <div style="font-size: 12px; font-weight: 600">Analytics</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Métricas evento</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">💰</div>
+                <div style="font-size: 12px; font-weight: 600">Propuesta</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Monto + beneficios</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #fff0f0; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🤝</div>
+                <div style="font-size: 12px; font-weight: 600">Acuerdo</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Contacto directo</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 2: Publicidad en app -->
+          <div class="step-container" style="border-left: 4px solid var(--purple-500)">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <h4 class="step-title">📢 "Publicitar mi marca en la app"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🎯</div>
+                <div style="font-size: 12px; font-weight: 600">Targeting</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Audiencia específica</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🎨</div>
+                <div style="font-size: 12px; font-weight: 600">Creativos</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Banners/videos</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📍</div>
+                <div style="font-size: 12px; font-weight: 600">Ubicación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Dónde aparece</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #faf8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📈</div>
+                <div style="font-size: 12px; font-weight: 600">Métricas</div>
+                <div style="font-size: 10px; color: var(--gray-300)">ROI campaña</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flujo 3: Crear contenido branded -->
+          <div class="step-container" style="border-left: 4px solid var(--blue-500)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <h4 class="step-title">📰 "Crear contenido branded"</h4>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">✍️</div>
+                <div style="font-size: 12px; font-weight: 600">Artículo</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Contenido de valor</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">🏷️</div>
+                <div style="font-size: 12px; font-weight: 600">Branding sutil</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Marca integrada</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">👁️</div>
+                <div style="font-size: 12px; font-weight: 600">Publicación</div>
+                <div style="font-size: 10px; color: var(--gray-300)">En sección noticias</div>
+              </div>
+              <div
+                style="text-align: center; padding: 12px; background: #f0f8ff; border-radius: 8px"
+              >
+                <div style="font-size: 24px; margin-bottom: 6px">📊</div>
+                <div style="font-size: 12px; font-weight: 600">Engagement</div>
+                <div style="font-size: 10px; color: var(--gray-300)">Métricas lectura</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- Navbar Modal -->
+    <div id="navbar-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">🧭 Navbar Component</h2>
+          <span class="modal-close" onclick="closeModal('navbar-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">Componente: NavBar</h3>
+          <p><strong>Archivo:</strong> <code>src/components/ui/own/nav-bar.tsx</code></p>
+          <p><strong>Características implementadas:</strong></p>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-300)">
+            <li>Logo con gradiente "Donde Bailo"</li>
+            <li>Barra de búsqueda con icono</li>
+            <li>Navegación con hover effects</li>
+            <li>Backdrop blur y transparencia</li>
+            <li>Responsive design</li>
+            <li>Dropdown menus para "Comunidad"</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Estilos aplicados:</h4>
+          <div
+            style="
+              background: var(--gray-100);
+              padding: 12px;
+              border-radius: 6px;
+              font-family: monospace;
+              font-size: 0.875rem;
+            "
+          >
+            background: rgba(255, 255, 255, 0.8)<br />
+            backdrop-filter: blur(12px)<br />
+            gradientes: var(--gradient-primary), var(--gradient-warm)
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Mapeo a Database:</h4>
+          <p style="color: var(--gray-300)">
+            La búsqueda se conecta a las tablas <code>events</code>,
+            <code>dancers</code> (instructores), y <code>bookings</code> para resultados en tiempo
+            real.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Modal -->
+    <div id="hero-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">✨ Hero Section</h2>
+          <span class="modal-close" onclick="closeModal('hero-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">
+            Componente: Hero + ChatInput IA
+          </h3>
+          <p><strong>Componentes nuevos a crear:</strong></p>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-300)">
+            <li><code>HeroSection</code> - Sección principal con título y subtítulo</li>
+            <li><code>AIChatInput</code> - Input inteligente con procesamiento NLP</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Funcionalidad IA:</h4>
+          <div
+            style="
+              background: var(--blue-100);
+              padding: 12px;
+              border-radius: 6px;
+              border-left: 4px solid var(--blue-500);
+            "
+          >
+            <strong>Ejemplos de consultas:</strong><br />
+            • "Quiero aprender tango en Palermo para principiantes"<br />
+            • "Clases de salsa los martes por la noche"<br />
+            • "Eventos de bachata este fin de semana"
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Tecnología sugerida:</h4>
+          <p style="color: var(--gray-300)">
+            Integración con OpenAI API para procesar consultas en lenguaje natural y convertirlas en
+            filtros específicos para la búsqueda en la base de datos.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Modal -->
+    <div id="news-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">📰 News Section</h2>
+          <span class="modal-close" onclick="closeModal('news-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">
+            Componente: NewsArticleCard
+          </h3>
+          <p>
+            <strong>Archivo existente:</strong>
+            <code>src/components/ui/own/news-article-card.tsx</code>
+          </p>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">
+            Características implementadas:
+          </h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-300)">
+            <li>Gradiente rainbow border en hover</li>
+            <li>Zoom effect en imágenes</li>
+            <li>Overlay con gradiente para texto</li>
+            <li>Diferentes tamaños: main-article, sub-article, other-big, other-article</li>
+            <li>Layout vertical y horizontal</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Layout implementado:</h4>
+          <div style="background: var(--gray-100); padding: 12px; border-radius: 6px">
+            <strong>Grid:</strong> 2fr 1fr (main content | side content)<br />
+            <strong>Main:</strong> 2 artículos grandes verticales<br />
+            <strong>Side:</strong> 4 artículos pequeños en grid 2x2
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Contenido real:</h4>
+          <p style="color: var(--gray-300)">
+            • Competencia Hip Hop Nacional<br />
+            • Masterclass: Ana López<br />
+            • Programa de Becas 2024<br />
+            • Workshop de Kizomba<br />
+            • Festival de Salsa<br />
+            • Encuentro de Tango
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="map-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">🗺️ Map Section</h2>
+          <span class="modal-close" onclick="closeModal('map-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">
+            Componente: MapView + FilterSidebar
+          </h3>
+          <p><strong>Archivos existentes:</strong></p>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-300)">
+            <li><code>src/components/ui/own/map-view.tsx</code></li>
+            <li><code>src/components/ui/own/filter-sidebar.tsx</code></li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Integración propuesta:</h4>
+          <div
+            style="
+              background: var(--blue-100);
+              padding: 12px;
+              border-radius: 6px;
+              border-left: 4px solid var(--blue-500);
+            "
+          >
+            Fusionar FilterSidebar como filtros horizontales integrados en la parte superior del
+            mapa, manteniendo la funcionalidad completa pero con mejor UX.
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Filtros disponibles:</h4>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0">
+            <span class="badge badge-primary">Tango</span>
+            <span class="badge badge-secondary">Salsa</span>
+            <span class="badge badge-default">Bachata</span>
+            <span class="badge badge-default">Ballet</span>
+            <span class="badge badge-default">Hip Hop</span>
+            <span class="badge badge-default">Kizomba</span>
+            <span class="badge badge-default">Swing</span>
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Funcionalidad IA:</h4>
+          <p style="color: var(--gray-300)">
+            Los filtros se integran con el ChatInput IA para aplicar automáticamente filtros basados
+            en las consultas de lenguaje natural.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Component Modals -->
+    <div id="chat-input-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">💬 ChatInput IA - Wireframe</h2>
+          <span class="modal-close" onclick="closeModal('chat-input-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <!-- Visual Wireframe -->
+          <div
+            style="
+              border: 2px solid var(--border-color);
+              border-radius: 12px;
+              padding: 20px;
+              background: white;
+              margin: 20px 0;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 15px;
+                border: 2px solid var(--magenta-500);
+                border-radius: 25px;
+                background: linear-gradient(135deg, #f8f9ff, #fff);
+              "
+            >
+              <div
+                style="
+                  width: 24px;
+                  height: 24px;
+                  background: var(--gradient-primary);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 14px;
+                "
+              >
+                🤖
+              </div>
+              <input
+                type="text"
+                placeholder="¿Qué te gustaría bailar hoy?"
+                style="
+                  flex: 1;
+                  border: none;
+                  outline: none;
+                  font-size: 16px;
+                  background: transparent;
+                "
+                readonly
+              />
+              <div
+                style="
+                  width: 32px;
+                  height: 32px;
+                  background: var(--magenta-500);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  cursor: pointer;
+                "
+              >
+                →
+              </div>
+            </div>
+
+            <!-- IA Suggestions -->
+            <div
+              style="
+                margin-top: 15px;
+                padding: 12px;
+                background: var(--blue-100);
+                border-radius: 8px;
+                border-left: 4px solid var(--blue-500);
+              "
+            >
+              <div style="font-size: 14px; color: var(--gray-600); margin-bottom: 8px">
+                💡 IA sugiere:
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <span
+                  style="
+                    background: var(--magenta-500);
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 15px;
+                    font-size: 12px;
+                  "
+                  >Salsa</span
+                >
+                <span
+                  style="
+                    background: var(--blue-500);
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 15px;
+                    font-size: 12px;
+                  "
+                  >Bachata</span
+                >
+                <span
+                  style="
+                    background: var(--purple-500);
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 15px;
+                    font-size: 12px;
+                  "
+                  >Nivel: Principiante</span
+                >
+                <span
+                  style="
+                    background: var(--orange-500);
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 15px;
+                    font-size: 12px;
+                  "
+                  >Zona: Palermo</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div style="color: var(--gray-600); font-size: 14px; text-align: center">
+            <strong>Funcionalidad:</strong> Procesa lenguaje natural → Aplica filtros
+            automáticamente
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EventCard Modal -->
+    <div id="event-card-modal" class="modal">
+      <div class="modal-content" style="max-width: 900px">
+        <div class="modal-header">
+          <h2 class="modal-title">🎉 EventCard Component</h2>
+          <span class="modal-close" onclick="closeModal('event-card-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">Componente: EventCard</h3>
+          <p>
+            <strong>Archivo existente:</strong>
+            <code>src/components/ui/own/event-card.tsx</code>
+          </p>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">
+            Características implementadas:
+          </h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-500)">
+            <li>Gradiente rainbow border en hover</li>
+            <li>Efecto zoom en imagen de fondo</li>
+            <li>Overlay oscuro interactivo</li>
+            <li>Fecha visible en esquina superior derecha con gradiente</li>
+            <li>Contenido en parte inferior con gradiente negro</li>
+            <li>Tamaños: small (256px), medium (512px), large (768px)</li>
+            <li>Layouts: vertical y horizontal</li>
+            <li>Transiciones suaves en todos los efectos</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Vista previa visual:</h4>
+
+          <!-- EventCard Preview -->
+          <div
+            style="
+              display: flex;
+              gap: 20px;
+              justify-content: center;
+              margin: 20px 0;
+              flex-wrap: wrap;
+            "
+          >
+            <!-- Small EventCard -->
+            <div style="padding: 8px">
+              <div style="position: relative; display: inline-block; border-radius: 8px">
+                <div
+                  style="
+                    position: absolute;
+                    inset: -3px;
+                    background: linear-gradient(
+                      135deg,
+                      rgb(74, 234, 220) 0%,
+                      rgb(151, 120, 209) 20%,
+                      rgb(207, 42, 186) 40%,
+                      rgb(238, 44, 130) 60%,
+                      rgb(251, 105, 98) 80%,
+                      rgb(254, 248, 76) 100%
+                    );
+                    border-radius: 8px;
+                    opacity: 0.8;
+                    z-index: 0;
+                  "
+                ></div>
+
+                <div
+                  style="
+                    width: 200px;
+                    height: 240px;
+                    position: relative;
+                    z-index: 1;
+                    overflow: hidden;
+                    border-radius: 6px;
+                    background: white;
+                  "
+                >
+                  <div
+                    style="
+                      position: absolute;
+                      inset: 2px;
+                      overflow: hidden;
+                      border-radius: 4px;
+                      background-image: url(&quot;https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?q=80&w=2369&auto=format&fit=crop&quot;);
+                      background-size: cover;
+                      background-position: center;
+                    "
+                  ></div>
+
+                  <!-- Date overlay -->
+                  <div
+                    style="
+                      position: absolute;
+                      right: 0;
+                      top: 0;
+                      z-index: 2;
+                      background: linear-gradient(
+                        to left,
+                        rgba(255, 255, 255, 0.95) 0%,
+                        rgba(255, 255, 255, 0.7) 70%,
+                        rgba(255, 255, 255, 0) 100%
+                      );
+                      padding: 8px 12px 8px 24px;
+                      font-weight: 600;
+                      font-size: 14px;
+                      color: #333;
+                    "
+                  >
+                    Nov 15
+                  </div>
+
+                  <!-- Content overlay -->
+                  <div
+                    style="
+                      position: absolute;
+                      bottom: 0;
+                      left: 0;
+                      right: 0;
+                      z-index: 2;
+                      background: linear-gradient(
+                        to top,
+                        rgba(0, 0, 0, 0.95) 0%,
+                        rgba(0, 0, 0, 0.85) 50%,
+                        transparent 100%
+                      );
+                      padding: 12px;
+                    "
+                  >
+                    <div
+                      style="color: white; font-weight: 600; margin-bottom: 4px; font-size: 14px"
+                    >
+                      Presentación de Ballet
+                    </div>
+                    <div
+                      style="
+                        color: rgba(255, 255, 255, 0.9);
+                        font-size: 12px;
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                      "
+                    >
+                      📍 Teatro Principal
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="text-align: center; margin-top: 8px; font-size: 12px; color: var(--gray-500)"
+              >
+                <strong>Small (256px)</strong>
+              </div>
+            </div>
+
+            <!-- Medium EventCard -->
+            <div style="padding: 8px">
+              <div style="position: relative; display: inline-block; border-radius: 8px">
+                <div
+                  style="
+                    width: 300px;
+                    height: 180px;
+                    position: relative;
+                    z-index: 1;
+                    overflow: hidden;
+                    border-radius: 6px;
+                    background: white;
+                    border: 2px solid var(--blue-300);
+                  "
+                >
+                  <div
+                    style="
+                      position: absolute;
+                      inset: 2px;
+                      overflow: hidden;
+                      border-radius: 4px;
+                      background-image: url(&quot;https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?q=80&w=2369&auto=format&fit=crop&quot;);
+                      background-size: cover;
+                      background-position: center;
+                    "
+                  ></div>
+
+                  <div
+                    style="
+                      position: absolute;
+                      right: 0;
+                      top: 0;
+                      z-index: 2;
+                      background: linear-gradient(
+                        to left,
+                        rgba(255, 255, 255, 0.95) 0%,
+                        rgba(255, 255, 255, 0.7) 70%,
+                        rgba(255, 255, 255, 0) 100%
+                      );
+                      padding: 8px 12px 8px 24px;
+                      font-weight: 600;
+                      font-size: 14px;
+                      color: #333;
+                    "
+                  >
+                    Nov 15
+                  </div>
+
+                  <div
+                    style="
+                      position: absolute;
+                      bottom: 0;
+                      left: 0;
+                      right: 0;
+                      z-index: 2;
+                      background: linear-gradient(
+                        to top,
+                        rgba(0, 0, 0, 0.95) 0%,
+                        rgba(0, 0, 0, 0.85) 50%,
+                        transparent 100%
+                      );
+                      padding: 12px;
+                    "
+                  >
+                    <div style="color: white; font-weight: 600; margin-bottom: 4px">
+                      Presentación de Ballet
+                    </div>
+                    <div
+                      style="
+                        color: rgba(255, 255, 255, 0.9);
+                        font-size: 14px;
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                      "
+                    >
+                      📍 Teatro Principal
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="text-align: center; margin-top: 8px; font-size: 12px; color: var(--gray-500)"
+              >
+                <strong>Medium (512px)</strong>
+              </div>
+            </div>
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Props disponibles:</h4>
+          <div
+            style="
+              background: var(--gray-100);
+              padding: 12px;
+              border-radius: 6px;
+              font-family: monospace;
+              font-size: 0.875rem;
+            "
+          >
+            size: 'small' | 'medium' | 'large'<br />
+            layout: 'vertical' | 'horizontal'<br />
+            event?: { title, date, location, instructor, image }
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Uso en wireframes:</h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-500)">
+            <li>Homepage: EventCards en grid 3x2 con size='medium'</li>
+            <li>Lista eventos: EventCards verticales con size='small'</li>
+            <li>Evento destacado: EventCard con size='large'</li>
+            <li>Sidebar relacionados: EventCards con layout='horizontal'</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Integración con database:</h4>
+          <div
+            style="
+              background: var(--blue-100);
+              padding: 12px;
+              border-radius: 6px;
+              border-left: 4px solid var(--blue-500);
+            "
+          >
+            Se conecta a la tabla <code>events</code> para obtener:<br />
+            • Imagen del evento (event_image_url)<br />
+            • Título y descripción<br />
+            • Fecha y hora (event_date)<br />
+            • Ubicación (venue_name)<br />
+            • Instructor (instructor_name)<br />
+            • Precio (price_amount)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NewsCard Modal -->
+    <div id="news-card-modal" class="modal">
+      <div class="modal-content" style="max-width: 900px">
+        <div class="modal-header">
+          <h2 class="modal-title">📰 NewsCard Component</h2>
+          <span class="modal-close" onclick="closeModal('news-card-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">
+            Componente: NewsArticleCard
+          </h3>
+          <p>
+            <strong>Archivo existente:</strong>
+            <code>src/components/ui/own/news-article-card.tsx</code>
+          </p>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">
+            Características implementadas:
+          </h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-500)">
+            <li>Gradiente rainbow border en hover (idéntico a EventCard)</li>
+            <li>Efecto zoom en imagen de fondo</li>
+            <li>Overlay oscuro interactivo</li>
+            <li>Contenido en parte inferior con gradiente negro</li>
+            <li>Múltiples tamaños según tipo de artículo</li>
+            <li>Layouts: vertical y horizontal</li>
+            <li>Integración con sistema de tipografía (Heading y Text components)</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Vista previa visual:</h4>
+
+          <!-- NewsCard Preview -->
+          <div
+            style="
+              display: flex;
+              gap: 20px;
+              justify-content: center;
+              margin: 20px 0;
+              flex-wrap: wrap;
+            "
+          >
+            <!-- Main Article NewsCard -->
+            <div style="padding: 8px">
+              <div style="position: relative; display: inline-block; border-radius: 8px">
+                <div
+                  style="
+                    position: absolute;
+                    inset: -3px;
+                    background: linear-gradient(
+                      135deg,
+                      rgb(74, 234, 220) 0%,
+                      rgb(151, 120, 209) 20%,
+                      rgb(207, 42, 186) 40%,
+                      rgb(238, 44, 130) 60%,
+                      rgb(251, 105, 98) 80%,
+                      rgb(254, 248, 76) 100%
+                    );
+                    border-radius: 8px;
+                    opacity: 0.8;
+                    z-index: 0;
+                  "
+                ></div>
+
+                <div
+                  style="
+                    width: 320px;
+                    height: 200px;
+                    position: relative;
+                    z-index: 1;
+                    overflow: hidden;
+                    border-radius: 6px;
+                    background: white;
+                  "
+                >
+                  <div
+                    style="
+                      position: absolute;
+                      inset: 2px;
+                      overflow: hidden;
+                      border-radius: 4px;
+                      background-image: url(&quot;https://images.unsplash.com/photo-1518834107812-67b0b7c58434?q=80&w=1000&auto=format&fit=crop&quot;);
+                      background-size: cover;
+                      background-position: center;
+                    "
+                  ></div>
+
+                  <!-- Content overlay -->
+                  <div
+                    style="
+                      position: absolute;
+                      bottom: 0;
+                      left: 0;
+                      right: 0;
+                      z-index: 2;
+                      background: linear-gradient(
+                        to top,
+                        rgba(0, 0, 0, 0.95) 0%,
+                        rgba(0, 0, 0, 0.85) 50%,
+                        transparent 100%
+                      );
+                      padding: 12px;
+                    "
+                  >
+                    <div
+                      style="color: white; font-weight: 600; margin-bottom: 4px; font-size: 16px"
+                    >
+                      Competencia Hip Hop Nacional
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="text-align: center; margin-top: 8px; font-size: 12px; color: var(--gray-500)"
+              >
+                <strong>Main Article (640px)</strong>
+              </div>
+            </div>
+
+            <!-- Sub Article NewsCard -->
+            <div style="padding: 8px">
+              <div style="position: relative; display: inline-block; border-radius: 8px">
+                <div
+                  style="
+                    width: 200px;
+                    height: 200px;
+                    position: relative;
+                    z-index: 1;
+                    overflow: hidden;
+                    border-radius: 6px;
+                    background: white;
+                    border: 2px solid var(--blue-300);
+                  "
+                >
+                  <div
+                    style="
+                      position: absolute;
+                      inset: 2px;
+                      overflow: hidden;
+                      border-radius: 4px;
+                      background-image: url(&quot;https://images.unsplash.com/photo-1518834107812-67b0b7c58434?q=80&w=1000&auto=format&fit=crop&quot;);
+                      background-size: cover;
+                      background-position: center;
+                    "
+                  ></div>
+
+                  <div
+                    style="
+                      position: absolute;
+                      bottom: 0;
+                      left: 0;
+                      right: 0;
+                      z-index: 2;
+                      background: linear-gradient(
+                        to top,
+                        rgba(0, 0, 0, 0.95) 0%,
+                        rgba(0, 0, 0, 0.85) 50%,
+                        transparent 100%
+                      );
+                      padding: 12px;
+                    "
+                  >
+                    <div
+                      style="color: white; font-weight: 600; margin-bottom: 4px; font-size: 14px"
+                    >
+                      Masterclass Ana López
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="text-align: center; margin-top: 8px; font-size: 12px; color: var(--gray-500)"
+              >
+                <strong>Sub Article (350px)</strong>
+              </div>
+            </div>
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Props disponibles:</h4>
+          <div
+            style="
+              background: var(--gray-100);
+              padding: 12px;
+              border-radius: 6px;
+              font-family: monospace;
+              font-size: 0.875rem;
+            "
+          >
+            type: 'main-article' | 'sub-article' | 'other-big' | 'other-article'<br />
+            layout: 'vertical' | 'horizontal'<br />
+            article: { imageUrl, title, date }
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Tamaños disponibles:</h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-500)">
+            <li><strong>main-article:</strong> 640x320px - Artículo principal destacado</li>
+            <li><strong>sub-article:</strong> 350x320px - Artículo secundario importante</li>
+            <li><strong>other-big:</strong> 350x180px - Otros artículos grandes</li>
+            <li><strong>other-article:</strong> 200x180px - Artículos pequeños</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Uso en wireframes:</h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-500)">
+            <li>Homepage: Grid 2fr 1fr con main/sub articles</li>
+            <li>Grid lateral: 4 artículos other-article en 2x2</li>
+            <li>Carrusel: NewsCards horizontales</li>
+            <li>Detalle relacionados: other-big articles</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Integración con database:</h4>
+          <div
+            style="
+              background: var(--blue-100);
+              padding: 12px;
+              border-radius: 6px;
+              border-left: 4px solid var(--blue-500);
+            "
+          >
+            Se conecta a la tabla <code>news_articles</code> para obtener:<br />
+            • Imagen del artículo (article_image_url)<br />
+            • Título y resumen<br />
+            • Fecha de publicación (published_date)<br />
+            • Autor (author_name)<br />
+            • Categoría (category)<br />
+            • Tags relacionados
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="results-grid-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">🔍 ResultsGrid</h2>
+          <span class="modal-close" onclick="closeModal('results-grid-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">Grid de Resultados</h3>
+          <p style="color: var(--gray-600)">
+            Grid responsive que muestra clases filtradas con información clave: horario, instructor,
+            nivel, precio. Sincronizado con MapComponent para mostrar ubicaciones.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="map-component-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">🗺️ MapComponent</h2>
+          <span class="modal-close" onclick="closeModal('map-component-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">Mapa Interactivo</h3>
+          <p style="color: var(--gray-600)">
+            Mapa con marcadores de estudios, filtros integrados, vista satelital. Sincronizado con
+            ResultsGrid para navegación fluida.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="filter-sidebar-modal" class="modal">
+      <div class="modal-content" style="max-width: 800px">
+        <div class="modal-header">
+          <h2 class="modal-title">⚙️ FilterSidebar Component</h2>
+          <span class="modal-close" onclick="closeModal('filter-sidebar-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">
+            Wireframe Visual del Componente
+          </h3>
+          <p>
+            <strong>Archivo existente:</strong>
+            <code>src/components/ui/own/filter-sidebar.tsx</code>
+          </p>
+
+          <!-- Wireframe Visual -->
+          <div
+            style="
+              border: 2px solid var(--border-color);
+              border-radius: 12px;
+              padding: 20px;
+              background: #f8f9fa;
+              margin: 20px 0;
+            "
+          >
+            <!-- Header -->
+            <div
+              style="border-bottom: 1px solid #e9ecef; padding-bottom: 12px; margin-bottom: 16px"
+            >
+              <h4 style="margin: 0; color: var(--gray-700); font-size: 1.1rem">🔍 Filtros</h4>
+            </div>
+
+            <!-- Fechas Section -->
+            <div
+              style="
+                margin-bottom: 20px;
+                padding: 12px;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+              "
+            >
+              <h5
+                style="
+                  margin: 0 0 8px 0;
+                  color: var(--gray-600);
+                  font-size: 0.9rem;
+                  font-weight: 600;
+                "
+              >
+                📅 Fechas
+              </h5>
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.8rem;
+                    color: var(--gray-500);
+                  "
+                >
+                  <input type="radio" name="date" checked /> Hoy
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.8rem;
+                    color: var(--gray-500);
+                  "
+                >
+                  <input type="radio" name="date" /> Esta Semana
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.8rem;
+                    color: var(--gray-500);
+                  "
+                >
+                  <input type="radio" name="date" /> Este Mes
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.8rem;
+                    color: var(--gray-500);
+                  "
+                >
+                  <input type="radio" name="date" /> Días Específicos
+                </label>
+              </div>
+            </div>
+
+            <!-- Estilos de Baile Section -->
+            <div
+              style="
+                margin-bottom: 20px;
+                padding: 12px;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+              "
+            >
+              <h5
+                style="
+                  margin: 0 0 8px 0;
+                  color: var(--gray-600);
+                  font-size: 0.9rem;
+                  font-weight: 600;
+                "
+              >
+                🎭 Estilos de Baile
+              </h5>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <span
+                  style="
+                    background: var(--magenta-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Tango</span
+                >
+                <span
+                  style="
+                    background: var(--blue-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Salsa</span
+                >
+                <span
+                  style="
+                    background: var(--purple-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Bachata</span
+                >
+                <span
+                  style="
+                    background: var(--gray-300);
+                    color: var(--gray-600);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Kizomba</span
+                >
+                <span
+                  style="
+                    background: var(--gray-300);
+                    color: var(--gray-600);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Swing</span
+                >
+                <span
+                  style="
+                    background: var(--gray-300);
+                    color: var(--gray-600);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >+ Más</span
+                >
+              </div>
+              <div
+                style="
+                  margin-top: 8px;
+                  padding: 6px 8px;
+                  background: #f8f9fa;
+                  border: 1px dashed #dee2e6;
+                  border-radius: 4px;
+                  font-size: 0.7rem;
+                  color: var(--gray-500);
+                "
+              >
+                🔍 Buscar estilo...
+              </div>
+            </div>
+
+            <!-- Tipos de Evento Section -->
+            <div
+              style="
+                margin-bottom: 20px;
+                padding: 12px;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+              "
+            >
+              <h5
+                style="
+                  margin: 0 0 8px 0;
+                  color: var(--gray-600);
+                  font-size: 0.9rem;
+                  font-weight: 600;
+                "
+              >
+                🎪 Tipos de Evento
+              </h5>
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.8rem;
+                    color: var(--gray-500);
+                  "
+                >
+                  <input type="checkbox" checked /> Baile social
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.8rem;
+                    color: var(--gray-500);
+                  "
+                >
+                  <input type="checkbox" checked /> Clases
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 0.8rem;
+                    color: var(--gray-500);
+                  "
+                >
+                  <input type="checkbox" /> Eventos / Otros
+                </label>
+              </div>
+            </div>
+
+            <!-- Ubicación Section -->
+            <div
+              style="
+                margin-bottom: 20px;
+                padding: 12px;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+              "
+            >
+              <h5
+                style="
+                  margin: 0 0 8px 0;
+                  color: var(--gray-600);
+                  font-size: 0.9rem;
+                  font-weight: 600;
+                "
+              >
+                📍 Ubicación
+              </h5>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <span
+                  style="
+                    background: var(--green-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Centro</span
+                >
+                <span
+                  style="
+                    background: var(--green-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Norte</span
+                >
+                <span
+                  style="
+                    background: var(--gray-300);
+                    color: var(--gray-600);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Sur</span
+                >
+                <span
+                  style="
+                    background: var(--gray-300);
+                    color: var(--gray-600);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Este</span
+                >
+                <span
+                  style="
+                    background: var(--gray-300);
+                    color: var(--gray-600);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Oeste</span
+                >
+              </div>
+            </div>
+
+            <!-- Nivel Section -->
+            <div
+              style="
+                margin-bottom: 20px;
+                padding: 12px;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+              "
+            >
+              <h5
+                style="
+                  margin: 0 0 8px 0;
+                  color: var(--gray-600);
+                  font-size: 0.9rem;
+                  font-weight: 600;
+                "
+              >
+                ⭐ Nivel
+              </h5>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <span
+                  style="
+                    background: var(--orange-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Principiante</span
+                >
+                <span
+                  style="
+                    background: var(--orange-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Intermedio</span
+                >
+                <span
+                  style="
+                    background: var(--gray-300);
+                    color: var(--gray-600);
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Avanzado</span
+                >
+              </div>
+            </div>
+
+            <!-- Horarios Section -->
+            <div
+              style="
+                margin-bottom: 20px;
+                padding: 12px;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+              "
+            >
+              <h5
+                style="
+                  margin: 0 0 8px 0;
+                  color: var(--gray-600);
+                  font-size: 0.9rem;
+                  font-weight: 600;
+                "
+              >
+                🕐 Horarios
+              </h5>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <span
+                  style="
+                    background: var(--blue-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Mañana</span
+                >
+                <span
+                  style="
+                    background: var(--blue-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Tarde</span
+                >
+                <span
+                  style="
+                    background: var(--blue-500);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                  "
+                  >Noche</span
+                >
+              </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div style="display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid #e9ecef">
+              <button
+                style="
+                  flex: 1;
+                  padding: 8px;
+                  background: var(--gradient-primary);
+                  color: white;
+                  border: none;
+                  border-radius: 6px;
+                  font-size: 0.8rem;
+                  cursor: pointer;
+                "
+              >
+                Aplicar Filtros
+              </button>
+              <button
+                style="
+                  padding: 8px 12px;
+                  background: transparent;
+                  color: var(--gray-500);
+                  border: 1px solid var(--gray-300);
+                  border-radius: 6px;
+                  font-size: 0.8rem;
+                  cursor: pointer;
+                "
+              >
+                Limpiar
+              </button>
+            </div>
+          </div>
+
+          <!-- Funcionalidad -->
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Funcionalidad Implementada:</h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-300)">
+            <li>Radio buttons para filtros de fecha</li>
+            <li>Badges interactivos para estilos de baile</li>
+            <li>Checkboxes para tipos de evento</li>
+            <li>Sistema de búsqueda para estilos</li>
+            <li>Filtros de ubicación con badges</li>
+            <li>Niveles y horarios seleccionables</li>
+            <li>Estados persistentes entre sesiones</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="booking-form-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">📝 BookingForm</h2>
+          <span class="modal-close" onclick="closeModal('booking-form-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">
+            Formulario de Reserva Simple
+          </h3>
+          <div
+            style="background: var(--blue-100); padding: 15px; border-radius: 8px; margin: 15px 0"
+          >
+            <strong>Campos:</strong> Nombre, teléfono, email, nivel de baile, mensaje opcional<br />
+            <strong>Acción:</strong> Envía datos al estudio por email/WhatsApp<br />
+            <strong>Importante:</strong> SIN pagos online - todo contacto directo
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="class-card-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">📚 ClassCard</h2>
+          <span class="modal-close" onclick="closeModal('class-card-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">Card de Clase</h3>
+          <p style="color: var(--gray-600)">
+            Muestra: horario, instructor, nivel, precio, botón "Me interesa". Diseño consistente con
+            el sistema de cards existente.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events Modal -->
+    <div id="events-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">🎪 Events Sidebar</h2>
+          <span class="modal-close" onclick="closeModal('events-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 style="color: var(--magenta-500); margin-bottom: 16px">
+            Componente: EventCard (Sidebar variant)
+          </h3>
+          <p>
+            <strong>Archivo existente:</strong> <code>src/components/ui/own/event-card.tsx</code>
+          </p>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Adaptación para sidebar:</h4>
+          <ul style="margin: 12px 0; padding-left: 20px; color: var(--gray-300)">
+            <li>Layout horizontal compacto</li>
+            <li>Imagen 60x60px</li>
+            <li>Información condensada</li>
+            <li>Hover effect con border magenta</li>
+            <li>Scroll vertical para lista completa</li>
+          </ul>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Eventos mostrados:</h4>
+          <div style="background: var(--gray-100); padding: 12px; border-radius: 6px">
+            • Presentación de Ballet - Teatro Principal<br />
+            • Noche de Salsa - Club Havana<br />
+            • Milonga en San Telmo - Café Tortoni<br />
+            • Battle de Hip Hop - Centro Cultural<br />
+            • Workshop de Bachata - Studio Dance
+          </div>
+
+          <h4 style="color: var(--purple-500); margin: 20px 0 12px">Mapeo a Database:</h4>
+          <p style="color: var(--gray-300)">
+            Conecta a la tabla <code>events</code> con filtros por fecha próxima, ordenado por
+            popularidad y relevancia geográfica.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Flow detail functions
+      function showFlowDetail(flowType) {
+        const flowDetails = document.getElementById("flow-details");
+        const flowTitle = document.getElementById("flow-title");
+        const flowContent = document.getElementById("flow-content");
+
+        const flows = {
+          student: {
+            title: "👤 Estudiante - Descubrimiento → Contacto",
+            content: `
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">1</div>
+                  <h3 class="step-title">🔍 Búsqueda con IA</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Usuario: "Quiero aprender salsa en Palermo"<br>
+                  IA: Analiza y sugiere filtros automáticos + opciones relevantes
+                </div>
+                <div class="component-card" onclick="showModal('search-component-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">🧠 ChatInput IA</div>
+                  <div class="component-description">Procesa lenguaje natural → filtros específicos</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">2</div>
+                  <h3 class="step-title">📍 Resultados en Mapa</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Lista de clases + mapa interactivo con marcadores de estudios cercanos
+                </div>
+                <div class="component-card" onclick="showModal('results-component-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">🗺️ ResultsGrid + MapComponent</div>
+                  <div class="component-description">Lista + mapa sincronizados con filtros</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">3</div>
+                  <h3 class="step-title">🏢 Detalles del Estudio</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Información completa: horarios, instructores, precios, fotos, reviews
+                </div>
+                <div class="component-card" onclick="showModal('studio-detail-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">🏫 StudioCard</div>
+                  <div class="component-description">Perfil completo con toda la información</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">4</div>
+                  <h3 class="step-title">📞 Contacto Directo</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  WhatsApp, teléfono, email visible. Usuario contacta directamente al estudio.
+                </div>
+                <div style="background: var(--gradient-primary); color: white; padding: 15px; border-radius: 10px; text-align: center;">
+                  <strong>📱 Sin pagos online</strong><br>
+                  Todo contacto directo con el estudio
+                </div>
+              </div>
+            `,
+          },
+          studio: {
+            title: "🏢 Estudio - Registro → Visibilidad",
+            content: `
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">1</div>
+                  <h3 class="step-title">📝 Registro del Estudio</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Formulario de alta: datos del estudio, fotos, ubicación, contacto
+                </div>
+                <div class="component-card" onclick="showModal('studio-form-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">📋 StudioRegistrationForm</div>
+                  <div class="component-description">Datos básicos + verificación</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">2</div>
+                  <h3 class="step-title">📅 Cargar Clases</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Panel simple: horarios, instructores, precios, niveles, descripción
+                </div>
+                <div class="component-card" onclick="showModal('class-form-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">⏰ ClassScheduleForm</div>
+                  <div class="component-description">Gestión de horarios y clases</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">3</div>
+                  <h3 class="step-title">👁️ Aparece en Búsquedas</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  El estudio se vuelve visible para estudiantes que buscan
+                </div>
+                <div style="background: var(--gradient-cool); color: white; padding: 15px; border-radius: 10px; text-align: center;">
+                  <strong>🎯 Visibilidad automática</strong><br>
+                  Aparece en mapa y resultados de búsqueda
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">4</div>
+                  <h3 class="step-title">📬 Recibe Contactos</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Notificaciones de estudiantes interesados con datos de contacto
+                </div>
+                <div class="component-card" onclick="showModal('notification-center-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">🔔 NotificationCenter</div>
+                  <div class="component-description">Gestión de contactos interesados</div>
+                </div>
+              </div>
+            `,
+          },
+          events: {
+            title: "🎪 Eventos - Descubrir → QR Check-in",
+            content: `
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">1</div>
+                  <h3 class="step-title">🔍 Descubrimiento de Eventos</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Lista de eventos, filtros por estilo/fecha/zona, información detallada
+                </div>
+                <div class="component-card" onclick="showModal('event-list-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">🎪 EventList</div>
+                  <div class="component-description">Lista filtrable de eventos</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">2</div>
+                  <h3 class="step-title">✅ Registro Gratis</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  "Me apunto" → Datos básicos → Confirmación instantánea (sin pagos)
+                </div>
+                <div class="component-card" onclick="showModal('event-registration-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">📝 EventRegistrationForm</div>
+                  <div class="component-description">Formulario simple de registro</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">3</div>
+                  <h3 class="step-title">📱 QR Generado</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  QR único generado → Email con QR → Guardado en perfil del usuario
+                </div>
+                <div class="component-card" onclick="showModal('qr-generator-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">📲 QR Generator</div>
+                  <div class="component-description">Genera QR único para cada evento</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">4</div>
+                  <h3 class="step-title">🎯 Check-in en Evento</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Organizador escanea QR → Confirmación asistencia → Lista actualizada
+                </div>
+                <div class="component-card" onclick="showModal('attendance-tracker-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">✅ AttendanceTracker</div>
+                  <div class="component-description">Escáner QR y gestión de asistencia</div>
+                </div>
+              </div>
+            `,
+          },
+          instructor: {
+            title: "🎯 Instructor - Perfil → Conexiones",
+            content: `
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">1</div>
+                  <h3 class="step-title">👤 Crear Perfil</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Registro: especialidades, experiencia, fotos/videos, tarifas, zonas
+                </div>
+                <div class="component-card" onclick="showModal('instructor-profile-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">👨‍🏫 InstructorCard</div>
+                  <div class="component-description">Perfil completo del instructor</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">2</div>
+                  <h3 class="step-title">📅 Definir Disponibilidad</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Calendario simple: cuándo/dónde da clases, precios, modalidades
+                </div>
+                <div class="component-card" onclick="showModal('availability-form-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">📅 AvailabilityForm</div>
+                  <div class="component-description">Gestión de horarios disponibles</div>
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">3</div>
+                  <h3 class="step-title">🔍 Aparece en Búsquedas</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Instructor se vuelve visible para estudiantes
+                </div>
+                <div style="background: var(--accent-purple); color: white; padding: 15px; border-radius: 10px; text-align: center;">
+                  <strong>🎯 Visibilidad automática</strong><br>
+                  Aparece en búsquedas de instructores
+                </div>
+              </div>
+              
+              <div class="step-container">
+                <div class="step-header">
+                  <div class="step-number">4</div>
+                  <h3 class="step-title">🤝 Conecta con Estudiantes</h3>
+                </div>
+                <div style="color: var(--gray-600); margin-bottom: 20px;">
+                  Recibe solicitudes de clases, coordina directamente
+                </div>
+                <div class="component-card" onclick="showModal('connection-manager-modal')" style="background: var(--card-bg); border: 2px solid var(--border-color); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                  <div class="component-title">🤝 ConnectionManager</div>
+                  <div class="component-description">Gestión de conexiones con estudiantes</div>
+                </div>
+              </div>
+            `,
+          },
+        };
+
+        flowTitle.textContent = flows[flowType].title;
+        flowContent.innerHTML = flows[flowType].content;
+        flowDetails.style.display = "block";
+
+        // Scroll to flow details
+        flowDetails.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function hideFlowDetail() {
+        document.getElementById("flow-details").style.display = "none";
+      }
+
+      function showSection(sectionId) {
+        // Hide all sections
+        const sections = document.querySelectorAll(".content-section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        // Remove active class from all tabs
+        const tabs = document.querySelectorAll(".nav-tab");
+        tabs.forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // Show selected section
+        document.getElementById(sectionId).classList.add("active");
+
+        // Add active class to clicked tab
+        event.target.classList.add("active");
+      }
+
+      function showModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+
+      // Close modal when clicking outside
+      window.onclick = function (event) {
+        if (event.target.classList.contains("modal")) {
+          event.target.style.display = "none";
+          document.body.style.overflow = "auto";
+        }
+      };
+
+      // Close modal with Escape key
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          const openModals = document.querySelectorAll('.modal[style*="block"]');
+          openModals.forEach((modal) => {
+            modal.style.display = "none";
+          });
+          document.body.style.overflow = "auto";
+        }
+      });
+
+      // Function to show different flow sections
+      function showFlowSection(sectionType) {
+        // Hide all flow sections
+        const flowSections = document.querySelectorAll(".flow-section");
+        flowSections.forEach((section) => {
+          section.style.display = "none";
+        });
+
+        // Remove active class from all flow buttons
+        const flowButtons = document.querySelectorAll(".btn");
+        flowButtons.forEach((button) => {
+          button.classList.remove("btn-primary");
+          button.classList.add("btn-outline");
+        });
+
+        // Show selected flow section
+        const targetSection = document.getElementById(`flujos-${sectionType}`);
+        if (targetSection) {
+          targetSection.style.display = "block";
+        }
+
+        // Update button styles - make clicked button active
+        event.target.classList.remove("btn-outline");
+        event.target.classList.add("btn-primary");
+      }
+    </script>
+  </body>
+</html>

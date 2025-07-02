@@ -1,90 +1,111 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useAuthStore } from '@/store/auth-store'
-import { createClient } from '@/lib/supabase'
+import { useEffect, useState } from 'react'
+import { createClient } from '../../utils/supabase/client'
+import { publicAction, protectedAction } from './actions'
 
 export default function HomePage() {
-  const { user, loading, signInWithGoogle, signOut, setUser, setSession, setLoading } = useAuthStore()
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const supabase = createClient()
 
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
+    const getInitialSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
       setUser(session?.user ?? null)
       setLoading(false)
-    })
+    }
+
+    getInitialSession()
 
     // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user ?? null)
       setLoading(false)
     })
 
     return () => subscription.unsubscribe()
-  }, [setUser, setSession, setLoading])
+  }, [])
+
+  const signInWithGoogle = async () => {
+    const supabase = createClient()
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`
+      }
+    })
+  }
+
+  const signOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+  }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     )
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center">
-          <h1 className="text-6xl font-bold text-gray-900 mb-6">
-            🕺 UDance
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg shadow-xl p-8">
+          <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
+            Welcome to UDance
           </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            La comunidad de baile más vibrante de Buenos Aires. 
-            Conecta, aprende y comparte tu pasión por el baile.
-          </p>
-
+          
           {user ? (
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
-              <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
-                  {user.email?.charAt(0).toUpperCase()}
-                </div>
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  ¡Bienvenido!
-                </h2>
-                <p className="text-gray-600">{user.email}</p>
+            <div className="text-center space-y-6">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <p className="text-green-800">
+                  Welcome back, <span className="font-semibold">{user.email}</span>!
+                </p>
               </div>
               
               <div className="space-y-4">
-                <div className="text-green-600 bg-green-50 p-4 rounded-lg">
-                  ✅ Autenticación funcionando perfectamente
-                </div>
+                <form action={publicAction}>
+                  <button 
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                  >
+                    Test Public Action
+                  </button>
+                </form>
                 
-                <button
-                  onClick={signOut}
-                  className="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg font-medium transition-colors"
-                >
-                  Cerrar Sesión
-                </button>
+                <form action={protectedAction}>
+                  <button 
+                    type="submit"
+                    className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                  >
+                    Test Protected Action
+                  </button>
+                </form>
               </div>
+              
+              <button 
+                onClick={signOut}
+                className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              >
+                Sign Out
+              </button>
             </div>
           ) : (
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                Únete a la Comunidad
-              </h2>
+            <div className="text-center space-y-6">
+              <p className="text-gray-600 mb-6">
+                Your ultimate dance platform experience awaits. Sign in to access exclusive features, connect with the dance community, and take your passion to the next level.
+              </p>
               
-              <button
+              <button 
                 onClick={signInWithGoogle}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center space-x-3"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center mx-auto space-x-2"
               >
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -102,42 +123,53 @@ export default function HomePage() {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span>Continuar con Google</span>
+                <span>Continue with Google</span>
               </button>
               
-              <p className="text-sm text-gray-500 mt-4">
-                Al registrarte, aceptas nuestros términos y condiciones
-              </p>
+              <div className="mt-8">
+                <h3 className="text-lg font-medium text-gray-700 mb-4">
+                  Try our public features:
+                </h3>
+                <form action={publicAction}>
+                  <button 
+                    type="submit"
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                  >
+                    Test Public Action (No Auth Required)
+                  </button>
+                </form>
+              </div>
             </div>
           )}
-
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white rounded-lg p-6 shadow-lg">
-              <div className="text-4xl mb-4">🎭</div>
-              <h3 className="text-xl font-semibold mb-2">Eventos Únicos</h3>
-              <p className="text-gray-600">
-                Descubre talleres, milongas y espectáculos en toda la ciudad
-              </p>
+          
+          {/* Feature highlights */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-4">
+              <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🕺</span>
+              </div>
+              <h3 className="font-semibold text-gray-800 mb-2">Learn Dance</h3>
+              <p className="text-gray-600 text-sm">Access comprehensive dance tutorials and lessons</p>
             </div>
             
-            <div className="bg-white rounded-lg p-6 shadow-lg">
-              <div className="text-4xl mb-4">👥</div>
-              <h3 className="text-xl font-semibold mb-2">Comunidad</h3>
-              <p className="text-gray-600">
-                Conecta con bailarines de todos los niveles y estilos
-              </p>
+            <div className="text-center p-4">
+              <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">👥</span>
+              </div>
+              <h3 className="font-semibold text-gray-800 mb-2">Connect</h3>
+              <p className="text-gray-600 text-sm">Join a vibrant community of dance enthusiasts</p>
             </div>
             
-            <div className="bg-white rounded-lg p-6 shadow-lg">
-              <div className="text-4xl mb-4">📱</div>
-              <h3 className="text-xl font-semibold mb-2">Móvil First</h3>
-              <p className="text-gray-600">
-                Experiencia optimizada para tu teléfono con PWA
-              </p>
+            <div className="text-center p-4">
+              <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🏆</span>
+              </div>
+              <h3 className="font-semibold text-gray-800 mb-2">Compete</h3>
+              <p className="text-gray-600 text-sm">Participate in competitions and showcase your skills</p>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   )
 }

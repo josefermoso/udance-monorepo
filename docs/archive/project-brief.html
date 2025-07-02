@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Brief - uDance Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .content {
+            margin-bottom: 2rem;
+        }
+        
+        .heading-1 { 
+            color: #667eea; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .heading-2 { 
+            color: #5a67d8; 
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .heading-3 { 
+            color: #4c51bf;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-block {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        
+        ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin: 0.5rem 0;
+        }
+        
+        p {
+            margin: 1rem 0;
+        }
+        
+        .footer {
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid #667eea;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .back-link:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #48bb78;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Documentation Hub</a>
+        
+        <div class="header">
+            <h1>Project Brief<span class="status-badge">Live</span></h1>
+            <div class="meta">
+                📝 Last updated: 6/30/2025, 2:30:36 AM | 📂 Source: ../../memory-bank/core/projectbrief.md
+            </div>
+        </div>
+        
+        <div class="content">
+            <h1 class="heading-1">Project Brief</h1></p><p><h2 class="heading-2">Project Overview</h2>
+<p>UDance es una plataforma de descubrimiento y gestión para la comunidad de baile de Buenos Aires, construida con una arquitectura monorepo utilizando Turborepo. El proyecto combina una aplicación web Next.js con microservicios Hono backend en Cloudflare Workers, proporcionando dashboards específicos por rol para studios, profesores y organizadores de eventos.</p><p><h2 class="heading-2">Goals and Objectives</h2></p>
+<ul><li><strong>Unified Discovery Platform</strong>: Crear una plataforma unificada para que estudiantes descubran clases de baile mediante IA y filtros geográficos</li>
+<li><strong>Business Management Tools</strong>: Proporcionar dashboards especializados para gestión completa de studios, herramientas educativas para profesores, y sistemas de monetización de eventos</li>
+<li><strong>Role-Based Architecture</strong>: Implementar un sistema de roles múltiples con permisos específicos por contexto y studio scoping</li>
+<li><strong>Revenue Generation</strong>: Alcanzar $175K-500K ARS/mes mediante suscripciones de studios, gestión de eventos QR, y marketplace de vendors</li></p><p><h2 class="heading-2">Requirements</h2></p><p><h3 class="heading-3"><strong>Technical Foundation (✅ Completed)</strong></h3>
+<li><strong>Monorepo Architecture</strong>: Turborepo managing multiple applications and packages</li>
+<li><strong>Modern Frontend</strong>: React 19 + Next.js 15 con role-based routing</li>
+<li><strong>Edge Backend</strong>: Hono API + Cloudflare Workers microservices</li>
+<li><strong>Database</strong>: Drizzle ORM + Better Auth + Turso/LibSQL edge-compatible</li>
+<li><strong>Authentication</strong>: GitHub OAuth + email with multi-role support</li>
+<li><strong>Monitoring</strong>: Sentry error tracking + PostHog analytics integration</li></p><p><h3 class="heading-3"><strong>Role-Based Dashboards (✅ Completed)</strong></h3>
+<li><strong>🏢 Studio Admin Dashboard</strong>: Verde theme con business KPIs (847 students, $45,230 revenue)</li>
+<li><strong>👨‍🏫 Teacher Dashboard</strong>: Azul theme con educational tools (156 students, 4.8⭐ rating)</li>
+<li><strong>💰 Salesperson Dashboard</strong>: Naranja theme con event monetization (8 events/month, $28,950 sales)</li></p><p><h3 class="heading-3"><strong>Architecture Documentation (✅ Completed)</strong></h3>
+<li><strong>4-Level Analysis</strong>: General architecture, project structure, data flows, architectural proposals</li>
+<li><strong>Database Schema</strong>: 20+ tables across 6 categories with role system</li>
+<li><strong>API Design</strong>: 100+ endpoints planned across 16 workers in 4 development phases</li>
+<li><strong>UX Research</strong>: 8 discovery sessions with realistic business model validation</li></p><p><h2 class="heading-2">Scope</h2></p><p><h3 class="heading-3"><strong>In Scope - MVP #1 (Ready for Implementation)</strong></h3>
+<li><strong>Student Discovery System</strong>: AI-powered search, map-based filters, class listings with reviews</li>
+<li><strong>Studio Management</strong>: Complete business dashboard with KPI tracking and financial management</li>
+<li><strong>Teacher Tools</strong>: Schedule management, student communication, performance tracking</li>
+<li><strong>Event Foundation</strong>: Basic event creation, QR generation, attendance tracking</li>
+<li><strong>Role System</strong>: Multi-role support with studio scoping and context-specific permissions</li></p><p><h3 class="heading-3"><strong>In Scope - MVP #2 (Future Phase)</strong></h3>
+<li><strong>QR Event System</strong> (Star Feature): Advanced QR generation, vendor assignments, sales tracking</li>
+<li><strong>WhatsApp Bot Integration</strong>: Automated customer service and booking assistance</li>
+<li><strong>Enhanced Analytics</strong>: Performance metrics, trend analysis, revenue optimization</li>
+<li><strong>Community Features</strong>: Social interactions, dance style communities, content sharing</li></p><p><h3 class="heading-3"><strong>Out of Scope</strong></h3>
+<li><strong>Integrated Payments</strong>: Simplified for legal compliance in Argentina</li>
+<li><strong>Mobile Native Apps</strong>: Web-first approach with responsive design</li>
+<li><strong>International Expansion</strong>: Initial focus on Buenos Aires market</li></p><p><h2 class="heading-2">Timeline</h2></p><p><h3 class="heading-3"><strong>Completed Phases (100%)</strong></h3>
+<p>1. <strong>Technical Foundation</strong> (✅): Authentication, infrastructure, monitoring - <em>Production deployed</em></p>
+<p>2. <strong>UX Discovery</strong> (✅): 8 sessions, business model validation - <em>$300K ARS/mes realistic target</em></p>
+<p>3. <strong>Architecture Analysis</strong> (✅): 4-level documentation, visual diagrams - <em>Complete technical specs</em></p>
+<p>4. <strong>Role System Design</strong> (✅): Multi-role architecture, permissions - <em>Enhanced Better Auth system</em></p>
+<p>5. <strong>Dashboard Design</strong> (✅): 3 complete admin interfaces - <em>Ready for React implementation</em></p><p><h3 class="heading-3"><strong>Current Phase: Technical Implementation (0% - Ready to Begin)</strong></h3></p>
+<li><strong>Duration</strong>: 8-12 weeks for MVP #1</li>
+<li><strong>Complexity</strong>: Level 4 (Complex System Implementation)</li>
+<li><strong>Scope</strong>: Database schema → API development → Dashboard implementation</li></p><p><h3 class="heading-3"><strong>Implementation Phases</strong></h3>
+<p>1. <strong>Database Schema Implementation</strong> (2-3 weeks): 20+ tables with role system</p>
+<p>2. <strong>Core API Development</strong> (4-6 weeks): Phase 1 workers (auth, studios, events)</p>
+<p>3. <strong>Dashboard Components</strong> (3-4 weeks): React implementation of designs</p>
+<p>4. <strong>Student Discovery Flow</strong> (2-3 weeks): AI search and map integration</p>
+<p>5. <strong>QR Event System</strong> (2-3 weeks): Advanced event management</p><p><h2 class="heading-2">Success Criteria</h2></p><p><h3 class="heading-3"><strong>Business Success Indicators</strong></h3></p>
+<li><strong>Revenue Growth</strong>: $175K+ ARS/month within 12 months</li>
+<li><strong>Studio Adoption</strong>: 50+ Buenos Aires studios using management dashboards</li>
+<li><strong>Student Engagement</strong>: 5,000+ active monthly users for class discovery</li>
+<li><strong>Event Volume</strong>: 100+ events managed through QR system quarterly</li></p><p><h3 class="heading-3"><strong>Technical Performance</strong></h3>
+<li><strong>API Response Times</strong>: <100ms for all endpoints</li>
+<li><strong>Dashboard Updates</strong>: Real-time KPIs updating every 30 seconds</li>
+<li><strong>Mobile Performance</strong>: <3s page load times on mobile devices</li>
+<li><strong>Uptime</strong>: 99.9% availability across all Cloudflare Workers</li></p><p><h3 class="heading-3"><strong>User Experience Success</strong></h3>
+<li><strong>Dashboard Utilization</strong>: 80%+ of studio features used weekly</li>
+<li><strong>Discovery Success Rate</strong>: 70%+ of searches result in class interest/booking</li>
+<li><strong>User Retention</strong>: 60%+ monthly active user retention rate</li>
+<li><strong>Net Promoter Score</strong>: 8+ rating from studio owners and teachers</li></p><p><h2 class="heading-2">Current Implementation Status</h2></p><p><h3 class="heading-3"><strong>Production Infrastructure (Live)</strong></h3>
+<li><strong>Frontend</strong>: `https://udance-web-app-prod.josefermoso.workers.dev`</li>
+<li><strong>API Gateway</strong>: `https://udance-api-prod.josefermoso.workers.dev`</li>
+<li><strong>Worker-Auth</strong>: `https://worker-auth-prod.josefermoso.workers.dev`</li>
+<li><strong>Performance</strong>: 33ms worker startup, <200ms API calls, 100% OAuth success rate</li></p><p><h3 class="heading-3"><strong>Complete Documentation</strong></h3>
+<li><strong>Architecture</strong>: `memory-bank/udance-architecture-comprehensive.html`</li>
+<li><strong>Dashboards</strong>: `memory-bank/udance-admin-dashboards.html`</li>
+<li><strong>UX Research</strong>: `memory-bank/ux-discovery-interactive.html`</li>
+<li><strong>Role System</strong>: `memory-bank/creative/creative-role-system-architecture.md`</li>
+<li><strong>Wireframes</strong>: `memory-bank/mvp-wireframes-interactive.html`</li></p><p><h3 class="heading-3"><strong>Implementation Readiness</strong></h3>
+<li><strong>✅ Technical Specifications</strong>: Complete architecture and API design</li>
+<li><strong>✅ Design Guidelines</strong>: Exact visual specifications for all 3 dashboards</li>
+<li><strong>✅ Business Requirements</strong>: Validated through comprehensive UX research</li>
+<li><strong>✅ Database Design</strong>: 20+ table schema with role system</li>
+<li><strong>✅ Development Foundation</strong>: Authentication and monitoring in production</li></ul></p><p><h2 class="heading-2">Competitive Advantage</h2></p><p><strong>UDance is positioned as the definitive digital infrastructure for the Buenos Aires dance community</strong>, solving fragmented discovery and studio management through:</p><p>1. <strong>Dance-Specific Architecture</strong>: Built specifically for dance workflows and terminology
+<p>2. <strong>Role-Based Optimization</strong>: Interfaces designed for each user type's specific needs</p>
+<p>3. <strong>QR Event Innovation</strong>: Unique QR-based attendance and vendor management system</p>
+<p>4. <strong>Local Market Focus</strong>: Buenos Aires-specific features, language, and business model</p>
+<p>5. <strong>Edge Computing Performance</strong>: Global sub-100ms response times via Cloudflare Workers</p><p>The project has successfully completed all planning, research, design, and architecture phases. All technical specifications, user requirements, and design mockups are production-ready for immediate implementation, positioning UDance for rapid market penetration in the Buenos Aires dance community. </p>
+        </div>
+        
+        <div class="footer">
+            <p>📚 Auto-generated from Memory Bank | 🚀 uDance Project Documentation</p>
+            <p>🔄 Synchronization: <strong>Active</strong> • 🎯 Real-time updates enabled</p>
+        </div>
+    </div>
+</body>
+</html>

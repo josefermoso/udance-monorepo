@@ -1,0 +1,1744 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arquitectura Monorepo: Next.js + Mobile Web + Supabase</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      h1 {
+        color: #38bdf8;
+        border-bottom: 3px solid #0ea5e9;
+        padding-bottom: 20px;
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 1.3em;
+        color: #94a3b8;
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+
+      h2 {
+        color: #06b6d4;
+        margin-top: 50px;
+        border-left: 6px solid #22d3ee;
+        padding-left: 25px;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
+      h3 {
+        color: #67e8f9;
+        margin-top: 35px;
+        font-size: 1.4em;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+        color: white;
+        padding: 50px;
+        border-radius: 20px;
+        margin: 40px 0;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+      }
+
+      .hero h2 {
+        margin: 0;
+        border: none;
+        color: white;
+        font-size: 2.2em;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero p {
+        font-size: 1.2em;
+        margin: 25px 0 0 0;
+        opacity: 0.95;
+      }
+
+      .architecture-diagram {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 2px solid #334155;
+        border-radius: 16px;
+        padding: 40px;
+        margin: 40px 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .folder-tree {
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        background: #0d1117;
+        color: #e6edf3;
+        padding: 35px;
+        border-radius: 16px;
+        overflow-x: auto;
+        line-height: 1.8;
+        border: 2px solid #21262d;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        font-size: 14px;
+      }
+
+      .tree-line {
+        margin: 4px 0;
+        padding: 2px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+
+      .tree-line:hover {
+        background: rgba(56, 189, 248, 0.15);
+        transform: translateX(4px);
+      }
+
+      .folder {
+        color: #ffd700;
+        font-weight: 600;
+        text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+      }
+
+      .file {
+        color: #7dd3fc;
+        font-weight: 500;
+      }
+
+      .config {
+        color: #fb7185;
+        font-weight: 500;
+      }
+
+      .comment {
+        color: #a78bfa;
+        font-style: italic;
+        opacity: 0.8;
+        font-size: 0.9em;
+      }
+
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .stack-card {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 2px solid #334155;
+        border-radius: 16px;
+        padding: 30px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stack-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+      }
+
+      .stack-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        border-color: #3b82f6;
+      }
+
+      .stack-card h4 {
+        color: #38bdf8;
+        margin: 0 0 20px 0;
+        font-size: 1.4em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .tech-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .tech-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s ease;
+      }
+
+      .tech-list li:last-child {
+        border-bottom: none;
+      }
+
+      .tech-list li:hover {
+        color: #38bdf8;
+        transform: translateX(8px);
+      }
+
+      .benefits {
+        background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+        border: 2px solid #10b981;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+      }
+
+      .benefits h3 {
+        color: #34d399;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .migration-path {
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        border: 2px solid #6366f1;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+      }
+
+      .migration-path h3 {
+        color: #a78bfa;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 25px;
+        border-radius: 12px;
+        border-left: 5px solid #3b82f6;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+      }
+
+      .timeline-number {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 25px;
+        font-weight: bold;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      }
+
+      .code-block {
+        background: #0d1117;
+        border: 2px solid #21262d;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        overflow-x: auto;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .code-block code {
+        color: #e6edf3;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .code-line {
+        display: block;
+        padding: 2px 0;
+      }
+
+      .code-keyword {
+        color: #ff7b72;
+      }
+      .code-string {
+        color: #a5d6ff;
+      }
+      .code-comment {
+        color: #8b949e;
+        font-style: italic;
+      }
+
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin: 40px 0;
+      }
+
+      .link-card {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        border: 2px solid #374151;
+        border-radius: 16px;
+        padding: 25px;
+        text-decoration: none;
+        color: #e5e7eb;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .link-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .link-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.25);
+        border-color: #3b82f6;
+      }
+
+      .link-card h4 {
+        color: #60a5fa;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .highlight {
+        background: rgba(59, 130, 246, 0.1);
+        border: 2px solid #3b82f6;
+        border-radius: 16px;
+        padding: 30px;
+        margin: 30px 0;
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+      }
+
+      .emoji {
+        font-size: 1.8em;
+        margin-right: 15px;
+      }
+
+      .cicd-section {
+        background: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
+        border: 2px solid #ea580c;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(234, 88, 12, 0.2);
+      }
+
+      .cicd-section h3 {
+        color: #fb923c;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .workflow-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+      }
+
+      .workflow-card {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 25px;
+      }
+
+      .workflow-card h4 {
+        color: #fbbf24;
+        margin: 0 0 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+          margin: 10px;
+        }
+
+        h1 {
+          font-size: 2.2em;
+        }
+
+        .folder-tree {
+          font-size: 12px;
+          padding: 20px;
+        }
+
+        .stack-grid,
+        .links-grid,
+        .workflow-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Arquitectura Monorepo Definitiva</h1>
+      <p class="subtitle">Next.js + React Native + Supabase + Turborepo</p>
+
+      <div class="hero">
+        <h2>🎯 La Arquitectura que Necesitás</h2>
+        <p>Velocidad máxima, código compartido, desarrollo paralelo web/mobile</p>
+      </div>
+
+      <div class="architecture-diagram">
+        <h2>📁 Estructura del Monorepo</h2>
+        <div class="folder-tree">
+          <div class="tree-line">udance-monorepo/</div>
+          <div class="tree-line">├── <span class="folder">apps/</span></div>
+          <div class="tree-line">
+            │ ├── <span class="folder">web/</span> <span class="comment"># Next.js 15 App</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">app/</span> <span class="comment"># App Router</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">components/</span>
+            <span class="comment"># Web-specific UI</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="config">next.config.js</span></div>
+          <div class="tree-line">│ │ └── <span class="config">package.json</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">mobile/</span>
+            <span class="comment"># React Native (Expo)</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="file">src/</span></div>
+          <div class="tree-line">
+            │ │ │ ├── <span class="file">screens/</span>
+            <span class="comment"># Mobile screens</span>
+          </div>
+          <div class="tree-line">
+            │ │ │ ├── <span class="file">navigation/</span>
+            <span class="comment"># React Navigation</span>
+          </div>
+          <div class="tree-line">
+            │ │ │ └── <span class="file">components/</span>
+            <span class="comment"># Mobile-specific UI</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="config">app.json</span> <span class="comment"># Expo config</span>
+          </div>
+          <div class="tree-line">│ │ └── <span class="config">package.json</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ └── <span class="folder">storybook/</span>
+            <span class="comment"># Design System Docs</span>
+          </div>
+          <div class="tree-line">│</div>
+          <div class="tree-line">├── <span class="folder">packages/</span></div>
+          <div class="tree-line">
+            │ ├── <span class="folder">ui/</span>
+            <span class="comment"># Shared Design System</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">components/</span>
+            <span class="comment"># React Native + Web</span>
+          </div>
+          <div class="tree-line">│ │ │ ├── <span class="file">Button/</span></div>
+          <div class="tree-line">│ │ │ ├── <span class="file">Card/</span></div>
+          <div class="tree-line">│ │ │ └── <span class="file">Input/</span></div>
+          <div class="tree-line">
+            │ │ └── <span class="file">theme/</span> <span class="comment"># Design tokens</span>
+          </div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">api-client/</span>
+            <span class="comment"># Supabase Client Wrapper</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">auth.ts</span> <span class="comment"># Auth functions</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">database.ts</span> <span class="comment"># DB queries</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">realtime.ts</span>
+            <span class="comment"># Real-time subs</span>
+          </div>
+          <div class="tree-line">
+            │ │ └── <span class="file">types.ts</span>
+            <span class="comment"># TypeScript types</span>
+          </div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">store/</span>
+            <span class="comment"># Zustand State Management</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="file">auth-store.ts</span></div>
+          <div class="tree-line">│ │ ├── <span class="file">classes-store.ts</span></div>
+          <div class="tree-line">│ │ └── <span class="file">profile-store.ts</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">utils/</span> <span class="comment"># Shared utilities</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">validation.ts</span>
+            <span class="comment"># Zod schemas</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="file">formatters.ts</span></div>
+          <div class="tree-line">│ │ └── <span class="file">constants.ts</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ └── <span class="folder">config/</span> <span class="comment"># Shared config</span>
+          </div>
+          <div class="tree-line">
+            │ ├── <span class="config">typescript/</span> <span class="comment"># TS configs</span>
+          </div>
+          <div class="tree-line">
+            │ ├── <span class="config">eslint/</span> <span class="comment"># Lint configs</span>
+          </div>
+          <div class="tree-line">
+            │ └── <span class="config">tailwind/</span>
+            <span class="comment"># Tailwind + NativeWind</span>
+          </div>
+          <div class="tree-line">│</div>
+          <div class="tree-line">
+            ├── <span class="config">turbo.json</span>
+            <span class="comment"># Turborepo config</span>
+          </div>
+          <div class="tree-line">
+            ├── <span class="config">package.json</span>
+            <span class="comment"># Root dependencies</span>
+          </div>
+          <div class="tree-line">
+            └── <span class="config">pnpm-workspace.yaml</span>
+            <span class="comment"># Workspace config</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-grid">
+        <div class="stack-card">
+          <h4>🌐 Frontend Web</h4>
+          <ul class="tech-list">
+            <li><strong>Next.js 15</strong> - App Router + Server Components</li>
+            <li><strong>React 19</strong> - Latest features</li>
+            <li><strong>TailwindCSS</strong> - Styling</li>
+            <li><strong>Framer Motion</strong> - Animations</li>
+            <li><strong>Vercel</strong> - Deployment</li>
+          </ul>
+        </div>
+
+        <div class="stack-card">
+          <h4>📱 Mobile App</h4>
+          <ul class="tech-list">
+            <li><strong>React Native</strong> - Cross-platform</li>
+            <li><strong>Expo</strong> - Development workflow</li>
+            <li><strong>NativeWind</strong> - TailwindCSS for RN</li>
+            <li><strong>React Navigation</strong> - Navigation</li>
+            <li><strong>EAS Build</strong> - Native builds</li>
+          </ul>
+        </div>
+
+        <div class="stack-card">
+          <h4>🗄️ Backend & Database</h4>
+          <ul class="tech-list">
+            <li><strong>Supabase</strong> - Backend as a Service</li>
+            <li><strong>PostgreSQL</strong> - Database</li>
+            <li><strong>Row Level Security</strong> - Auth</li>
+            <li><strong>Real-time</strong> - WebSockets</li>
+            <li><strong>Edge Functions</strong> - Server logic</li>
+          </ul>
+        </div>
+
+        <div class="stack-card">
+          <h4>🛠️ Development Tools</h4>
+          <ul class="tech-list">
+            <li><strong>Turborepo</strong> - Monorepo builds</li>
+            <li><strong>TypeScript</strong> - Type safety</li>
+            <li><strong>Zustand</strong> - State management</li>
+            <li><strong>Zod</strong> - Runtime validation</li>
+            <li><strong>Storybook</strong> - Component docs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cicd-section">
+        <h3><span class="emoji">🔄</span>CI/CD Pipeline Moderno</h3>
+
+        <div class="workflow-grid">
+          <div class="workflow-card">
+            <h4>🌊 Development Flow</h4>
+            <ul>
+              <li><strong>Feature branch</strong> → Automatic preview deploy</li>
+              <li><strong>PR opened</strong> → CI checks (lint, test, build)</li>
+              <li><strong>Merge main</strong> → Auto deploy to staging</li>
+              <li><strong>Manual prod</strong> → Deploy to production</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card">
+            <h4>🌐 Web App (Vercel)</h4>
+            <ul>
+              <li><strong>Preview:</strong> Cada PR = URL única</li>
+              <li><strong>Staging:</strong> Auto-deploy desde main</li>
+              <li><strong>Production:</strong> Manual o auto con tags</li>
+              <li><strong>Edge:</strong> Global CDN automático</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card">
+            <h4>📱 Mobile App (EAS)</h4>
+            <ul>
+              <li><strong>Development:</strong> Expo Go para testing</li>
+              <li><strong>Preview:</strong> EAS Update over-the-air</li>
+              <li><strong>Production:</strong> App Store + Google Play</li>
+              <li><strong>Hotfixes:</strong> OTA updates sin store review</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card">
+            <h4>🗄️ Database (Supabase)</h4>
+            <ul>
+              <li><strong>Migrations:</strong> SQL en Git, auto-apply</li>
+              <li><strong>Branching:</strong> DB branch per feature</li>
+              <li><strong>Staging:</strong> Separate Supabase project</li>
+              <li><strong>Backups:</strong> Point-in-time recovery</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <code>
+            <span class="code-comment"># .github/workflows/deploy.yml</span>
+            <span class="code-keyword">name:</span> <span class="code-string">Deploy</span>
+            <span class="code-keyword">on:</span>
+            <span class="code-keyword">push:</span>
+            <span class="code-keyword">branches:</span> [main]
+            <span class="code-keyword">pull_request:</span>
+            <span class="code-keyword">branches:</span> [main]
+
+            <span class="code-keyword">jobs:</span>
+            <span class="code-keyword">test:</span>
+            <span class="code-keyword">runs-on:</span> ubuntu-latest
+            <span class="code-keyword">steps:</span>
+            - <span class="code-keyword">uses:</span> actions/checkout@v4 -
+            <span class="code-keyword">uses:</span> pnpm/action-setup@v2 -
+            <span class="code-keyword">run:</span> pnpm install -
+            <span class="code-keyword">run:</span> pnpm build -
+            <span class="code-keyword">run:</span> pnpm test
+
+            <span class="code-keyword">deploy-web:</span>
+            <span class="code-keyword">needs:</span> test
+            <span class="code-keyword">if:</span> github.ref == 'refs/heads/main'
+            <span class="code-keyword">runs-on:</span> ubuntu-latest
+            <span class="code-keyword">steps:</span>
+            - <span class="code-keyword">uses:</span> vercel/action@v1
+            <span class="code-keyword">with:</span>
+            <span class="code-keyword">vercel-token:</span> ${{ secrets.VERCEL_TOKEN }}
+
+            <span class="code-keyword">deploy-mobile:</span>
+            <span class="code-keyword">needs:</span> test
+            <span class="code-keyword">if:</span> github.ref == 'refs/heads/main'
+            <span class="code-keyword">runs-on:</span> ubuntu-latest
+            <span class="code-keyword">steps:</span>
+            - <span class="code-keyword">uses:</span> expo/expo-github-action@v8 -
+            <span class="code-keyword">run:</span> eas update --auto
+          </code>
+        </div>
+      </div>
+
+      <div class="benefits">
+        <h3>⚡ Beneficios de esta Arquitectura</h3>
+        <ul>
+          <li>
+            <strong>Código Compartido:</strong> UI components, business logic, tipos entre web y
+            mobile
+          </li>
+          <li>
+            <strong>Desarrollo Paralelo:</strong> Web y mobile pueden desarrollarse simultáneamente
+          </li>
+          <li><strong>Type Safety:</strong> TypeScript end-to-end desde DB hasta UI</li>
+          <li><strong>Builds Inteligentes:</strong> Turborepo solo rebuilds lo que cambió</li>
+          <li><strong>Deployment Automático:</strong> Git push → deploy en segundos</li>
+          <li><strong>Hot Reload:</strong> Cambios instantáneos en desarrollo</li>
+          <li><strong>Una Base de Datos:</strong> Supabase para web y mobile</li>
+          <li><strong>Real-time:</strong> Updates instantáneos entre dispositivos</li>
+        </ul>
+      </div>
+
+      <div class="highlight">
+        <h3><span class="emoji">🎨</span>Design System Unificado</h3>
+        <p>Los componentes en <code>packages/ui</code> funcionan tanto en web como mobile:</p>
+        <div class="code-block">
+          <code>
+            <span class="code-comment">// packages/ui/components/Button/index.tsx</span>
+            <span class="code-keyword">import</span> { Pressable, Text }
+            <span class="code-keyword">from</span> <span class="code-string">'react-native'</span>
+            <span class="code-keyword">import</span> { styled }
+            <span class="code-keyword">from</span> <span class="code-string">'nativewind'</span>
+
+            <span class="code-keyword">const</span> StyledPressable = styled(Pressable)
+            <span class="code-keyword">const</span> StyledText = styled(Text)
+
+            <span class="code-keyword">export function</span> Button({ title, onPress, variant =
+            <span class="code-string">'primary'</span> }) {
+            <span class="code-keyword">return</span> ( &lt;StyledPressable className={`px-4 py-2
+            rounded-lg ${ variant === <span class="code-string">'primary'</span> ?
+            <span class="code-string">'bg-blue-500'</span> :
+            <span class="code-string">'bg-gray-300'</span> }`} onPress={onPress} &gt; &lt;StyledText
+            className=<span class="code-string">"text-white font-medium"</span>&gt; {title}
+            &lt;/StyledText&gt; &lt;/StyledPressable&gt; ) }
+          </code>
+        </div>
+        <p>
+          <strong>Este mismo componente funciona en Next.js y React Native sin cambios.</strong>
+        </p>
+      </div>
+
+      <div class="migration-path">
+        <h3>🗺️ Plan de Migración desde Cloudflare</h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-number">1</div>
+            <div>
+              <strong>Setup Inicial (Día 1)</strong><br />
+              Crear monorepo, configurar Turborepo, Supabase project, CI/CD pipeline
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">2</div>
+            <div>
+              <strong>Packages Base (Día 2)</strong><br />
+              API client, design system, state management, utils, configuraciones compartidas
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">3</div>
+            <div>
+              <strong>App Web (Días 3-4)</strong><br />
+              Migrar funcionalidad core, auth, dashboards principales, integrar con Vercel
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">4</div>
+            <div>
+              <strong>App Mobile (Días 5-6)</strong><br />
+              React Native + Expo, reutilizar lógica del web, configurar EAS
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">5</div>
+            <div>
+              <strong>Deploy & Testing (Día 7)</strong><br />
+              Vercel + EAS deployment, testing cross-platform, DNS switchover
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <h3><span class="emoji">⚡</span>Comandos de Desarrollo</h3>
+        <div class="code-block">
+          <code>
+            <span class="code-comment"># Desarrollo simultáneo web + mobile</span>
+            pnpm dev
+
+            <span class="code-comment"># Solo web</span>
+            pnpm dev:web
+
+            <span class="code-comment"># Solo mobile</span>
+            pnpm dev:mobile
+
+            <span class="code-comment"># Build todo</span>
+            pnpm build
+
+            <span class="code-comment"># Deploy web (automático con git push)</span>
+            git push origin main
+
+            <span class="code-comment"># Deploy mobile OTA</span>
+            pnpm deploy:mobile
+
+            <span class="code-comment"># Storybook para design system</span>
+            pnpm storybook
+          </code>
+        </div>
+      </div>
+
+      <h2>🔗 Stack y Recursos</h2>
+      <div class="links-grid">
+        <a href="https://turbo.build/repo" class="link-card" target="_blank">
+          <h4>Turborepo</h4>
+          <p>Monorepo de alta performance con builds incrementales y caching inteligente</p>
+        </a>
+
+        <a href="https://nextjs.org/docs" class="link-card" target="_blank">
+          <h4>Next.js 15</h4>
+          <p>App Router, Server Components, optimizaciones automáticas</p>
+        </a>
+
+        <a href="https://reactnative.dev/" class="link-card" target="_blank">
+          <h4>React Native</h4>
+          <p>Apps nativas iOS/Android con código compartido</p>
+        </a>
+
+        <a href="https://expo.dev/" class="link-card" target="_blank">
+          <h4>Expo</h4>
+          <p>Desarrollo, build y deploy de apps React Native</p>
+        </a>
+
+        <a href="https://supabase.com/docs" class="link-card" target="_blank">
+          <h4>Supabase</h4>
+          <p>Backend completo: DB, Auth, Real-time, Storage, Edge Functions</p>
+        </a>
+
+        <a href="https://www.nativewind.dev/" class="link-card" target="_blank">
+          <h4>NativeWind</h4>
+          <p>TailwindCSS para React Native - estilos unificados</p>
+        </a>
+
+        <a href="https://zustand-demo.pmnd.rs/" class="link-card" target="_blank">
+          <h4>Zustand</h4>
+          <p>State management simple y performante para React</p>
+        </a>
+
+        <a href="https://vercel.com/docs" class="link-card" target="_blank">
+          <h4>Vercel</h4>
+          <p>Deploy automático de Next.js con edge computing</p>
+        </a>
+      </div>
+
+      <div class="hero">
+        <h2>🚀 Resultado Final</h2>
+        <p>
+          <strong
+            >Una app web + mobile que comparte código, se deploya automáticamente,<br />
+            y te permite iterar a velocidad luz.</strong
+          ><br /><br />
+          Desarrollo en segundos, no en días.
+        </p>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px; color: #64748b">
+        <p><em>Arquitectura moderna para velocity máxima de desarrollo</em></p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arquitectura Monorepo: Next.js + Mobile Web + Supabase</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      h1 {
+        color: #38bdf8;
+        border-bottom: 3px solid #0ea5e9;
+        padding-bottom: 20px;
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 1.3em;
+        color: #94a3b8;
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+
+      h2 {
+        color: #06b6d4;
+        margin-top: 50px;
+        border-left: 6px solid #22d3ee;
+        padding-left: 25px;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+
+      h3 {
+        color: #67e8f9;
+        margin-top: 35px;
+        font-size: 1.4em;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+        color: white;
+        padding: 50px;
+        border-radius: 20px;
+        margin: 40px 0;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+      }
+
+      .hero h2 {
+        margin: 0;
+        border: none;
+        color: white;
+        font-size: 2.2em;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero p {
+        font-size: 1.2em;
+        margin: 25px 0 0 0;
+        opacity: 0.95;
+      }
+
+      .architecture-diagram {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 2px solid #334155;
+        border-radius: 16px;
+        padding: 40px;
+        margin: 40px 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .folder-tree {
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        background: #0d1117;
+        color: #e6edf3;
+        padding: 35px;
+        border-radius: 16px;
+        overflow-x: auto;
+        line-height: 1.8;
+        border: 2px solid #21262d;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        font-size: 14px;
+      }
+
+      .tree-line {
+        margin: 4px 0;
+        padding: 2px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+
+      .tree-line:hover {
+        background: rgba(56, 189, 248, 0.15);
+        transform: translateX(4px);
+      }
+
+      .folder {
+        color: #ffd700;
+        font-weight: 600;
+        text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+      }
+
+      .file {
+        color: #7dd3fc;
+        font-weight: 500;
+      }
+
+      .config {
+        color: #fb7185;
+        font-weight: 500;
+      }
+
+      .comment {
+        color: #a78bfa;
+        font-style: italic;
+        opacity: 0.8;
+        font-size: 0.9em;
+      }
+
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .stack-card {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 2px solid #334155;
+        border-radius: 16px;
+        padding: 30px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stack-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+      }
+
+      .stack-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        border-color: #3b82f6;
+      }
+
+      .stack-card h4 {
+        color: #38bdf8;
+        margin: 0 0 20px 0;
+        font-size: 1.4em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .tech-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .tech-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s ease;
+      }
+
+      .tech-list li:last-child {
+        border-bottom: none;
+      }
+
+      .tech-list li:hover {
+        color: #38bdf8;
+        transform: translateX(8px);
+      }
+
+      .benefits {
+        background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+        border: 2px solid #10b981;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+      }
+
+      .benefits h3 {
+        color: #34d399;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .migration-path {
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        border: 2px solid #6366f1;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+      }
+
+      .migration-path h3 {
+        color: #a78bfa;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 25px;
+        border-radius: 12px;
+        border-left: 5px solid #3b82f6;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+      }
+
+      .timeline-number {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 25px;
+        font-weight: bold;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      }
+
+      .code-block {
+        background: #0d1117;
+        border: 2px solid #21262d;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+        overflow-x: auto;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .code-block code {
+        color: #e6edf3;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .code-line {
+        display: block;
+        padding: 2px 0;
+      }
+
+      .code-keyword {
+        color: #ff7b72;
+      }
+      .code-string {
+        color: #a5d6ff;
+      }
+      .code-comment {
+        color: #8b949e;
+        font-style: italic;
+      }
+
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin: 40px 0;
+      }
+
+      .link-card {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        border: 2px solid #374151;
+        border-radius: 16px;
+        padding: 25px;
+        text-decoration: none;
+        color: #e5e7eb;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .link-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .link-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.25);
+        border-color: #3b82f6;
+      }
+
+      .link-card h4 {
+        color: #60a5fa;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+      }
+
+      .highlight {
+        background: rgba(59, 130, 246, 0.1);
+        border: 2px solid #3b82f6;
+        border-radius: 16px;
+        padding: 30px;
+        margin: 30px 0;
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+      }
+
+      .emoji {
+        font-size: 1.8em;
+        margin-right: 15px;
+      }
+
+      .cicd-section {
+        background: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
+        border: 2px solid #ea580c;
+        border-radius: 16px;
+        padding: 35px;
+        margin: 40px 0;
+        box-shadow: 0 10px 25px rgba(234, 88, 12, 0.2);
+      }
+
+      .cicd-section h3 {
+        color: #fb923c;
+        margin-top: 0;
+        font-size: 1.6em;
+      }
+
+      .workflow-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+      }
+
+      .workflow-card {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 25px;
+      }
+
+      .workflow-card h4 {
+        color: #fbbf24;
+        margin: 0 0 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+          margin: 10px;
+        }
+
+        h1 {
+          font-size: 2.2em;
+        }
+
+        .folder-tree {
+          font-size: 12px;
+          padding: 20px;
+        }
+
+        .stack-grid,
+        .links-grid,
+        .workflow-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Arquitectura Monorepo Definitiva</h1>
+      <p class="subtitle">Next.js + React Native + Supabase + Turborepo</p>
+
+      <div class="hero">
+        <h2>🎯 La Arquitectura que Necesitás</h2>
+        <p>Velocidad máxima, código compartido, desarrollo paralelo web/mobile</p>
+      </div>
+
+      <div class="architecture-diagram">
+        <h2>📁 Estructura del Monorepo</h2>
+        <div class="folder-tree">
+          <div class="tree-line">udance-monorepo/</div>
+          <div class="tree-line">├── <span class="folder">apps/</span></div>
+          <div class="tree-line">
+            │ ├── <span class="folder">web/</span> <span class="comment"># Next.js 15 App</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">app/</span> <span class="comment"># App Router</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">components/</span>
+            <span class="comment"># Web-specific UI</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="config">next.config.js</span></div>
+          <div class="tree-line">│ │ └── <span class="config">package.json</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">mobile/</span>
+            <span class="comment"># React Native (Expo)</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="file">src/</span></div>
+          <div class="tree-line">
+            │ │ │ ├── <span class="file">screens/</span>
+            <span class="comment"># Mobile screens</span>
+          </div>
+          <div class="tree-line">
+            │ │ │ ├── <span class="file">navigation/</span>
+            <span class="comment"># React Navigation</span>
+          </div>
+          <div class="tree-line">
+            │ │ │ └── <span class="file">components/</span>
+            <span class="comment"># Mobile-specific UI</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="config">app.json</span> <span class="comment"># Expo config</span>
+          </div>
+          <div class="tree-line">│ │ └── <span class="config">package.json</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ └── <span class="folder">storybook/</span>
+            <span class="comment"># Design System Docs</span>
+          </div>
+          <div class="tree-line">│</div>
+          <div class="tree-line">├── <span class="folder">packages/</span></div>
+          <div class="tree-line">
+            │ ├── <span class="folder">ui/</span>
+            <span class="comment"># Shared Design System</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">components/</span>
+            <span class="comment"># React Native + Web</span>
+          </div>
+          <div class="tree-line">│ │ │ ├── <span class="file">Button/</span></div>
+          <div class="tree-line">│ │ │ ├── <span class="file">Card/</span></div>
+          <div class="tree-line">│ │ │ └── <span class="file">Input/</span></div>
+          <div class="tree-line">
+            │ │ └── <span class="file">theme/</span> <span class="comment"># Design tokens</span>
+          </div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">api-client/</span>
+            <span class="comment"># Supabase Client Wrapper</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">auth.ts</span> <span class="comment"># Auth functions</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">database.ts</span> <span class="comment"># DB queries</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">realtime.ts</span>
+            <span class="comment"># Real-time subs</span>
+          </div>
+          <div class="tree-line">
+            │ │ └── <span class="file">types.ts</span>
+            <span class="comment"># TypeScript types</span>
+          </div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">store/</span>
+            <span class="comment"># Zustand State Management</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="file">auth-store.ts</span></div>
+          <div class="tree-line">│ │ ├── <span class="file">classes-store.ts</span></div>
+          <div class="tree-line">│ │ └── <span class="file">profile-store.ts</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ ├── <span class="folder">utils/</span> <span class="comment"># Shared utilities</span>
+          </div>
+          <div class="tree-line">
+            │ │ ├── <span class="file">validation.ts</span>
+            <span class="comment"># Zod schemas</span>
+          </div>
+          <div class="tree-line">│ │ ├── <span class="file">formatters.ts</span></div>
+          <div class="tree-line">│ │ └── <span class="file">constants.ts</span></div>
+          <div class="tree-line">│ │</div>
+          <div class="tree-line">
+            │ └── <span class="folder">config/</span> <span class="comment"># Shared config</span>
+          </div>
+          <div class="tree-line">
+            │ ├── <span class="config">typescript/</span> <span class="comment"># TS configs</span>
+          </div>
+          <div class="tree-line">
+            │ ├── <span class="config">eslint/</span> <span class="comment"># Lint configs</span>
+          </div>
+          <div class="tree-line">
+            │ └── <span class="config">tailwind/</span>
+            <span class="comment"># Tailwind + NativeWind</span>
+          </div>
+          <div class="tree-line">│</div>
+          <div class="tree-line">
+            ├── <span class="config">turbo.json</span>
+            <span class="comment"># Turborepo config</span>
+          </div>
+          <div class="tree-line">
+            ├── <span class="config">package.json</span>
+            <span class="comment"># Root dependencies</span>
+          </div>
+          <div class="tree-line">
+            └── <span class="config">pnpm-workspace.yaml</span>
+            <span class="comment"># Workspace config</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-grid">
+        <div class="stack-card">
+          <h4>🌐 Frontend Web</h4>
+          <ul class="tech-list">
+            <li><strong>Next.js 15</strong> - App Router + Server Components</li>
+            <li><strong>React 19</strong> - Latest features</li>
+            <li><strong>TailwindCSS</strong> - Styling</li>
+            <li><strong>Framer Motion</strong> - Animations</li>
+            <li><strong>Vercel</strong> - Deployment</li>
+          </ul>
+        </div>
+
+        <div class="stack-card">
+          <h4>📱 Mobile App</h4>
+          <ul class="tech-list">
+            <li><strong>React Native</strong> - Cross-platform</li>
+            <li><strong>Expo</strong> - Development workflow</li>
+            <li><strong>NativeWind</strong> - TailwindCSS for RN</li>
+            <li><strong>React Navigation</strong> - Navigation</li>
+            <li><strong>EAS Build</strong> - Native builds</li>
+          </ul>
+        </div>
+
+        <div class="stack-card">
+          <h4>🗄️ Backend & Database</h4>
+          <ul class="tech-list">
+            <li><strong>Supabase</strong> - Backend as a Service</li>
+            <li><strong>PostgreSQL</strong> - Database</li>
+            <li><strong>Row Level Security</strong> - Auth</li>
+            <li><strong>Real-time</strong> - WebSockets</li>
+            <li><strong>Edge Functions</strong> - Server logic</li>
+          </ul>
+        </div>
+
+        <div class="stack-card">
+          <h4>🛠️ Development Tools</h4>
+          <ul class="tech-list">
+            <li><strong>Turborepo</strong> - Monorepo builds</li>
+            <li><strong>TypeScript</strong> - Type safety</li>
+            <li><strong>Zustand</strong> - State management</li>
+            <li><strong>Zod</strong> - Runtime validation</li>
+            <li><strong>Storybook</strong> - Component docs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cicd-section">
+        <h3><span class="emoji">🔄</span>CI/CD Pipeline Moderno</h3>
+
+        <div class="workflow-grid">
+          <div class="workflow-card">
+            <h4>🌊 Development Flow</h4>
+            <ul>
+              <li><strong>Feature branch</strong> → Automatic preview deploy</li>
+              <li><strong>PR opened</strong> → CI checks (lint, test, build)</li>
+              <li><strong>Merge main</strong> → Auto deploy to staging</li>
+              <li><strong>Manual prod</strong> → Deploy to production</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card">
+            <h4>🌐 Web App (Vercel)</h4>
+            <ul>
+              <li><strong>Preview:</strong> Cada PR = URL única</li>
+              <li><strong>Staging:</strong> Auto-deploy desde main</li>
+              <li><strong>Production:</strong> Manual o auto con tags</li>
+              <li><strong>Edge:</strong> Global CDN automático</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card">
+            <h4>📱 Mobile App (EAS)</h4>
+            <ul>
+              <li><strong>Development:</strong> Expo Go para testing</li>
+              <li><strong>Preview:</strong> EAS Update over-the-air</li>
+              <li><strong>Production:</strong> App Store + Google Play</li>
+              <li><strong>Hotfixes:</strong> OTA updates sin store review</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card">
+            <h4>🗄️ Database (Supabase)</h4>
+            <ul>
+              <li><strong>Migrations:</strong> SQL en Git, auto-apply</li>
+              <li><strong>Branching:</strong> DB branch per feature</li>
+              <li><strong>Staging:</strong> Separate Supabase project</li>
+              <li><strong>Backups:</strong> Point-in-time recovery</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <code>
+            <span class="code-comment"># .github/workflows/deploy.yml</span>
+            <span class="code-keyword">name:</span> <span class="code-string">Deploy</span>
+            <span class="code-keyword">on:</span>
+            <span class="code-keyword">push:</span>
+            <span class="code-keyword">branches:</span> [main]
+            <span class="code-keyword">pull_request:</span>
+            <span class="code-keyword">branches:</span> [main]
+
+            <span class="code-keyword">jobs:</span>
+            <span class="code-keyword">test:</span>
+            <span class="code-keyword">runs-on:</span> ubuntu-latest
+            <span class="code-keyword">steps:</span>
+            - <span class="code-keyword">uses:</span> actions/checkout@v4 -
+            <span class="code-keyword">uses:</span> pnpm/action-setup@v2 -
+            <span class="code-keyword">run:</span> pnpm install -
+            <span class="code-keyword">run:</span> pnpm build -
+            <span class="code-keyword">run:</span> pnpm test
+
+            <span class="code-keyword">deploy-web:</span>
+            <span class="code-keyword">needs:</span> test
+            <span class="code-keyword">if:</span> github.ref == 'refs/heads/main'
+            <span class="code-keyword">runs-on:</span> ubuntu-latest
+            <span class="code-keyword">steps:</span>
+            - <span class="code-keyword">uses:</span> vercel/action@v1
+            <span class="code-keyword">with:</span>
+            <span class="code-keyword">vercel-token:</span> ${{ secrets.VERCEL_TOKEN }}
+
+            <span class="code-keyword">deploy-mobile:</span>
+            <span class="code-keyword">needs:</span> test
+            <span class="code-keyword">if:</span> github.ref == 'refs/heads/main'
+            <span class="code-keyword">runs-on:</span> ubuntu-latest
+            <span class="code-keyword">steps:</span>
+            - <span class="code-keyword">uses:</span> expo/expo-github-action@v8 -
+            <span class="code-keyword">run:</span> eas update --auto
+          </code>
+        </div>
+      </div>
+
+      <div class="benefits">
+        <h3>⚡ Beneficios de esta Arquitectura</h3>
+        <ul>
+          <li>
+            <strong>Código Compartido:</strong> UI components, business logic, tipos entre web y
+            mobile
+          </li>
+          <li>
+            <strong>Desarrollo Paralelo:</strong> Web y mobile pueden desarrollarse simultáneamente
+          </li>
+          <li><strong>Type Safety:</strong> TypeScript end-to-end desde DB hasta UI</li>
+          <li><strong>Builds Inteligentes:</strong> Turborepo solo rebuilds lo que cambió</li>
+          <li><strong>Deployment Automático:</strong> Git push → deploy en segundos</li>
+          <li><strong>Hot Reload:</strong> Cambios instantáneos en desarrollo</li>
+          <li><strong>Una Base de Datos:</strong> Supabase para web y mobile</li>
+          <li><strong>Real-time:</strong> Updates instantáneos entre dispositivos</li>
+        </ul>
+      </div>
+
+      <div class="highlight">
+        <h3><span class="emoji">🎨</span>Design System Unificado</h3>
+        <p>Los componentes en <code>packages/ui</code> funcionan tanto en web como mobile:</p>
+        <div class="code-block">
+          <code>
+            <span class="code-comment">// packages/ui/components/Button/index.tsx</span>
+            <span class="code-keyword">import</span> { Pressable, Text }
+            <span class="code-keyword">from</span> <span class="code-string">'react-native'</span>
+            <span class="code-keyword">import</span> { styled }
+            <span class="code-keyword">from</span> <span class="code-string">'nativewind'</span>
+
+            <span class="code-keyword">const</span> StyledPressable = styled(Pressable)
+            <span class="code-keyword">const</span> StyledText = styled(Text)
+
+            <span class="code-keyword">export function</span> Button({ title, onPress, variant =
+            <span class="code-string">'primary'</span> }) {
+            <span class="code-keyword">return</span> ( &lt;StyledPressable className={`px-4 py-2
+            rounded-lg ${ variant === <span class="code-string">'primary'</span> ?
+            <span class="code-string">'bg-blue-500'</span> :
+            <span class="code-string">'bg-gray-300'</span> }`} onPress={onPress} &gt; &lt;StyledText
+            className=<span class="code-string">"text-white font-medium"</span>&gt; {title}
+            &lt;/StyledText&gt; &lt;/StyledPressable&gt; ) }
+          </code>
+        </div>
+        <p>
+          <strong>Este mismo componente funciona en Next.js y React Native sin cambios.</strong>
+        </p>
+      </div>
+
+      <div class="migration-path">
+        <h3>🗺️ Plan de Migración desde Cloudflare</h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-number">1</div>
+            <div>
+              <strong>Setup Inicial (Día 1)</strong><br />
+              Crear monorepo, configurar Turborepo, Supabase project, CI/CD pipeline
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">2</div>
+            <div>
+              <strong>Packages Base (Día 2)</strong><br />
+              API client, design system, state management, utils, configuraciones compartidas
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">3</div>
+            <div>
+              <strong>App Web (Días 3-4)</strong><br />
+              Migrar funcionalidad core, auth, dashboards principales, integrar con Vercel
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">4</div>
+            <div>
+              <strong>App Mobile (Días 5-6)</strong><br />
+              React Native + Expo, reutilizar lógica del web, configurar EAS
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">5</div>
+            <div>
+              <strong>Deploy & Testing (Día 7)</strong><br />
+              Vercel + EAS deployment, testing cross-platform, DNS switchover
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <h3><span class="emoji">⚡</span>Comandos de Desarrollo</h3>
+        <div class="code-block">
+          <code>
+            <span class="code-comment"># Desarrollo simultáneo web + mobile</span>
+            pnpm dev
+
+            <span class="code-comment"># Solo web</span>
+            pnpm dev:web
+
+            <span class="code-comment"># Solo mobile</span>
+            pnpm dev:mobile
+
+            <span class="code-comment"># Build todo</span>
+            pnpm build
+
+            <span class="code-comment"># Deploy web (automático con git push)</span>
+            git push origin main
+
+            <span class="code-comment"># Deploy mobile OTA</span>
+            pnpm deploy:mobile
+
+            <span class="code-comment"># Storybook para design system</span>
+            pnpm storybook
+          </code>
+        </div>
+      </div>
+
+      <h2>🔗 Stack y Recursos</h2>
+      <div class="links-grid">
+        <a href="https://turbo.build/repo" class="link-card" target="_blank">
+          <h4>Turborepo</h4>
+          <p>Monorepo de alta performance con builds incrementales y caching inteligente</p>
+        </a>
+
+        <a href="https://nextjs.org/docs" class="link-card" target="_blank">
+          <h4>Next.js 15</h4>
+          <p>App Router, Server Components, optimizaciones automáticas</p>
+        </a>
+
+        <a href="https://reactnative.dev/" class="link-card" target="_blank">
+          <h4>React Native</h4>
+          <p>Apps nativas iOS/Android con código compartido</p>
+        </a>
+
+        <a href="https://expo.dev/" class="link-card" target="_blank">
+          <h4>Expo</h4>
+          <p>Desarrollo, build y deploy de apps React Native</p>
+        </a>
+
+        <a href="https://supabase.com/docs" class="link-card" target="_blank">
+          <h4>Supabase</h4>
+          <p>Backend completo: DB, Auth, Real-time, Storage, Edge Functions</p>
+        </a>
+
+        <a href="https://www.nativewind.dev/" class="link-card" target="_blank">
+          <h4>NativeWind</h4>
+          <p>TailwindCSS para React Native - estilos unificados</p>
+        </a>
+
+        <a href="https://zustand-demo.pmnd.rs/" class="link-card" target="_blank">
+          <h4>Zustand</h4>
+          <p>State management simple y performante para React</p>
+        </a>
+
+        <a href="https://vercel.com/docs" class="link-card" target="_blank">
+          <h4>Vercel</h4>
+          <p>Deploy automático de Next.js con edge computing</p>
+        </a>
+      </div>
+
+      <div class="hero">
+        <h2>🚀 Resultado Final</h2>
+        <p>
+          <strong
+            >Una app web + mobile que comparte código, se deploya automáticamente,<br />
+            y te permite iterar a velocidad luz.</strong
+          ><br /><br />
+          Desarrollo en segundos, no en días.
+        </p>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px; color: #64748b">
+        <p><em>Arquitectura moderna para velocity máxima de desarrollo</em></p>
+      </div>
+    </div>
+  </body>
+</html>

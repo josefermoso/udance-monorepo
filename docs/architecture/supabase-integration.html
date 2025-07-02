@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase Integration – Auth & Database Analysis</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      }
+      .container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #92400e;
+      }
+      h2 {
+        color: #b45309;
+        margin-top: 2rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+      }
+      .card {
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        color: #fff;
+      }
+      .pro {
+        background: #16a34a;
+      }
+      .con {
+        background: #dc2626;
+      }
+      details {
+        margin: 1rem 0;
+        background: #fffbeb;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: #b45309;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔑 Supabase Auth & Database – Evaluación para uDance</h1>
+      <p>
+        Analizamos la integración de Supabase como backend de datos y autenticación reemplazando
+        SimpleAuth + Turso.
+      </p>
+
+      <h2>Auth Flow</h2>
+      <div class="grid">
+        <div class="card">
+          <span class="badge pro">PRO</span>
+          <strong>OAuth listo para usar</strong><br />GitHub, Google, Apple, etc. con emails
+          verificados, recupero de contraseña.
+        </div>
+        <div class="card">
+          <span class="badge pro">PRO</span>
+          <strong>Row Level Security</strong><br />Políticas SQL granular directamente en Postgres.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span>
+          <strong>Vendor Lock-in</strong><br />Dependencia de API y dashboard de Supabase.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span>
+          <strong>Límite gratuito 50 k MAU</strong> luego ~0.003 USD / MAU.
+        </div>
+      </div>
+
+      <h2>Database</h2>
+      <div class="grid">
+        <div class="card">
+          <span class="badge pro">PRO</span> <strong>Postgres nativo</strong> compatible con
+          Drizzle.
+        </div>
+        <div class="card">
+          <span class="badge pro">PRO</span> <strong>Realtime</strong> websockets & row change
+          events.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span> <strong>Latencia</strong> región única (actualmente
+          us-east-1) vs Turso edge.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span>
+          <strong>Cold start de funciones serverless</strong> 250-500 ms en supabase functions.
+        </div>
+      </div>
+
+      <details>
+        <summary>🛠️ Requisitos de Migración</summary>
+        <ul>
+          <li>Exportar esquemas Drizzle a SQL → importar a Supabase.</li>
+          <li>Reescribir SimpleAuth → Supabase JWT + RLS.</li>
+          <li>Actualizar endpoints de API a supabase-js / postgrest.</li>
+          <li>Configurar policies RLS para roles Admin / Teacher / Sales / Student.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>💵 Cost Model (beta)</summary>
+        <p>
+          Starter tier: free 500 MB base, 50k auth MAU.<br />Proyectado 10k MAU + 1 GB DB ≈ 25 USD /
+          mes.
+        </p>
+      </details>
+
+      <p style="text-align: center; margin-top: 2rem">Last updated: hoy</p>
+    </div>
+  </body>
+</html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase Integration – Auth & Database Analysis</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      }
+      .container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #92400e;
+      }
+      h2 {
+        color: #b45309;
+        margin-top: 2rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+      }
+      .card {
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        color: #fff;
+      }
+      .pro {
+        background: #16a34a;
+      }
+      .con {
+        background: #dc2626;
+      }
+      details {
+        margin: 1rem 0;
+        background: #fffbeb;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: #b45309;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔑 Supabase Auth & Database – Evaluación para uDance</h1>
+      <p>
+        Analizamos la integración de Supabase como backend de datos y autenticación reemplazando
+        SimpleAuth + Turso.
+      </p>
+
+      <h2>Auth Flow</h2>
+      <div class="grid">
+        <div class="card">
+          <span class="badge pro">PRO</span>
+          <strong>OAuth listo para usar</strong><br />GitHub, Google, Apple, etc. con emails
+          verificados, recupero de contraseña.
+        </div>
+        <div class="card">
+          <span class="badge pro">PRO</span>
+          <strong>Row Level Security</strong><br />Políticas SQL granular directamente en Postgres.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span>
+          <strong>Vendor Lock-in</strong><br />Dependencia de API y dashboard de Supabase.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span>
+          <strong>Límite gratuito 50 k MAU</strong> luego ~0.003 USD / MAU.
+        </div>
+      </div>
+
+      <h2>Database</h2>
+      <div class="grid">
+        <div class="card">
+          <span class="badge pro">PRO</span> <strong>Postgres nativo</strong> compatible con
+          Drizzle.
+        </div>
+        <div class="card">
+          <span class="badge pro">PRO</span> <strong>Realtime</strong> websockets & row change
+          events.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span> <strong>Latencia</strong> región única (actualmente
+          us-east-1) vs Turso edge.
+        </div>
+        <div class="card">
+          <span class="badge con">CON</span>
+          <strong>Cold start de funciones serverless</strong> 250-500 ms en supabase functions.
+        </div>
+      </div>
+
+      <details>
+        <summary>🛠️ Requisitos de Migración</summary>
+        <ul>
+          <li>Exportar esquemas Drizzle a SQL → importar a Supabase.</li>
+          <li>Reescribir SimpleAuth → Supabase JWT + RLS.</li>
+          <li>Actualizar endpoints de API a supabase-js / postgrest.</li>
+          <li>Configurar policies RLS para roles Admin / Teacher / Sales / Student.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>💵 Cost Model (beta)</summary>
+        <p>
+          Starter tier: free 500 MB base, 50k auth MAU.<br />Proyectado 10k MAU + 1 GB DB ≈ 25 USD /
+          mes.
+        </p>
+      </details>
+
+      <p style="text-align: center; margin-top: 2rem">Last updated: hoy</p>
+    </div>
+  </body>
+</html>

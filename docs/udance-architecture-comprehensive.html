@@ -1,0 +1,2650 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UDance - Arquitectura Integral</title>
+
+    <style>
+      :root {
+        --primary: #ff3366;
+        --secondary: #4a90e2;
+        --accent: #9b59b6;
+        --success: #27ae60;
+        --warning: #f39c12;
+        --error: #e74c3c;
+        --gray-50: #f8fafc;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --gray-900: #0f172a;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        color: var(--gray-800);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        color: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .header h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        display: block;
+      }
+
+      .navigation {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .nav-btn {
+        padding: 15px 25px;
+        background: white;
+        border: 2px solid var(--gray-200);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        text-decoration: none;
+        color: var(--gray-700);
+      }
+
+      .nav-btn:hover,
+      .nav-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(255, 51, 102, 0.3);
+      }
+
+      .section {
+        display: none;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .section.active {
+        display: block;
+      }
+
+      .section h2 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .section h3 {
+        color: var(--secondary);
+        font-size: 1.8rem;
+        margin: 30px 0 20px 0;
+        border-bottom: 3px solid var(--gray-200);
+        padding-bottom: 10px;
+      }
+
+      .section h4 {
+        color: var(--accent);
+        font-size: 1.4rem;
+        margin: 25px 0 15px 0;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .card {
+        background: var(--gray-50);
+        border-radius: 15px;
+        padding: 25px;
+        border-left: 5px solid var(--primary);
+      }
+
+      .card h4 {
+        color: var(--primary);
+        margin-bottom: 15px;
+      }
+
+      .card ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .card li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .card li:last-child {
+        border-bottom: none;
+      }
+
+      .card li::before {
+        content: "→";
+        color: var(--primary);
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .highlight {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+        border-left: 5px solid var(--primary);
+      }
+
+      .tech-stack {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .tech-item {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        border: 2px solid var(--gray-200);
+        transition: all 0.3s ease;
+      }
+
+      .tech-item:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .flow-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin: 15px 0;
+      }
+
+      .flow-card h5 {
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+
+        .navigation {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .nav-btn {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🏗️ UDance Architecture</h1>
+        <p>Análisis Integral de Arquitectura - Sistema Edge-First para Plataforma de Danza</p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number">6</span>
+            <p>Secciones Documentadas</p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">17</span>
+            <p>User Flows Mapeados</p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">3</span>
+            <p>Testing Tools Stack</p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">85%+</span>
+            <p>Coverage Target</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="navigation">
+        <button class="nav-btn active" onclick="showSection('general')">
+          🌐 Arquitectura General
+        </button>
+        <button class="nav-btn" onclick="showSection('flujos')">👥 Flujos & Componentes</button>
+        <button class="nav-btn" onclick="showSection('estructura')">🏗️ Estructura Técnica</button>
+        <button class="nav-btn" onclick="showSection('datos')">📊 Datos & APIs</button>
+        <button class="nav-btn" onclick="showSection('testing')">🧪 Testing & QA</button>
+        <button class="nav-btn" onclick="showSection('roadmap')">🚀 Roadmap Arquitectural</button>
+      </div>
+
+      <!-- Section 1: Arquitectura General -->
+      <div id="general" class="section active">
+        <h2>🌐 Arquitectura General del Sistema</h2>
+
+        <div class="highlight">
+          <h4>🎯 Visión Arquitectural</h4>
+          <p>
+            UDance implementa una <strong>arquitectura distribuida edge-first</strong> basada en
+            Cloudflare Workers, optimizada para performance global y escalabilidad masiva. El
+            sistema sigue patrones de microservicios con service bindings para comunicación
+            eficiente entre workers.
+          </p>
+        </div>
+
+        <h3>🏗️ Diagrama de Sistema Completo</h3>
+        <div class="diagram-arch">
+          <div class="arch-row">
+            <div class="arch-box arch-frontend">
+              🌐<br />udance-web-app<br /><span>Next.js 15 + React 19</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box arch-api">🛡️<br />udance-api<br /><span>Hono Gateway</span></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box arch-workers">
+              <div>🧩<br />worker-auth<br /><span>Auth</span></div>
+              <div>🗄️<br />worker-db<br /><span>DB</span></div>
+              <div>🏷️<br />worker-tags<br /><span>Tags</span></div>
+            </div>
+          </div>
+          <div class="arch-row arch-external">
+            <div class="arch-box arch-ext">🔗<br />GitHub OAuth</div>
+            <div class="arch-box arch-ext">🗃️<br />Turso DB</div>
+            <div class="arch-box arch-ext">📈<br />PostHog</div>
+            <div class="arch-box arch-ext">🛑<br />Sentry</div>
+          </div>
+          <div class="arch-legend">
+            <span class="arch-frontend">Frontend</span>
+            <span class="arch-api">API Gateway</span>
+            <span class="arch-workers">Workers</span>
+            <span class="arch-ext">Servicios externos</span>
+          </div>
+        </div>
+        <style>
+          .diagram-arch {
+            margin: 40px 0;
+          }
+          .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 20px;
+          }
+          .arch-box {
+            min-width: 120px;
+            min-height: 80px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0001;
+            text-align: center;
+            padding: 12px 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          }
+          .arch-frontend {
+            border: 2px solid #4a90e2;
+            color: #4a90e2;
+          }
+          .arch-api {
+            border: 2px solid #ff3366;
+            color: #ff3366;
+          }
+          .arch-workers {
+            border: 2px solid #9b59b6;
+            color: #9b59b6;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            background: #f8f5fc;
+          }
+          .arch-workers > div {
+            border: none;
+            background: none;
+            min-width: 80px;
+            min-height: 60px;
+            font-size: 0.95rem;
+            color: #9b59b6;
+          }
+          .arch-ext {
+            border: 2px dashed #aaa;
+            color: #888;
+            background: #f7f7f7;
+            min-width: 100px;
+          }
+          .arch-arrow {
+            font-size: 2.2rem;
+            color: #bbb;
+            margin: 0 10px;
+          }
+          .arch-legend {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 10px;
+            font-size: 0.95rem;
+          }
+          .arch-legend span {
+            padding: 2px 10px;
+            border-radius: 8px;
+          }
+          .arch-legend .arch-frontend {
+            background: #e1f5fe;
+            color: #4a90e2;
+          }
+          .arch-legend .arch-api {
+            background: #ffe6ef;
+            color: #ff3366;
+          }
+          .arch-legend .arch-workers {
+            background: #f3e5f5;
+            color: #9b59b6;
+          }
+          .arch-legend .arch-ext {
+            background: #f7f7f7;
+            color: #888;
+          }
+        </style>
+
+        <h3>⚡ Service Mesh & Communication Patterns</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>🔗 Service Bindings</h4>
+            <ul>
+              <li>Worker-to-worker communication</li>
+              <li>No external HTTP calls</li>
+              <li>Type-safe interfaces</li>
+              <li>Sub-millisecond latency</li>
+              <li>Automatic load balancing</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>🌐 Edge Distribution</h4>
+            <ul>
+              <li>Global deployment (200+ locations)</li>
+              <li>Sub-100ms response times</li>
+              <li>Automatic failover</li>
+              <li>Regional data compliance</li>
+              <li>Cold start optimization</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🛡️ Security & Performance Architecture</h3>
+        <div class="security-perf-diagram">
+          <div class="layer-row">
+            <h4>🔐 Security Layers</h4>
+            <div class="layer-flow">
+              <div class="layer-box sec">
+                🔑<br />Authentication<br /><span>Better Auth + GitHub</span>
+              </div>
+              <div class="layer-arrow">→</div>
+              <div class="layer-box sec">
+                👮<br />Authorization<br /><span>Role-based Access</span>
+              </div>
+              <div class="layer-arrow">→</div>
+              <div class="layer-box sec">
+                🛡️<br />Data Protection<br /><span>Encryption + Validation</span>
+              </div>
+              <div class="layer-arrow">→</div>
+              <div class="layer-box sec">
+                ⚡<br />Rate Limiting<br /><span>DDoS Protection</span>
+              </div>
+            </div>
+          </div>
+          <div class="layer-row">
+            <h4>🚀 Performance Layers</h4>
+            <div class="layer-flow">
+              <div class="layer-box perf">🌐<br />Edge Caching<br /><span>Static Assets</span></div>
+              <div class="layer-arrow">→</div>
+              <div class="layer-box perf">
+                🔗<br />Service Bindings<br /><span>Fast Inter-service</span>
+              </div>
+              <div class="layer-arrow">→</div>
+              <div class="layer-box perf">
+                🏊<br />DB Pooling<br /><span>Connection Optimization</span>
+              </div>
+              <div class="layer-arrow">→</div>
+              <div class="layer-box perf">
+                📊<br />Monitoring<br /><span>Sentry + PostHog</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style>
+          .security-perf-diagram {
+            margin: 30px 0;
+          }
+          .layer-row {
+            margin-bottom: 30px;
+          }
+          .layer-row h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #444;
+          }
+          .layer-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+          }
+          .layer-box {
+            min-width: 140px;
+            min-height: 80px;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          }
+          .layer-box.sec {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            color: #27ae60;
+          }
+          .layer-box.perf {
+            background: #e1f5fe;
+            border: 2px solid #3498db;
+            color: #3498db;
+          }
+          .layer-arrow {
+            font-size: 1.8rem;
+            color: #ccc;
+          }
+          .layer-box span {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 5px;
+          }
+        </style>
+      </div>
+
+      <!-- Section 2: Flujos & Componentes -->
+      <div id="flujos" class="section">
+        <h2>👥 Flujos de Usuario & Mapeo Arquitectural</h2>
+
+        <div class="highlight">
+          <h4>📊 17 User Flows Identificados</h4>
+          <p>
+            Cada user flow está mapeado a componentes técnicos específicos, definiendo los
+            requerimientos arquitecturales para la implementación del MVP #1.
+          </p>
+        </div>
+
+        <h3>🎯 Flujos del Estudiante (6 objetivos)</h3>
+        <div class="grid-3">
+          <div class="flow-card">
+            <h5>🔍 Discovery & Search</h5>
+            <p>
+              <strong>Componentes:</strong> SearchEngine (worker-search), AIChat (worker-ai),
+              FilterSystem
+            </p>
+            <p><strong>APIs:</strong> /search, /ai-chat, /filters</p>
+          </div>
+          <div class="flow-card">
+            <h5>🗺️ Map & Location</h5>
+            <p>
+              <strong>Componentes:</strong> MapService (worker-maps), LocationFilter, StudioMarkers
+            </p>
+            <p><strong>APIs:</strong> /map/studios, /location/filter</p>
+          </div>
+          <div class="flow-card">
+            <h5>📋 Class Booking</h5>
+            <p>
+              <strong>Componentes:</strong> BookingEngine (worker-bookings), PaymentGateway,
+              NotificationService
+            </p>
+            <p><strong>APIs:</strong> /bookings, /payments, /notifications</p>
+          </div>
+          <div class="flow-card">
+            <h5>⭐ Reviews & Ratings</h5>
+            <p>
+              <strong>Componentes:</strong> ReviewSystem (worker-reviews), RatingEngine,
+              ModerationService
+            </p>
+            <p><strong>APIs:</strong> /reviews, /ratings, /moderation</p>
+          </div>
+          <div class="flow-card">
+            <h5>👤 Profile Management</h5>
+            <p>
+              <strong>Componentes:</strong> UserProfile (worker-users), ProgressTracker,
+              PreferencesEngine
+            </p>
+            <p><strong>APIs:</strong> /users/profile, /progress, /preferences</p>
+          </div>
+          <div class="flow-card">
+            <h5>📱 Social Features</h5>
+            <p>
+              <strong>Componentes:</strong> SocialEngine (worker-social), FriendSystem, ActivityFeed
+            </p>
+            <p><strong>APIs:</strong> /social, /friends, /activity</p>
+          </div>
+        </div>
+
+        <h3>🏢 Flujos del Estudio (4 objetivos)</h3>
+        <div class="grid-2">
+          <div class="flow-card">
+            <h5>🏠 Studio Management</h5>
+            <p>
+              <strong>Componentes:</strong> StudioDashboard (worker-studios), ClassScheduler,
+              InstructorManager
+            </p>
+            <p><strong>APIs:</strong> /studios/dashboard, /schedule, /instructors</p>
+          </div>
+          <div class="flow-card">
+            <h5>📊 Analytics & Reports</h5>
+            <p>
+              <strong>Componentes:</strong> AnalyticsEngine (worker-analytics), ReportGenerator,
+              MetricsCollector
+            </p>
+            <p><strong>APIs:</strong> /analytics, /reports, /metrics</p>
+          </div>
+          <div class="flow-card">
+            <h5>💰 Revenue Management</h5>
+            <p>
+              <strong>Componentes:</strong> RevenueTracker (worker-finance), PayoutSystem,
+              TaxCalculator
+            </p>
+            <p><strong>APIs:</strong> /finance/revenue, /payouts, /taxes</p>
+          </div>
+          <div class="flow-card">
+            <h5>📧 Communication</h5>
+            <p>
+              <strong>Componentes:</strong> NotificationCenter (worker-notifications), EmailService,
+              SMSService
+            </p>
+            <p><strong>APIs:</strong> /notifications, /email, /sms</p>
+          </div>
+        </div>
+
+        <h3>👨‍🏫 Flujos del Instructor (3 objetivos)</h3>
+        <div class="grid-3">
+          <div class="flow-card">
+            <h5>👤 Instructor Profile</h5>
+            <p>
+              <strong>Componentes:</strong> InstructorProfile (worker-instructors), SkillsManager,
+              PortfolioBuilder
+            </p>
+            <p><strong>APIs:</strong> /instructors/profile, /skills, /portfolio</p>
+          </div>
+          <div class="flow-card">
+            <h5>📅 Schedule Management</h5>
+            <p>
+              <strong>Componentes:</strong> ScheduleEngine (worker-schedule), AvailabilityTracker,
+              BookingCalendar
+            </p>
+            <p><strong>APIs:</strong> /schedule, /availability, /calendar</p>
+          </div>
+          <div class="flow-card">
+            <h5>💼 Business Tools</h5>
+            <p>
+              <strong>Componentes:</strong> BusinessDashboard (worker-business), EarningsTracker,
+              StudentManager
+            </p>
+            <p><strong>APIs:</strong> /business, /earnings, /students</p>
+          </div>
+        </div>
+
+        <h3>🎫 Flujos del Revendedor/Organizador (4 objetivos)</h3>
+        <div class="grid-2">
+          <div class="flow-card">
+            <h5>🎪 Event Creation</h5>
+            <p>
+              <strong>Componentes:</strong> EventBuilder (worker-events), MediaUploader,
+              PromotionEngine
+            </p>
+            <p><strong>APIs:</strong> /events/create, /media/upload, /promotion</p>
+          </div>
+          <div class="flow-card">
+            <h5>📱 QR Generation</h5>
+            <p>
+              <strong>Componentes:</strong> QRGenerator (worker-qr), TicketSystem, ValidationEngine
+            </p>
+            <p><strong>APIs:</strong> /qr/generate, /tickets, /validation</p>
+          </div>
+          <div class="flow-card">
+            <h5>👥 Attendee Management</h5>
+            <p>
+              <strong>Componentes:</strong> AttendeeTracker (worker-attendees), CheckInSystem,
+              ContactManager
+            </p>
+            <p><strong>APIs:</strong> /attendees, /checkin, /contacts</p>
+          </div>
+          <div class="flow-card">
+            <h5>📊 Event Analytics</h5>
+            <p>
+              <strong>Componentes:</strong> EventAnalytics (worker-analytics), SalesTracker,
+              ROICalculator
+            </p>
+            <p><strong>APIs:</strong> /events/analytics, /sales, /roi</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Estructura Técnica -->
+      <div id="estructura" class="section">
+        <h2>🏗️ Estructura Técnica del Proyecto</h2>
+
+        <div class="highlight">
+          <h4>📁 Monorepo Turborepo</h4>
+          <p>
+            El proyecto utiliza <strong>Turborepo</strong> para gestionar múltiples aplicaciones y
+            packages compartidos, optimizando builds y deployments con cache inteligente.
+          </p>
+        </div>
+
+        <h3>📦 Estructura Actual del Monorepo</h3>
+        <div class="monorepo-diagram">
+          <div class="monorepo-level">
+            <h4>🚀 Apps</h4>
+            <div class="monorepo-row">
+              <div class="monorepo-box app">
+                📱<br />udance-web-app<br /><span>Next.js 15</span>
+              </div>
+              <div class="monorepo-box app">🛡️<br />udance-api<br /><span>Hono Gateway</span></div>
+              <div class="monorepo-box app">📚<br />storybook<br /><span>Component Docs</span></div>
+            </div>
+            <div class="monorepo-row">
+              <div class="monorepo-worker-group">
+                <h5>Workers</h5>
+                <div class="monorepo-box worker">🔐<br />worker-auth</div>
+                <div class="monorepo-box worker">🗄️<br />worker-db</div>
+                <div class="monorepo-box worker">🏷️<br />worker-tags</div>
+              </div>
+            </div>
+          </div>
+          <div class="monorepo-level">
+            <h4>📦 Packages</h4>
+            <div class="monorepo-row">
+              <div class="monorepo-box pkg">🗃️<br />db<br /><span>Schema</span></div>
+              <div class="monorepo-box pkg">🎨<br />ui<br /><span>Components</span></div>
+              <div class="monorepo-box pkg">📝<br />types<br /><span>TypeScript</span></div>
+              <div class="monorepo-box pkg">🔧<br />utils<br /><span>Functions</span></div>
+            </div>
+            <div class="monorepo-row">
+              <div class="monorepo-box pkg">
+                🔗<br />service-bindings<br /><span>Communication</span>
+              </div>
+              <div class="monorepo-box pkg">
+                ⚙️<br />typescript-config<br /><span>TS Config</span>
+              </div>
+              <div class="monorepo-box pkg">🎨<br />tailwind-config<br /><span>Styling</span></div>
+            </div>
+          </div>
+        </div>
+        <style>
+          .monorepo-diagram {
+            margin: 30px 0;
+          }
+          .monorepo-level {
+            margin-bottom: 40px;
+          }
+          .monorepo-level h4 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.5rem;
+          }
+          .monorepo-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+          }
+          .monorepo-box {
+            min-width: 120px;
+            min-height: 70px;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+          }
+          .monorepo-box.app {
+            background: #e1f5fe;
+            border: 2px solid #2196f3;
+            color: #1976d2;
+          }
+          .monorepo-box.worker {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            color: #f57c00;
+          }
+          .monorepo-box.pkg {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            color: #388e3c;
+          }
+          .monorepo-worker-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          .monorepo-worker-group h5 {
+            margin-bottom: 10px;
+            color: #666;
+          }
+          .monorepo-worker-group .monorepo-row {
+            margin-bottom: 0;
+          }
+          .monorepo-box span {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 2px;
+          }
+        </style>
+
+        <h3>🔧 Stack Tecnológico</h3>
+        <div class="tech-stack">
+          <div class="tech-item">
+            <strong>Turborepo</strong><br />
+            <small>v2.4.4</small>
+          </div>
+          <div class="tech-item">
+            <strong>Next.js</strong><br />
+            <small>v15.2.1</small>
+          </div>
+          <div class="tech-item">
+            <strong>React</strong><br />
+            <small>v19.0.0</small>
+          </div>
+          <div class="tech-item">
+            <strong>Hono</strong><br />
+            <small>v4.6.15</small>
+          </div>
+          <div class="tech-item">
+            <strong>Drizzle ORM</strong><br />
+            <small>v0.38.3</small>
+          </div>
+          <div class="tech-item">
+            <strong>TypeScript</strong><br />
+            <small>v5.8.2</small>
+          </div>
+          <div class="tech-item">
+            <strong>Tailwind CSS</strong><br />
+            <small>v4</small>
+          </div>
+          <div class="tech-item">
+            <strong>Biome</strong><br />
+            <small>v1.9.4</small>
+          </div>
+          <div class="tech-item">
+            <strong>Better Auth</strong><br />
+            <small>v1.1.21</small>
+          </div>
+          <div class="tech-item">
+            <strong>Zod</strong><br />
+            <small>v3.24.1</small>
+          </div>
+          <div class="tech-item">
+            <strong>PostHog</strong><br />
+            <small>Analytics</small>
+          </div>
+          <div class="tech-item">
+            <strong>Sentry</strong><br />
+            <small>Monitoring</small>
+          </div>
+        </div>
+
+        <h3>🏗️ Build System & Deployment</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>📋 Turborepo Tasks</h4>
+            <ul>
+              <li><code>build</code> - Build all apps & packages</li>
+              <li><code>dev</code> - Development mode</li>
+              <li><code>lint</code> - Code linting</li>
+              <li><code>test</code> - Run tests</li>
+              <li><code>deploy</code> - Deploy to Cloudflare</li>
+              <li><code>storybook</code> - Component docs</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>🚀 Deployment Targets</h4>
+            <ul>
+              <li>Frontend → Cloudflare Pages</li>
+              <li>API Gateway → Cloudflare Workers</li>
+              <li>Auth Worker → Cloudflare Workers</li>
+              <li>DB Worker → Cloudflare Workers</li>
+              <li>Tags Worker → Cloudflare Workers</li>
+              <li>Storybook → Static Hosting</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>📱 Propuesta: Estructura Mobile App</h3>
+        <div class="mobile-diagram">
+          <div class="mobile-section">
+            <h4>📱 apps/udance-mobile/</h4>
+            <div class="mobile-grid">
+              <div class="mobile-box main">📱<br />src/app<br /><span>React Native App</span></div>
+              <div class="mobile-box comp">
+                🧩<br />src/components<br /><span>Mobile Components</span>
+              </div>
+              <div class="mobile-box nav">
+                🧭<br />src/navigation<br /><span>Navigation Stack</span>
+              </div>
+              <div class="mobile-box svc">
+                🔌<br />src/services<br /><span>API Integration</span>
+              </div>
+              <div class="mobile-box hook">🪝<br />src/hooks<br /><span>Custom Hooks</span></div>
+              <div class="mobile-box util">🛠️<br />src/utils<br /><span>Mobile Utils</span></div>
+            </div>
+          </div>
+          <div class="mobile-section">
+            <h4>📦 packages/mobile-ui/</h4>
+            <div class="mobile-grid">
+              <div class="mobile-box pkg">
+                🎨<br />components/<br /><span>Shared Mobile UI</span>
+              </div>
+              <div class="mobile-box pkg">🎭<br />themes/<br /><span>Mobile Themes</span></div>
+              <div class="mobile-box pkg">🎯<br />icons/<br /><span>Mobile Icons</span></div>
+            </div>
+          </div>
+        </div>
+        <style>
+          .mobile-diagram {
+            margin: 30px 0;
+          }
+          .mobile-section {
+            margin-bottom: 30px;
+          }
+          .mobile-section h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+          }
+          .mobile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            justify-items: center;
+          }
+          .mobile-box {
+            min-width: 120px;
+            min-height: 70px;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+          }
+          .mobile-box.main {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            color: #388e3c;
+          }
+          .mobile-box.comp {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            color: #f57c00;
+          }
+          .mobile-box.nav {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            color: #7b1fa2;
+          }
+          .mobile-box.svc {
+            background: #e1f5fe;
+            border: 2px solid #2196f3;
+            color: #1976d2;
+          }
+          .mobile-box.hook {
+            background: #fce4ec;
+            border: 2px solid #e91e63;
+            color: #c2185b;
+          }
+          .mobile-box.util {
+            background: #e0f2f1;
+            border: 2px solid #009688;
+            color: #00695c;
+          }
+          .mobile-box.pkg {
+            background: #f1f8e9;
+            border: 2px solid #8bc34a;
+            color: #689f38;
+          }
+          .mobile-box span {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 2px;
+          }
+        </style>
+      </div>
+
+      <!-- Section 4: Datos & APIs -->
+      <div id="datos" class="section">
+        <h2>📊 Arquitectura de Datos & APIs</h2>
+
+        <div class="highlight">
+          <h4>🗄️ Database-First Approach</h4>
+          <p>
+            Diseño centrado en <strong>Drizzle ORM + Turso/LibSQL</strong> para máxima
+            compatibilidad edge y type safety end-to-end.
+          </p>
+        </div>
+
+        <h3>🗄️ Database Schema Completo</h3>
+        <div class="db-schema-complete">
+          <div class="db-section">
+            <h4>👥 Usuarios & Autenticación</h4>
+            <div class="db-entities">
+              <div class="db-entity auth">
+                👤<br />USERS<br /><span>id, name, email, image</span>
+              </div>
+              <div class="db-entity auth">
+                🔑<br />SESSIONS<br /><span>sessionToken, userId, expires</span>
+              </div>
+              <div class="db-entity auth">
+                🔐<br />ACCOUNTS<br /><span>OAuth & provider data</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="db-section">
+            <h4>💃 Bailarines & Habilidades</h4>
+            <div class="db-entities">
+              <div class="db-entity core">
+                👨‍🎤<br />DANCERS<br /><span>name, description, instagram</span>
+              </div>
+              <div class="db-entity core">
+                🎭<br />DANCE_TYPES<br /><span>salsa, bachata, hip-hop</span>
+              </div>
+              <div class="db-entity core">
+                📊<br />LEVELS<br /><span>beginner, intermediate, advanced</span>
+              </div>
+              <div class="db-entity link">
+                🔗<br />DANCER_SKILLS<br /><span>dancer + dance_type + level</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="db-section">
+            <h4>🏫 Escuelas & Salas</h4>
+            <div class="db-entities">
+              <div class="db-entity venue">
+                🏢<br />SCHOOLS<br /><span>name, address, contact</span>
+              </div>
+              <div class="db-entity venue">
+                🚪<br />ROOMS<br /><span>name, capacity, school_id</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="db-section">
+            <h4>📚 Clases & Enseñanza</h4>
+            <div class="db-entities">
+              <div class="db-entity class">
+                📖<br />CLASSES<br /><span>date, time, duration, recurring</span>
+              </div>
+              <div class="db-entity link">
+                👨‍🏫<br />CLASS_TEACHERS<br /><span>class + dancer (many-to-many)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="db-section">
+            <h4>🎪 Eventos & Organizadores</h4>
+            <div class="db-entities">
+              <div class="db-entity event">
+                🎭<br />EVENT_TYPES<br /><span>workshop, social, competition</span>
+              </div>
+              <div class="db-entity event">
+                🎪<br />EVENTS<br /><span>name, dates, location</span>
+              </div>
+              <div class="db-entity event">
+                👥<br />ORGANIZERS<br /><span>name, contact, description</span>
+              </div>
+              <div class="db-entity link">
+                🤝<br />EVENT_ORGANIZERS<br /><span>event + organizer</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="db-section">
+            <h4>📰 Contenido & Tagging</h4>
+            <div class="db-entities">
+              <div class="db-entity content">
+                📰<br />NEWS<br /><span>title, content, author, date</span>
+              </div>
+              <div class="db-entity content">
+                🏆<br />COMPETITIONS<br /><span>title, date</span>
+              </div>
+              <div class="db-entity tag">🏷️<br />TAGS<br /><span>name, description</span></div>
+              <div class="db-entity tag">
+                🔖<br />TAGGINGS<br /><span>polymorphic tagging</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="db-section">
+            <h4>📱 Futuras Extensiones</h4>
+            <div class="db-entities">
+              <div class="db-entity future">
+                📅<br />BOOKINGS<br /><span>user + class reservations</span>
+              </div>
+              <div class="db-entity future">
+                ⭐<br />REVIEWS<br /><span>ratings & comments</span>
+              </div>
+              <div class="db-entity future">
+                💳<br />PAYMENTS<br /><span>transaction history</span>
+              </div>
+              <div class="db-entity future">
+                📱<br />QR_CODES<br /><span>event check-in codes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style>
+          .db-schema-complete {
+            margin: 30px 0;
+          }
+          .db-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+          }
+          .db-section h4 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+          }
+          .db-entities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+          }
+          .db-entity {
+            min-width: 140px;
+            min-height: 80px;
+            border-radius: 8px;
+            text-align: center;
+            padding: 10px 6px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+          }
+          .db-entity.auth {
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+            color: #1976d2;
+          }
+          .db-entity.core {
+            background: #e8f5e8;
+            border: 2px solid #388e3c;
+            color: #388e3c;
+          }
+          .db-entity.venue {
+            background: #fff3e0;
+            border: 2px solid #f57c00;
+            color: #f57c00;
+          }
+          .db-entity.class {
+            background: #f3e5f5;
+            border: 2px solid #7b1fa2;
+            color: #7b1fa2;
+          }
+          .db-entity.event {
+            background: #fce4ec;
+            border: 2px solid #c2185b;
+            color: #c2185b;
+          }
+          .db-entity.content {
+            background: #e0f2f1;
+            border: 2px solid #00695c;
+            color: #00695c;
+          }
+          .db-entity.tag {
+            background: #fff8e1;
+            border: 2px solid #f57f17;
+            color: #f57f17;
+          }
+          .db-entity.link {
+            background: #f1f8e9;
+            border: 2px dashed #689f38;
+            color: #689f38;
+          }
+          .db-entity.future {
+            background: #fafafa;
+            border: 2px dashed #9e9e9e;
+            color: #616161;
+          }
+          .db-entity span {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 3px;
+            line-height: 1.2;
+          }
+        </style>
+
+        <h3>🔌 API Architecture Patterns</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>🚪 Gateway Pattern</h4>
+            <ul>
+              <li>Single entry point (udance-api)</li>
+              <li>Request routing to workers</li>
+              <li>Authentication middleware</li>
+              <li>Rate limiting & CORS</li>
+              <li>OpenAPI documentation</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>🔗 Service Bindings</h4>
+            <ul>
+              <li>Worker-to-worker calls</li>
+              <li>Type-safe interfaces</li>
+              <li>No external HTTP overhead</li>
+              <li>Automatic load balancing</li>
+              <li>Error propagation</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>✅ Validation Layer</h4>
+            <ul>
+              <li>Zod schema validation</li>
+              <li>Request/response typing</li>
+              <li>Data sanitization</li>
+              <li>Error standardization</li>
+              <li>OpenAPI generation</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>📡 API Endpoints Completos por Worker</h3>
+
+        <div class="api-workers-complete">
+          <div class="api-phase">
+            <h4>🚀 Fase 1 - MVP Base (Actual)</h4>
+            <div class="api-grid">
+              <div class="api-card implemented">
+                <h5>🔐 worker-auth</h5>
+                <ul>
+                  <li><code>POST /auth/login</code> - Usuario login</li>
+                  <li><code>POST /auth/logout</code> - Usuario logout</li>
+                  <li><code>GET /auth/me</code> - Perfil actual</li>
+                  <li><code>GET /auth/oauth/github</code> - OAuth GitHub</li>
+                  <li><code>POST /auth/refresh</code> - Refresh token</li>
+                  <li><code>GET /auth/sessions</code> - Sesiones activas</li>
+                </ul>
+              </div>
+
+              <div class="api-card implemented">
+                <h5>🗄️ worker-db</h5>
+                <ul>
+                  <li><code>GET /health</code> - Health check</li>
+                  <li><code>POST /query</code> - Execute query</li>
+                  <li><code>POST /migrate</code> - Run migrations</li>
+                  <li><code>GET /schema</code> - DB schema info</li>
+                  <li><code>POST /seed</code> - Seed database</li>
+                  <li><code>GET /stats</code> - DB statistics</li>
+                </ul>
+              </div>
+
+              <div class="api-card implemented">
+                <h5>🏷️ worker-tags</h5>
+                <ul>
+                  <li><code>GET /tags</code> - Listar tags</li>
+                  <li><code>POST /tags</code> - Crear tag</li>
+                  <li><code>PUT /tags/:id</code> - Actualizar tag</li>
+                  <li><code>DELETE /tags/:id</code> - Eliminar tag</li>
+                  <li><code>GET /tags/categories</code> - Categorías</li>
+                  <li><code>POST /tags/bulk</code> - Operaciones bulk</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="api-phase">
+            <h4>🎯 Fase 2 - Core Features</h4>
+            <div class="api-grid">
+              <div class="api-card planned">
+                <h5>👥 worker-users</h5>
+                <ul>
+                  <li><code>GET /users/profile</code> - Perfil usuario</li>
+                  <li><code>PUT /users/profile</code> - Actualizar perfil</li>
+                  <li><code>GET /users/preferences</code> - Preferencias</li>
+                  <li><code>PUT /users/preferences</code> - Guardar preferencias</li>
+                  <li><code>GET /users/activity</code> - Historial actividad</li>
+                  <li><code>POST /users/avatar</code> - Subir avatar</li>
+                </ul>
+              </div>
+
+              <div class="api-card planned">
+                <h5>🏫 worker-studios</h5>
+                <ul>
+                  <li><code>GET /studios</code> - Listar estudios</li>
+                  <li><code>GET /studios/:id</code> - Detalle estudio</li>
+                  <li><code>POST /studios</code> - Crear estudio</li>
+                  <li><code>PUT /studios/:id</code> - Actualizar estudio</li>
+                  <li><code>GET /studios/:id/rooms</code> - Salas del estudio</li>
+                  <li><code>GET /studios/search</code> - Búsqueda por ubicación</li>
+                </ul>
+              </div>
+
+              <div class="api-card planned">
+                <h5>💃 worker-dancers</h5>
+                <ul>
+                  <li><code>GET /dancers</code> - Listar bailarines</li>
+                  <li><code>GET /dancers/:id</code> - Detalle bailarín</li>
+                  <li><code>POST /dancers</code> - Crear perfil bailarín</li>
+                  <li><code>PUT /dancers/:id</code> - Actualizar bailarín</li>
+                  <li><code>GET /dancers/:id/skills</code> - Habilidades</li>
+                  <li><code>POST /dancers/:id/skills</code> - Agregar habilidad</li>
+                </ul>
+              </div>
+
+              <div class="api-card planned">
+                <h5>📚 worker-classes</h5>
+                <ul>
+                  <li><code>GET /classes</code> - Listar clases</li>
+                  <li><code>GET /classes/:id</code> - Detalle clase</li>
+                  <li><code>POST /classes</code> - Crear clase</li>
+                  <li><code>PUT /classes/:id</code> - Actualizar clase</li>
+                  <li><code>GET /classes/schedule</code> - Horarios disponibles</li>
+                  <li><code>GET /classes/search</code> - Búsqueda avanzada</li>
+                </ul>
+              </div>
+
+              <div class="api-card planned">
+                <h5>🎪 worker-events</h5>
+                <ul>
+                  <li><code>GET /events</code> - Listar eventos</li>
+                  <li><code>GET /events/:id</code> - Detalle evento</li>
+                  <li><code>POST /events</code> - Crear evento</li>
+                  <li><code>PUT /events/:id</code> - Actualizar evento</li>
+                  <li><code>POST /events/:id/qr</code> - Generar QR</li>
+                  <li><code>POST /events/:id/checkin</code> - Check-in con QR</li>
+                </ul>
+              </div>
+
+              <div class="api-card planned">
+                <h5>📰 worker-news</h5>
+                <ul>
+                  <li><code>GET /news</code> - Listar noticias</li>
+                  <li><code>GET /news/:id</code> - Detalle noticia</li>
+                  <li><code>POST /news</code> - Crear noticia</li>
+                  <li><code>PUT /news/:id</code> - Actualizar noticia</li>
+                  <li><code>DELETE /news/:id</code> - Eliminar noticia</li>
+                  <li><code>GET /news/featured</code> - Noticias destacadas</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="api-phase">
+            <h4>📱 Fase 3 - Advanced Features</h4>
+            <div class="api-grid">
+              <div class="api-card future">
+                <h5>📅 worker-bookings</h5>
+                <ul>
+                  <li><code>GET /bookings</code> - Mis reservas</li>
+                  <li><code>POST /bookings</code> - Hacer reserva</li>
+                  <li><code>PUT /bookings/:id</code> - Modificar reserva</li>
+                  <li><code>DELETE /bookings/:id</code> - Cancelar reserva</li>
+                  <li><code>GET /bookings/history</code> - Historial</li>
+                  <li><code>POST /bookings/bulk</code> - Reservas masivas</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>🔔 worker-notifications</h5>
+                <ul>
+                  <li><code>GET /notifications</code> - Mis notificaciones</li>
+                  <li><code>POST /notifications/send</code> - Enviar notificación</li>
+                  <li><code>PUT /notifications/:id/read</code> - Marcar leída</li>
+                  <li><code>GET /notifications/settings</code> - Configuración</li>
+                  <li><code>PUT /notifications/settings</code> - Actualizar config</li>
+                  <li><code>POST /notifications/bulk</code> - Envío masivo</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>📱 worker-qr</h5>
+                <ul>
+                  <li><code>POST /qr/generate</code> - Generar QR code</li>
+                  <li><code>POST /qr/validate</code> - Validar QR code</li>
+                  <li><code>GET /qr/:id</code> - Info del QR</li>
+                  <li><code>POST /qr/batch</code> - QRs en lote</li>
+                  <li><code>GET /qr/analytics</code> - Analytics de uso</li>
+                  <li><code>PUT /qr/:id/expire</code> - Expirar QR</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>💬 worker-whatsapp</h5>
+                <ul>
+                  <li><code>POST /whatsapp/send</code> - Enviar mensaje</li>
+                  <li><code>POST /whatsapp/webhook</code> - Webhook entrada</li>
+                  <li><code>GET /whatsapp/chats</code> - Lista de chats</li>
+                  <li><code>GET /whatsapp/templates</code> - Plantillas</li>
+                  <li><code>POST /whatsapp/broadcast</code> - Difusión</li>
+                  <li><code>GET /whatsapp/analytics</code> - Métricas</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>🔍 worker-search</h5>
+                <ul>
+                  <li><code>GET /search/global</code> - Búsqueda global</li>
+                  <li><code>GET /search/classes</code> - Buscar clases</li>
+                  <li><code>GET /search/events</code> - Buscar eventos</li>
+                  <li><code>GET /search/studios</code> - Buscar estudios</li>
+                  <li><code>GET /search/suggest</code> - Autocompletado</li>
+                  <li><code>POST /search/index</code> - Reindexar</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>🗺️ worker-maps</h5>
+                <ul>
+                  <li><code>GET /maps/studios</code> - Estudios en mapa</li>
+                  <li><code>GET /maps/events</code> - Eventos en mapa</li>
+                  <li><code>GET /maps/nearby</code> - Cerca de ubicación</li>
+                  <li><code>POST /maps/geocode</code> - Geocodificar dirección</li>
+                  <li><code>GET /maps/routes</code> - Calcular rutas</li>
+                  <li><code>GET /maps/areas</code> - Áreas de cobertura</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="api-phase">
+            <h4>🤖 Fase 4 - AI & Analytics</h4>
+            <div class="api-grid">
+              <div class="api-card future">
+                <h5>🤖 worker-ai</h5>
+                <ul>
+                  <li><code>POST /ai/chat</code> - Chat con IA</li>
+                  <li><code>POST /ai/recommend</code> - Recomendaciones</li>
+                  <li><code>POST /ai/analyze-dance</code> - Análisis de baile</li>
+                  <li><code>POST /ai/match-partner</code> - Emparejar bailarines</li>
+                  <li><code>GET /ai/insights</code> - Insights personalizados</li>
+                  <li><code>POST /ai/feedback</code> - Feedback de IA</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>📊 worker-analytics</h5>
+                <ul>
+                  <li><code>GET /analytics/dashboard</code> - Dashboard principal</li>
+                  <li><code>GET /analytics/users</code> - Métricas de usuarios</li>
+                  <li><code>GET /analytics/events</code> - Métricas de eventos</li>
+                  <li><code>GET /analytics/revenue</code> - Métricas de ingresos</li>
+                  <li><code>POST /analytics/track</code> - Trackear evento</li>
+                  <li><code>GET /analytics/reports</code> - Reportes personalizados</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>⭐ worker-reviews</h5>
+                <ul>
+                  <li><code>GET /reviews</code> - Listar reseñas</li>
+                  <li><code>POST /reviews</code> - Crear reseña</li>
+                  <li><code>PUT /reviews/:id</code> - Actualizar reseña</li>
+                  <li><code>DELETE /reviews/:id</code> - Eliminar reseña</li>
+                  <li><code>GET /reviews/stats</code> - Estadísticas</li>
+                  <li><code>POST /reviews/moderate</code> - Moderar reseña</li>
+                </ul>
+              </div>
+
+              <div class="api-card future">
+                <h5>💳 worker-payments</h5>
+                <ul>
+                  <li><code>POST /payments/create</code> - Crear pago</li>
+                  <li><code>GET /payments/:id</code> - Estado del pago</li>
+                  <li><code>POST /payments/webhook</code> - Webhook pagos</li>
+                  <li><code>GET /payments/history</code> - Historial pagos</li>
+                  <li><code>POST /payments/refund</code> - Procesar reembolso</li>
+                  <li><code>GET /payments/methods</code> - Métodos de pago</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .api-workers-complete {
+            margin: 30px 0;
+          }
+          .api-phase {
+            margin-bottom: 40px;
+          }
+          .api-phase h4 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--gray-200);
+            padding-bottom: 10px;
+          }
+          .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+          }
+          .api-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease;
+          }
+          .api-card h5 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+          }
+          .api-card.implemented {
+            border-color: #4caf50;
+          }
+          .api-card.implemented h5 {
+            color: #388e3c;
+            background: #e8f5e8;
+            padding: 8px 12px;
+            border-radius: 6px;
+          }
+          .api-card.planned {
+            border-color: #2196f3;
+          }
+          .api-card.planned h5 {
+            color: #1976d2;
+            background: #e3f2fd;
+            padding: 8px 12px;
+            border-radius: 6px;
+          }
+          .api-card.future {
+            border-color: #9e9e9e;
+          }
+          .api-card.future h5 {
+            color: #616161;
+            background: #f5f5f5;
+            padding: 8px 12px;
+            border-radius: 6px;
+          }
+          .api-card ul {
+            list-style: none;
+            padding: 0;
+          }
+          .api-card li {
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+          }
+          .api-card li:last-child {
+            border-bottom: none;
+          }
+          .api-card code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+          }
+          .api-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          }
+        </style>
+
+        <h3>⚡ Performance & Caching Strategy</h3>
+        <div class="caching-layers">
+          <div class="cache-flow">
+            <div class="cache-box level1">
+              🌐<br />Cloudflare Cache<br /><span>Static Assets</span>
+            </div>
+            <div class="cache-arrow">→</div>
+            <div class="cache-box level2">🔑<br />Worker KV<br /><span>Session Data</span></div>
+            <div class="cache-arrow">→</div>
+            <div class="cache-box level3">
+              ⚡<br />Durable Objects<br /><span>Real-time State</span>
+            </div>
+            <div class="cache-arrow">→</div>
+            <div class="cache-box level4">🗄️<br />Database<br /><span>Persistent Data</span></div>
+          </div>
+        </div>
+        <style>
+          .caching-layers {
+            margin: 30px 0;
+          }
+          .cache-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+          }
+          .cache-box {
+            min-width: 140px;
+            min-height: 80px;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+          }
+          .cache-box.level1 {
+            background: #e1f5fe;
+            border: 2px solid #2196f3;
+            color: #1976d2;
+          }
+          .cache-box.level2 {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            color: #388e3c;
+          }
+          .cache-box.level3 {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            color: #f57c00;
+          }
+          .cache-box.level4 {
+            background: #fce4ec;
+            border: 2px solid #e91e63;
+            color: #c2185b;
+          }
+          .cache-arrow {
+            font-size: 2rem;
+            color: #bbb;
+          }
+          .cache-box span {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 3px;
+          }
+        </style>
+      </div>
+
+      <!-- Section 5: Testing & QA Strategy -->
+      <div id="testing" class="section">
+        <h2>🧪 Testing & QA Strategy</h2>
+
+        <div class="highlight">
+          <h4>🎯 Visión de Calidad</h4>
+          <p>
+            Estrategia integral de testing que combina <strong>Playwright</strong>,
+            <strong>Storybook 19</strong> y <strong>Vitest</strong>
+            con CI/CD optimizado para tier gratuito. Enfoque en testing automatizado de
+            notificaciones, dashboards multi-rol y performance en edge computing.
+          </p>
+        </div>
+
+        <h3>🛠️ Stack de Testing Completo</h3>
+        <div class="testing-stack-diagram">
+          <div class="testing-layer">
+            <div class="testing-box e2e">
+              🎭<br />Playwright<br /><span>E2E Cross-Browser</span>
+            </div>
+            <div class="testing-arrow">→</div>
+            <div class="testing-box component">
+              📚<br />Storybook 19<br /><span>Component Testing</span>
+            </div>
+            <div class="testing-arrow">→</div>
+            <div class="testing-box unit">⚡<br />Vitest<br /><span>Unit & Integration</span></div>
+          </div>
+          <div class="testing-layer">
+            <div class="testing-box ci">🔄<br />GitHub Actions<br /><span>Free CI/CD</span></div>
+            <div class="testing-arrow">→</div>
+            <div class="testing-box coverage">
+              📊<br />Codecov<br /><span>Coverage Reports</span>
+            </div>
+            <div class="testing-arrow">→</div>
+            <div class="testing-box perf">⚡<br />Lighthouse CI<br /><span>Performance</span></div>
+          </div>
+        </div>
+
+        <style>
+          .testing-stack-diagram {
+            margin: 30px 0;
+          }
+          .testing-layer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+          }
+          .testing-box {
+            min-width: 140px;
+            min-height: 80px;
+            border-radius: 12px;
+            text-align: center;
+            padding: 15px 10px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+          }
+          .testing-box.e2e {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            color: #2e7d32;
+          }
+          .testing-box.component {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            color: #f57c00;
+          }
+          .testing-box.unit {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            color: #1565c0;
+          }
+          .testing-box.ci {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            color: #6a1b9a;
+          }
+          .testing-box.coverage {
+            background: #fce4ec;
+            border: 2px solid #e91e63;
+            color: #c2185b;
+          }
+          .testing-box.perf {
+            background: #fff8e1;
+            border: 2px solid #ffc107;
+            color: #f57f17;
+          }
+          .testing-arrow {
+            font-size: 1.5rem;
+            color: #999;
+          }
+          .testing-box span {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 3px;
+          }
+        </style>
+
+        <h3>🎯 Cobertura de Testing por Capa</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>🎭 End-to-End (Playwright)</h4>
+            <ul>
+              <li>Flujos completos de admin dashboards</li>
+              <li>Autenticación GitHub OAuth + Better Auth</li>
+              <li>Sistema de notificaciones E2E</li>
+              <li>Cross-browser (Chrome, Firefox, Safari)</li>
+              <li>Mobile responsive testing</li>
+              <li>QR generation & scanning flows</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>📚 Componentes (Storybook 19)</h4>
+            <ul>
+              <li>Stories para todos los componentes de dashboard</li>
+              <li>Visual regression testing</li>
+              <li>Accessibility (a11y) automation</li>
+              <li>Design system token validation</li>
+              <li>Interactive component documentation</li>
+              <li>Multi-theme testing (Verde/Azul/Naranja)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>⚡ Unit & Integration (Vitest)</h4>
+            <ul>
+              <li>Business logic functions (85%+ coverage)</li>
+              <li>Cloudflare Workers route testing</li>
+              <li>Database operations (Drizzle ORM)</li>
+              <li>Notification worker scheduling</li>
+              <li>Role-based permission logic</li>
+              <li>Revenue calculation algorithms</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>📧 Testing de Sistema de Notificaciones</h3>
+        <div class="notification-testing-diagram">
+          <div class="notif-test-layer">
+            <div class="notif-test-box queue">
+              📬<br />Queue Testing<br /><span>Scheduling & Batching</span>
+            </div>
+            <div class="notif-test-arrow">→</div>
+            <div class="notif-test-box delivery">
+              📮<br />Delivery Testing<br /><span>Email & Push</span>
+            </div>
+            <div class="notif-test-arrow">→</div>
+            <div class="notif-test-box engagement">
+              📊<br />Engagement Testing<br /><span>Open & Click Rates</span>
+            </div>
+          </div>
+          <div class="notif-test-layer">
+            <div class="notif-test-box templates">
+              📝<br />Template Testing<br /><span>Role-based Content</span>
+            </div>
+            <div class="notif-test-arrow">→</div>
+            <div class="notif-test-box triggers">
+              ⚡<br />Trigger Testing<br /><span>Event-based Notifications</span>
+            </div>
+            <div class="notif-test-arrow">→</div>
+            <div class="notif-test-box preferences">
+              ⚙️<br />Preference Testing<br /><span>User Controls</span>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .notification-testing-diagram {
+            margin: 30px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #dee2e6;
+          }
+          .notif-test-layer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+          }
+          .notif-test-box {
+            min-width: 120px;
+            min-height: 70px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            padding: 12px 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            border: 2px solid #6c757d;
+            color: #495057;
+          }
+          .notif-test-arrow {
+            font-size: 1.2rem;
+            color: #6c757d;
+          }
+          .notif-test-box span {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 2px;
+          }
+        </style>
+
+        <h3>🔄 Pipeline CI/CD Optimizado (Tier Gratuito)</h3>
+        <div class="ci-pipeline-diagram">
+          <div class="ci-stage">
+            <div class="ci-box validate">✅<br />Validate<br /><span>5-7 min</span></div>
+            <div class="ci-box test">🧪<br />Unit Tests<br /><span>8-12 min</span></div>
+            <div class="ci-box e2e">🎭<br />E2E Tests<br /><span>15-20 min</span></div>
+            <div class="ci-box deploy">🚀<br />Deploy<br /><span>3-5 min</span></div>
+          </div>
+          <div class="ci-total">
+            <strong>⏱️ Total: < 25 minutos (dentro del límite gratuito de GitHub Actions)</strong>
+          </div>
+        </div>
+
+        <style>
+          .ci-pipeline-diagram {
+            margin: 30px 0;
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #4caf50;
+          }
+          .ci-stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+          }
+          .ci-box {
+            min-width: 100px;
+            min-height: 70px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            padding: 12px 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            border: 2px solid #2e7d32;
+            color: #1b5e20;
+            position: relative;
+          }
+          .ci-box:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #4caf50;
+          }
+          .ci-total {
+            text-align: center;
+            color: #1b5e20;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 0 auto;
+            width: 100%;
+          }
+          .ci-box span {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 2px;
+          }
+        </style>
+
+        <h3>📊 Métricas de Calidad</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>🎯 Objetivos de Cobertura</h4>
+            <ul>
+              <li>Unit Tests: 85%+ cobertura de lógica de negocio</li>
+              <li>Integration Tests: 100% endpoints críticos</li>
+              <li>E2E Tests: 95% flujos críticos de usuario</li>
+              <li>Component Tests: 100% componentes reutilizables</li>
+              <li>Notification Tests: 100% tipos de notificación</li>
+              <li>Performance: < 100ms respuesta API, < 3s carga página</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>🚀 SLAs de Performance</h4>
+            <ul>
+              <li>Cloudflare Workers: < 50ms cold start</li>
+              <li>Database queries: < 30ms promedio</li>
+              <li>Notification delivery: < 30s alertas críticas</li>
+              <li>Dashboard load: < 2s tiempo inicial</li>
+              <li>Build time: < 25min total (CI/CD gratuito)</li>
+              <li>Test execution: < 15min suite completa</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🧪 Ejemplos de Tests Específicos</h3>
+        <div class="code-examples">
+          <h4>🏢 Testing Dashboard Studio Admin</h4>
+          <pre><code>// E2E Test - Playwright
+test('Studio Admin dashboard loads with correct KPIs', async ({ page }) => {
+  await loginAsStudioAdmin(page);
+  
+  // Verify KPIs load correctly
+  await expect(page.locator('[data-testid="student-count"]'))
+    .toContainText('847');
+  await expect(page.locator('[data-testid="monthly-revenue"]'))
+    .toContainText('$45,230');
+  await expect(page.locator('[data-testid="growth-trend"]'))
+    .toContainText('+12%');
+    
+  // Test notification center
+  await page.click('[data-testid="notification-bell"]');
+  await expect(page.locator('[data-testid="notification-count"]'))
+    .toBeVisible();
+});
+
+// Component Test - Vitest + Testing Library  
+test('RevenueCard displays ARS currency correctly', () => {
+  render(<RevenueCard revenue={45230} currency="ARS" trend={12} />);
+  
+  expect(screen.getByText('$45,230')).toBeInTheDocument();
+  expect(screen.getByText('+12%')).toHaveClass('trend-positive');
+  expect(screen.getByRole('button', { name: /ver detalles/i }))
+    .toBeEnabled();
+});</code></pre>
+
+          <h4>📧 Testing Sistema de Notificaciones</h4>
+          <pre><code>// Integration Test - Notification Worker
+test('Class reminder notifications scheduled correctly', async () => {
+  const mockClass = {
+    id: 'class-123',
+    name: 'Salsa Avanzada',
+    scheduledTime: addHours(new Date(), 2),
+    studentIds: ['student-1', 'student-2'],
+    instructorId: 'instructor-1'
+  };
+  
+  // Schedule notification
+  await notificationWorker.scheduleClassReminder(mockClass);
+  
+  // Verify queue
+  const queuedNotifications = await getNotificationQueue();
+  expect(queuedNotifications).toHaveLength(2);
+  
+  // Verify content
+  expect(queuedNotifications[0]).toMatchObject({
+    type: 'class_reminder',
+    scheduledAt: expect.any(Date),
+    templateData: {
+      className: 'Salsa Avanzada',
+      studentName: expect.any(String),
+      instructorName: expect.any(String)
+    }
+  });
+});
+
+// E2E Test - Notification Delivery
+test('User receives class reminder notification', async ({ page }) => {
+  // Setup: Create class in 2 hours
+  await createUpcomingClass({ timeFromNow: '2h' });
+  
+  // Trigger notification processing
+  await triggerScheduledNotifications();
+  
+  // Check notification appears in UI
+  await page.goto('/dashboard');
+  await expect(page.locator('[data-testid="notification-toast"]'))
+    .toContainText('Tienes una clase en 2 horas');
+});</code></pre>
+
+          <h4>🎨 Testing Componentes con Storybook</h4>
+          <pre><code>// Storybook Story
+export default {
+  title: 'Dashboard/KPICard',
+  component: KPICard,
+  parameters: {
+    layout: 'centered',
+  },
+  argTypes: {
+    theme: {
+      control: { type: 'select' },
+      options: ['studio', 'teacher', 'salesperson']
+    }
+  }
+};
+
+export const StudioAdmin = {
+  args: {
+    title: 'Estudiantes Activos',
+    value: 847,
+    trend: 12,
+    theme: 'studio',
+    subtitle: 'Este mes'
+  }
+};
+
+export const WithNotification = {
+  args: {
+    ...StudioAdmin.args,
+    hasNotification: true,
+    notificationCount: 3
+  }
+};</code></pre>
+        </div>
+
+        <style>
+          .code-examples {
+            margin: 30px 0;
+          }
+          .code-examples h4 {
+            color: var(--secondary);
+            margin: 25px 0 15px 0;
+          }
+          .code-examples pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 15px 0;
+          }
+          .code-examples code {
+            font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+          }
+        </style>
+
+        <h3>🔧 Configuración de Herramientas</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>⚡ Vitest Setup</h4>
+            <ul>
+              <li>TypeScript support nativo</li>
+              <li>Coverage con c8/istanbul</li>
+              <li>Happy DOM para testing browser</li>
+              <li>MSW para API mocking</li>
+              <li>Custom matchers para Cloudflare Workers</li>
+              <li>Parallel execution para velocidad</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>🎭 Playwright Config</h4>
+            <ul>
+              <li>Cross-browser matrix (Chrome, Firefox, Safari)</li>
+              <li>Mobile viewport testing</li>
+              <li>Screenshot comparison</li>
+              <li>Network interception para API testing</li>
+              <li>Authentication state persistence</li>
+              <li>Cloudflare Workers preview URLs</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>📚 Storybook 19 Features</h4>
+            <ul>
+              <li>React 19 compatibility</li>
+              <li>Vite builder para velocidad</li>
+              <li>Accessibility addon</li>
+              <li>Visual testing addon</li>
+              <li>Docs addon con MDX</li>
+              <li>Design tokens integration</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>💰 Optimización Tier Gratuito</h3>
+        <div class="free-tier-optimization">
+          <div class="optimization-card github">
+            <h4>🔄 GitHub Actions (2000 min/mes)</h4>
+            <ul>
+              <li><strong>Strategy</strong>: Parallel jobs con dependencias optimizadas</li>
+              <li><strong>Caching</strong>: pnpm dependencies, Playwright browsers</li>
+              <li><strong>Conditional runs</strong>: E2E solo en branch main</li>
+              <li><strong>Matrix builds</strong>: Solo combinaciones críticas</li>
+              <li><strong>Artifact storage</strong>: Solo failures y coverage</li>
+            </ul>
+          </div>
+          <div class="optimization-card codecov">
+            <h4>📊 Codecov (Gratuito Open Source)</h4>
+            <ul>
+              <li><strong>Coverage reports</strong>: Automático con GitHub integration</li>
+              <li><strong>PR comments</strong>: Diff coverage en pull requests</li>
+              <li><strong>Badge integration</strong>: README con coverage status</li>
+              <li><strong>Sunburst charts</strong>: Visualización de cobertura</li>
+            </ul>
+          </div>
+          <div class="optimization-card cloudflare">
+            <h4>⚡ Cloudflare Workers (Tier Gratuito)</h4>
+            <ul>
+              <li><strong>100,000 requests/día</strong>: Suficiente para testing</li>
+              <li><strong>Preview deployments</strong>: Cada PR con URL única</li>
+              <li><strong>Staging environment</strong>: worker-*-staging.workers.dev</li>
+              <li><strong>Edge testing</strong>: Validación en múltiples regiones</li>
+            </ul>
+          </div>
+        </div>
+
+        <style>
+          .free-tier-optimization {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 30px 0;
+          }
+          .optimization-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary);
+          }
+          .optimization-card.github {
+            border-left-color: #333;
+          }
+          .optimization-card.codecov {
+            border-left-color: #f01852;
+          }
+          .optimization-card.cloudflare {
+            border-left-color: #f38020;
+          }
+          .optimization-card h4 {
+            color: var(--gray-800);
+            margin-bottom: 15px;
+          }
+          .optimization-card ul {
+            list-style: none;
+            padding-left: 0;
+          }
+          .optimization-card li {
+            padding: 5px 0;
+            border-bottom: 1px solid #dee2e6;
+          }
+          .optimization-card li:last-child {
+            border-bottom: none;
+          }
+          .optimization-card li strong {
+            color: var(--primary);
+          }
+        </style>
+
+        <h3>🎯 Plan de Implementación Testing</h3>
+        <div class="implementation-timeline">
+          <div class="impl-phase">
+            <div class="impl-header phase1">📦 Fase 1: Foundation (1-2 semanas)</div>
+            <div class="impl-content">
+              <div class="impl-task">✅ Setup Vitest con TypeScript</div>
+              <div class="impl-task">✅ Configurar Playwright cross-browser</div>
+              <div class="impl-task">✅ Integrar Storybook 19</div>
+              <div class="impl-task">✅ GitHub Actions CI pipeline</div>
+              <div class="impl-task">✅ Codecov integration</div>
+            </div>
+          </div>
+          <div class="impl-phase">
+            <div class="impl-header phase2">🎨 Fase 2: Components (2-3 semanas)</div>
+            <div class="impl-content">
+              <div class="impl-task">📚 Stories para todos los componentes de dashboard</div>
+              <div class="impl-task">🎭 Visual regression testing</div>
+              <div class="impl-task">♿ Accessibility testing automation</div>
+              <div class="impl-task">📱 Responsive testing multi-device</div>
+            </div>
+          </div>
+          <div class="impl-phase">
+            <div class="impl-header phase3">⚡ Fase 3: Workers & APIs (2-3 semanas)</div>
+            <div class="impl-content">
+              <div class="impl-task">🔧 Cloudflare Workers testing</div>
+              <div class="impl-task">🗄️ Database integration tests</div>
+              <div class="impl-task">📧 Notification worker validation</div>
+              <div class="impl-task">🔐 Authentication flow testing</div>
+            </div>
+          </div>
+          <div class="impl-phase">
+            <div class="impl-header phase4">🔄 Fase 4: E2E & Production (3-4 semanas)</div>
+            <div class="impl-content">
+              <div class="impl-task">🎭 Complete E2E dashboard flows</div>
+              <div class="impl-task">📧 End-to-end notification testing</div>
+              <div class="impl-task">🚀 Production deployment validation</div>
+              <div class="impl-task">📊 Performance monitoring setup</div>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .implementation-timeline {
+            margin: 30px 0;
+          }
+          .impl-phase {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          }
+          .impl-header {
+            padding: 15px 20px;
+            font-weight: 600;
+            color: white;
+            font-size: 1.1rem;
+          }
+          .impl-header.phase1 {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+          }
+          .impl-header.phase2 {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+          }
+          .impl-header.phase3 {
+            background: linear-gradient(135deg, #2196f3 0%, #1565c0 100%);
+          }
+          .impl-header.phase4 {
+            background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
+          }
+          .impl-content {
+            background: white;
+            padding: 20px;
+          }
+          .impl-task {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+          }
+          .impl-task:last-child {
+            border-bottom: none;
+          }
+        </style>
+      </div>
+
+      <!-- Section 6: Roadmap Arquitectural -->
+      <div id="roadmap" class="section">
+        <h2>🚀 Roadmap Arquitectural</h2>
+
+        <div class="highlight">
+          <h4>🎯 Visión de Evolución</h4>
+          <p>
+            Roadmap estructurado para escalar de <strong>MVP #1</strong> (16 semanas) hasta
+            <strong>plataforma completa</strong> (2+ años) manteniendo arquitectura edge-first.
+          </p>
+        </div>
+
+        <h3>📅 Timeline de Implementación</h3>
+        <div class="timeline-diagram">
+          <div class="timeline-row">
+            <div class="timeline-box phase1">🚀<br />MVP #1<br /><span>Workers Base</span></div>
+            <div class="timeline-arrow">→</div>
+            <div class="timeline-box phase1">
+              🔐<br />Authentication<br /><span>OAuth + Auth</span>
+            </div>
+            <div class="timeline-arrow">→</div>
+            <div class="timeline-box phase1">🎯<br />Basic Features<br /><span>Core MVP</span></div>
+            <div class="timeline-arrow">→</div>
+            <div class="timeline-box phase1">
+              📱<br />QR System<br /><span>Event Check-in</span>
+            </div>
+          </div>
+          <div class="timeline-separator">📅 16 semanas</div>
+          <div class="timeline-row">
+            <div class="timeline-box phase2">📱<br />MVP #2<br /><span>Mobile App</span></div>
+            <div class="timeline-arrow">→</div>
+            <div class="timeline-box phase2">
+              ⚡<br />Advanced Features<br /><span>Enhanced UX</span>
+            </div>
+            <div class="timeline-arrow">→</div>
+            <div class="timeline-box phase2">
+              💬<br />WhatsApp Bot<br /><span>Communication</span>
+            </div>
+          </div>
+          <div class="timeline-separator">📅 +8 semanas</div>
+          <div class="timeline-row">
+            <div class="timeline-box phase3">🤖<br />MVP #3<br /><span>AI Integration</span></div>
+            <div class="timeline-arrow">→</div>
+            <div class="timeline-box phase3">
+              📊<br />Analytics Platform<br /><span>Business Intel</span>
+            </div>
+            <div class="timeline-arrow">→</div>
+            <div class="timeline-box phase3">
+              💳<br />Payment System<br /><span>Monetization</span>
+            </div>
+          </div>
+          <div class="timeline-separator">📅 +12 semanas</div>
+        </div>
+        <style>
+          .timeline-diagram {
+            margin: 30px 0;
+          }
+          .timeline-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+          }
+          .timeline-box {
+            min-width: 120px;
+            min-height: 70px;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+          }
+          .timeline-box.phase1 {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            color: #388e3c;
+          }
+          .timeline-box.phase2 {
+            background: #e1f5fe;
+            border: 2px solid #2196f3;
+            color: #1976d2;
+          }
+          .timeline-box.phase3 {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            color: #7b1fa2;
+          }
+          .timeline-arrow {
+            font-size: 1.5rem;
+            color: #999;
+          }
+          .timeline-separator {
+            text-align: center;
+            font-weight: bold;
+            color: #666;
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 15px auto;
+            display: inline-block;
+          }
+          .timeline-box span {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 2px;
+          }
+        </style>
+
+        <h3>🏗️ Workers a Desarrollar</h3>
+        <div class="grid-3">
+          <div class="flow-card">
+            <h5>📅 Fase 1 - MVP #1</h5>
+            <ul>
+              <li>✅ worker-auth (Completado)</li>
+              <li>✅ worker-db (Completado)</li>
+              <li>✅ worker-tags (Completado)</li>
+              <li>🔄 worker-users (En desarrollo)</li>
+              <li>⏳ worker-studios</li>
+              <li>⏳ worker-events</li>
+            </ul>
+          </div>
+          <div class="flow-card">
+            <h5>📱 Fase 2 - MVP #2</h5>
+            <ul>
+              <li>⏳ worker-bookings</li>
+              <li>⏳ worker-notifications</li>
+              <li>⏳ worker-qr</li>
+              <li>⏳ worker-whatsapp</li>
+              <li>⏳ worker-search</li>
+              <li>⏳ worker-maps</li>
+            </ul>
+          </div>
+          <div class="flow-card">
+            <h5>🤖 Fase 3 - MVP #3</h5>
+            <ul>
+              <li>⏳ worker-ai</li>
+              <li>⏳ worker-analytics</li>
+              <li>⏳ worker-payments</li>
+              <li>⏳ worker-recommendations</li>
+              <li>⏳ worker-social</li>
+              <li>⏳ worker-reviews</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>📱 Arquitectura Mobile Propuesta</h3>
+        <div class="mobile-arch-diagram">
+          <div class="mobile-arch-center">
+            <div class="mobile-arch-core">
+              📱<br />React Native App<br /><span>Cross-platform</span>
+            </div>
+          </div>
+          <div class="mobile-arch-sections">
+            <div class="mobile-arch-section">
+              <h5>🧭 Navigation</h5>
+              <div class="mobile-arch-box nav">📋<br />Tab Navigation</div>
+              <div class="mobile-arch-box nav">📚<br />Stack Navigation</div>
+              <div class="mobile-arch-box nav">☰<br />Drawer Navigation</div>
+            </div>
+            <div class="mobile-arch-section">
+              <h5>🧠 State Management</h5>
+              <div class="mobile-arch-box state">🐻<br />Zustand Store</div>
+              <div class="mobile-arch-box state">🔄<br />React Query</div>
+              <div class="mobile-arch-box state">💾<br />AsyncStorage</div>
+            </div>
+            <div class="mobile-arch-section">
+              <h5>🔧 Services</h5>
+              <div class="mobile-arch-box service">🌐<br />API Client</div>
+              <div class="mobile-arch-box service">🔔<br />Push Notifications</div>
+              <div class="mobile-arch-box service">📱<br />Offline Support</div>
+              <div class="mobile-arch-box service">📷<br />Camera/QR Scanner</div>
+            </div>
+          </div>
+        </div>
+        <style>
+          .mobile-arch-diagram {
+            margin: 30px 0;
+          }
+          .mobile-arch-center {
+            text-align: center;
+            margin-bottom: 30px;
+          }
+          .mobile-arch-core {
+            display: inline-block;
+            min-width: 200px;
+            min-height: 100px;
+            background: #e8f5e8;
+            border: 3px solid #4caf50;
+            color: #388e3c;
+            border-radius: 15px;
+            text-align: center;
+            padding: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+          }
+          .mobile-arch-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+          }
+          .mobile-arch-section {
+            text-align: center;
+          }
+          .mobile-arch-section h5 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1rem;
+          }
+          .mobile-arch-box {
+            min-width: 80px;
+            min-height: 60px;
+            border-radius: 8px;
+            text-align: center;
+            padding: 8px 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 5px;
+            font-size: 0.8rem;
+          }
+          .mobile-arch-box.nav {
+            background: #e1f5fe;
+            border: 2px solid #2196f3;
+            color: #1976d2;
+          }
+          .mobile-arch-box.state {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            color: #7b1fa2;
+          }
+          .mobile-arch-box.service {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            color: #f57c00;
+          }
+          .mobile-arch-core span {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+            display: block;
+          }
+        </style>
+
+        <h3>🔮 Innovaciones Arquitecturales Futuras</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>🤖 AI Integration</h4>
+            <ul>
+              <li>Cloudflare AI Workers</li>
+              <li>Vector database (Pinecone)</li>
+              <li>OpenAI GPT integration</li>
+              <li>Image recognition (dance moves)</li>
+              <li>Recommendation engine</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>⚡ Performance Optimizations</h4>
+            <ul>
+              <li>Durable Objects for real-time</li>
+              <li>Worker KV for caching</li>
+              <li>R2 for media storage</li>
+              <li>Stream for video content</li>
+              <li>Images for optimization</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>🌍 Global Expansion</h4>
+            <ul>
+              <li>Multi-region deployment</li>
+              <li>Localization support</li>
+              <li>Currency handling</li>
+              <li>Legal compliance</li>
+              <li>Cultural adaptation</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>📊 Advanced Analytics</h4>
+            <ul>
+              <li>Real-time dashboards</li>
+              <li>Predictive analytics</li>
+              <li>Business intelligence</li>
+              <li>A/B testing platform</li>
+              <li>Custom metrics</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🎯 Métricas de Éxito Arquitectural</h3>
+        <div class="stats-grid">
+          <div
+            class="stat-card"
+            style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); color: white"
+          >
+            <span class="stat-number">&lt;100ms</span>
+            <p>Response Time Global</p>
+          </div>
+          <div
+            class="stat-card"
+            style="background: linear-gradient(135deg, #3498db 0%, #5dade2 100%); color: white"
+          >
+            <span class="stat-number">99.9%</span>
+            <p>Uptime SLA</p>
+          </div>
+          <div
+            class="stat-card"
+            style="background: linear-gradient(135deg, #9b59b6 0%, #bb8fce 100%); color: white"
+          >
+            <span class="stat-number">1M+</span>
+            <p>Concurrent Users</p>
+          </div>
+          <div
+            class="stat-card"
+            style="background: linear-gradient(135deg, #f39c12 0%, #f7dc6f 100%); color: white"
+          >
+            <span class="stat-number">200+</span>
+            <p>Edge Locations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Navigation functionality
+      function showSection(sectionId) {
+        // Hide all sections
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => section.classList.remove("active"));
+
+        // Show selected section
+        document.getElementById(sectionId).classList.add("active");
+
+        // Update navigation buttons
+        const buttons = document.querySelectorAll(".nav-btn");
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+      }
+    </script>
+  </body>
+</html>

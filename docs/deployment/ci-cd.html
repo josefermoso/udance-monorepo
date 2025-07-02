@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CI/CD Pipeline - uDance</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: white;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        opacity: 0.9;
+        transition: opacity 0.2s;
+      }
+
+      .nav a:hover {
+        opacity: 1;
+      }
+
+      .main-content {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .pipeline-diagram {
+        margin: 3rem 0;
+        padding: 2rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        overflow-x: auto;
+      }
+
+      .pipeline-flow {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-width: 800px;
+        margin: 2rem 0;
+      }
+
+      .pipeline-stage {
+        flex: 1;
+        min-width: 150px;
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 2px solid #e5e7eb;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .pipeline-stage:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .stage-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .stage-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .stage-description {
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .pipeline-arrow {
+        width: 30px;
+        height: 2px;
+        background: #667eea;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .pipeline-arrow:after {
+        content: "";
+        position: absolute;
+        right: -6px;
+        top: -4px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid #667eea;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+
+      .quality-gates {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .gate-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        border-left: 4px solid #10b981;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .gate-card.warning {
+        border-left-color: #f59e0b;
+      }
+
+      .gate-card.error {
+        border-left-color: #ef4444;
+      }
+
+      .gate-icon {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .gate-title {
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .gate-checks {
+        list-style: none;
+      }
+
+      .gate-checks li {
+        padding: 0.3rem 0;
+        position: relative;
+        padding-left: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .gate-checks li:before {
+        position: absolute;
+        left: 0;
+        color: #10b981;
+      }
+
+      .gate-checks li.check:before {
+        content: "✅";
+      }
+      .gate-checks li.test:before {
+        content: "🧪";
+      }
+      .gate-checks li.build:before {
+        content: "🔨";
+      }
+      .gate-checks li.deploy:before {
+        content: "🚀";
+      }
+
+      .workflow-visual {
+        margin: 3rem 0;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border-radius: 12px;
+      }
+
+      .workflow-branches {
+        display: flex;
+        justify-content: space-between;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+
+      .branch-flow {
+        flex: 1;
+        min-width: 250px;
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        border: 2px solid #e5e7eb;
+      }
+
+      .branch-name {
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 1rem;
+        text-align: center;
+        padding: 0.5rem;
+        background: #f0f9ff;
+        border-radius: 4px;
+      }
+
+      .branch-steps {
+        list-style: none;
+      }
+
+      .branch-steps li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        position: relative;
+        padding-left: 2rem;
+      }
+
+      .branch-steps li:before {
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        background: #667eea;
+        color: white;
+        border-radius: 50%;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+
+      .branch-steps {
+        counter-reset: step-counter;
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin: 3rem 0;
+      }
+
+      .metric-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s ease;
+      }
+
+      .metric-card:hover {
+        border-color: #667eea;
+        transform: translateY(-2px);
+      }
+
+      .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .metric-label {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .status-indicator {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+      }
+
+      .status-success {
+        background: #10b981;
+      }
+      .status-warning {
+        background: #f59e0b;
+      }
+      .status-error {
+        background: #ef4444;
+      }
+
+      @media (max-width: 768px) {
+        .pipeline-flow {
+          flex-direction: column;
+          min-width: auto;
+        }
+
+        .pipeline-arrow {
+          transform: rotate(90deg);
+          margin: 1rem 0;
+        }
+
+        .workflow-branches {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>⚡ CI/CD Pipeline</h1>
+        <p>Automated deployment and quality assurance for uDance</p>
+      </header>
+
+      <div class="nav">
+        <a href="../index.html">← Back to Documentation Hub</a>
+      </div>
+
+      <div class="main-content">
+        <h2>Pipeline Overview</h2>
+        <p>
+          Our CI/CD pipeline ensures code quality, automated testing, and secure deployments across
+          all environments. Every change goes through rigorous quality gates before reaching
+          production.
+        </p>
+
+        <div class="pipeline-diagram">
+          <h3>Main Pipeline Flow</h3>
+          <div class="pipeline-flow">
+            <div class="pipeline-stage">
+              <div class="stage-icon">📝</div>
+              <div class="stage-title">Code Commit</div>
+              <div class="stage-description">Push to feature branch</div>
+            </div>
+
+            <div class="pipeline-arrow"></div>
+
+            <div class="pipeline-stage">
+              <div class="stage-icon">🔍</div>
+              <div class="stage-title">PR Validation</div>
+              <div class="stage-description">Lint, test, build checks</div>
+            </div>
+
+            <div class="pipeline-arrow"></div>
+
+            <div class="pipeline-stage">
+              <div class="stage-icon">🔄</div>
+              <div class="stage-title">Merge to Main</div>
+              <div class="stage-description">Auto-deploy to DEV</div>
+            </div>
+
+            <div class="pipeline-arrow"></div>
+
+            <div class="pipeline-stage">
+              <div class="stage-icon">🔍</div>
+              <div class="stage-title">QA Testing</div>
+              <div class="stage-description">Manual staging deploy</div>
+            </div>
+
+            <div class="pipeline-arrow"></div>
+
+            <div class="pipeline-stage">
+              <div class="stage-icon">🚀</div>
+              <div class="stage-title">Production</div>
+              <div class="stage-description">Manual prod deploy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quality-gates">
+          <div class="gate-card">
+            <div class="gate-icon">✅</div>
+            <div class="gate-title">Code Quality Gates</div>
+            <ul class="gate-checks">
+              <li class="check">Biome linting passes</li>
+              <li class="check">TypeScript compilation</li>
+              <li class="check">No security vulnerabilities</li>
+              <li class="check">Code coverage > 80%</li>
+              <li class="check">No duplicate code</li>
+            </ul>
+          </div>
+
+          <div class="gate-card">
+            <div class="gate-icon">🧪</div>
+            <div class="gate-title">Testing Gates</div>
+            <ul class="gate-checks">
+              <li class="test">Unit tests pass (Vitest)</li>
+              <li class="test">Integration tests pass</li>
+              <li class="test">E2E tests pass (Playwright)</li>
+              <li class="test">API contract tests</li>
+              <li class="test">Performance benchmarks</li>
+            </ul>
+          </div>
+
+          <div class="gate-card">
+            <div class="gate-icon">🔨</div>
+            <div class="gate-title">Build Gates</div>
+            <ul class="gate-checks">
+              <li class="build">Next.js build succeeds</li>
+              <li class="build">Worker builds complete</li>
+              <li class="build">Turbo build passes</li>
+              <li class="build">Bundle size analysis</li>
+              <li class="build">Assets optimization</li>
+            </ul>
+          </div>
+
+          <div class="gate-card">
+            <div class="gate-icon">🚀</div>
+            <div class="gate-title">Deployment Gates</div>
+            <ul class="gate-checks">
+              <li class="deploy">Health checks pass</li>
+              <li class="deploy">Database migrations</li>
+              <li class="deploy">Service bindings</li>
+              <li class="deploy">SSL/TLS validation</li>
+              <li class="deploy">Rollback capability</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="workflow-visual">
+          <h3>Workflow by Environment</h3>
+          <div class="workflow-branches">
+            <div class="branch-flow">
+              <div class="branch-name">🧪 Development</div>
+              <ul class="branch-steps">
+                <li>Merge to main branch</li>
+                <li>Trigger GitHub Actions</li>
+                <li>Run quality gates</li>
+                <li>Build all packages</li>
+                <li>Deploy workers parallel</li>
+                <li>Deploy frontend last</li>
+                <li>Run smoke tests</li>
+                <li>Update status badges</li>
+              </ul>
+            </div>
+
+            <div class="branch-flow">
+              <div class="branch-name">🔍 Staging</div>
+              <ul class="branch-steps">
+                <li>Manual workflow trigger</li>
+                <li>Validate prod configs</li>
+                <li>Enhanced test suite</li>
+                <li>Performance testing</li>
+                <li>Security scanning</li>
+                <li>User acceptance tests</li>
+                <li>Stakeholder review</li>
+                <li>Production readiness</li>
+              </ul>
+            </div>
+
+            <div class="branch-flow">
+              <div class="branch-name">🚀 Production</div>
+              <ul class="branch-steps">
+                <li>Manual approval required</li>
+                <li>Final security check</li>
+                <li>Blue-green deployment</li>
+                <li>Health monitoring</li>
+                <li>Traffic gradual shift</li>
+                <li>Performance metrics</li>
+                <li>Error rate monitoring</li>
+                <li>Rollback if needed</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value">< 15min</div>
+            <div class="metric-label">Average Pipeline Time</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">95%</div>
+            <div class="metric-label">Success Rate</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">50+</div>
+            <div class="metric-label">Tests per Pipeline</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">3</div>
+            <div class="metric-label">Environments</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 3rem">
+          <h3>🔄 Current Pipeline Status</h3>
+          <div style="display: grid; gap: 1rem; margin-top: 1rem">
+            <div
+              style="
+                padding: 1rem;
+                background: #f0f9ff;
+                border-radius: 8px;
+                border-left: 4px solid #0284c7;
+              "
+            >
+              <strong><span class="status-indicator status-success"></span>Development:</strong>
+              Auto-deployment active, latest main branch deployed
+            </div>
+            <div
+              style="
+                padding: 1rem;
+                background: #fefbf2;
+                border-radius: 8px;
+                border-left: 4px solid #f59e0b;
+              "
+            >
+              <strong><span class="status-indicator status-warning"></span>Staging:</strong> Ready
+              for manual deployment, awaiting QA validation
+            </div>
+            <div
+              style="
+                padding: 1rem;
+                background: #fef2f2;
+                border-radius: 8px;
+                border-left: 4px solid #ef4444;
+              "
+            >
+              <strong><span class="status-indicator status-error"></span>Production:</strong>
+              Stable, manual deployment approval required
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #e0f2fe;
+            border-radius: 8px;
+            border-left: 4px solid #0284c7;
+          "
+        >
+          <h4>🚀 Quick Actions</h4>
+          <p><strong>Development:</strong> Automatically triggered on main branch push</p>
+          <p><strong>Staging:</strong> <code>gh workflow run staging-deploy.yml</code></p>
+          <p><strong>Production:</strong> <code>gh workflow run production-deploy.yml</code></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Context - uDance Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .content {
+            margin-bottom: 2rem;
+        }
+        
+        .heading-1 { 
+            color: #667eea; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .heading-2 { 
+            color: #5a67d8; 
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .heading-3 { 
+            color: #4c51bf;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-block {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        
+        ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin: 0.5rem 0;
+        }
+        
+        p {
+            margin: 1rem 0;
+        }
+        
+        .footer {
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid #667eea;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .back-link:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #48bb78;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Documentation Hub</a>
+        
+        <div class="header">
+            <h1>Technical Context<span class="status-badge">Live</span></h1>
+            <div class="meta">
+                📝 Last updated: 6/30/2025, 1:58:20 AM | 📂 Source: ../../memory-bank/core/techContext.md
+            </div>
+        </div>
+        
+        <div class="content">
+            <h1 class="heading-1">Technical Context</h1></p><p><h2 class="heading-2">Technologies Used</h2>
+<ul><li><strong>Turborepo</strong>: Monorepo management, v2.4.4</li>
+<li><strong>Next.js</strong>: Frontend framework, v15.2.1</li>
+<li><strong>React</strong>: UI library, v19.0.0</li>
+<li><strong>Hono</strong>: Backend API framework, v4.6.15</li>
+<li><strong>Drizzle ORM</strong>: Database ORM, v0.38.3</li>
+<li><strong>Zod</strong>: Schema validation, v3.24.1</li>
+<li><strong>TypeScript</strong>: Strongly typed JavaScript, v5.8.2</li>
+<li><strong>Tailwind CSS</strong>: Utility-first CSS framework, v4</li>
+<li><strong>Biome</strong>: Linting and formatting, v1.9.4</li>
+<li><strong>Cloudflare Workers/Pages</strong>: Edge deployment</li>
+<li><strong>Cloudflare Service Bindings</strong>: Inter-worker communication</li>
+<li><strong>Hono Client (hc)</strong>: Type-safe API client generation</li>
+<li><strong>tsup</strong>: TypeScript bundler for packages</li>
+<li><strong>Vitest</strong>: Testing framework for worker services</li>
+<li><strong>PostHog</strong>: User analytics and event tracking</li>
+<li><strong>Sentry</strong>: Error monitoring and alerting</li>
+<li><strong>SimpleAuth</strong>: Custom JWT authentication system (replacing Better Auth)</li></p><p><h2 class="heading-2">CI/CD & Development Infrastructure</h2></p><p><h3 class="heading-3"><strong>GitHub Actions CI/CD Pipeline</strong> ✅ <strong>COMPLETE</strong></h3>
+<li><strong>Automated Testing</strong>: Pull request validation with lint, test, and build checks</li>
+<li><strong>Dev Deployment</strong>: Automatic deployment on main branch push to development environment</li>
+<li><strong>Manual Deployments</strong>: Secure workflow-based deployments for staging and production</li>
+<li><strong>Quality Gates</strong>: Comprehensive code quality enforcement before deployment</li>
+<li><strong>Deployment Order</strong>: Dependency-aware deployment (workers → API → frontend)</li>
+<li><strong>Environment Management</strong>: Proper separation of dev/staging/prod configurations</li>
+<li><strong>Performance</strong>: <15 minute deployment time with proper rollback capability</li></p><p><h3 class="heading-3"><strong>Development Tooling</strong> ✅ <strong>COMPLETE</strong></h3>
+<li><strong>Biome Integration</strong>: Standardized code formatting and linting across all packages</li>
+<li><strong>VSCode Configuration</strong>: Professional development environment with GitHub Copilot integration</li>
+<li><strong>Enhanced Testing</strong>: Improved Vitest configurations with TypeScript support</li>
+<li><strong>Project Organization</strong>: Cleanup of legacy components and improved package structure</li>
+<li><strong>Storybook Documentation</strong>: Complete component documentation generation</li>
+<li><strong>Dependency Management</strong>: Updated package versions and improved dependency resolution</li></p><p><h3 class="heading-3"><strong>Code Quality & Standards</strong></h3>
+<li><strong>Biome Configuration</strong>: Hierarchical configuration with package-specific overrides</li>
+<li><strong>Formatting Standards</strong>: 2-space indentation, 100-character line width, double quotes</li>
+<li><strong>Linting Rules</strong>: Strict TypeScript rules with consistent error handling</li>
+<li><strong>Import Organization</strong>: Automatic import sorting and unused import removal</li>
+<li><strong>Cross-Package Consistency</strong>: Shared configuration extending from root `biome.json`</li></p><p><h3 class="heading-3"><strong>GitHub Workflows Implemented</strong></h3>
+<pre class="code-block"><code>yaml
+<h1 class="heading-1">CI Pipeline (ci.yml)</h1>
+<li>Pull Request Validation: lint → test → build</li>
+<li>Quality Gates: All checks must pass before merge</li>
+<li>Node.js 18 with pnpm 10.8.0</li>
+<li>Comprehensive error reporting</li></p><p><h1 class="heading-1">Dev Deployment (deploy-dev.yml)  </h1>
+<li>Automatic deployment on main branch push</li>
+<li>Sequential deployment: workers → API → frontend</li>
+<li>Environment: Development with proper secrets</li></p><p><h1 class="heading-1">Staging Deployment (deploy-staging.yml)</h1>
+<li>Manual workflow trigger for staging environment</li>
+<li>Same deployment order with staging-specific configuration</li>
+<li>Manual approval for controlled deployments</li></p><p><h1 class="heading-1">Production Deployment (deploy-prod.yml)</h1>
+<li>Manual workflow trigger for production environment</li>
+<li>Maximum security with manual approval requirements</li>
+<li>Production-specific secrets and configuration</li>
+<p></code></pre></p><p><h2 class="heading-2">Authentication Stack</h2></p><p><h3 class="heading-3"><strong>SimpleAuth Implementation</strong></h3></p>
+<li><strong>JWT Generation</strong>: Custom HMAC-SHA256 implementation using Web Crypto API</li>
+<li><strong>Performance</strong>: <500ms authentication time, optimized for edge computing</li>
+<li><strong>Security</strong>: Salt-based password hashing with secure random generation</li>
+<li><strong>Token Structure</strong>: Standard JWT with user context (userId, email, name, roles)</li>
+<li><strong>Database Schema</strong>: Users + Account tables for credential management</li>
+<li><strong>Production Status</strong>: ✅ <strong>100% operational</strong> across all environments</li></p><p><h3 class="heading-3"><strong>JWT Validation Architecture</strong></h3>
+<li><strong>Service Binding Delegation</strong>: API Gateway delegates token validation to worker-auth</li>
+<li><strong>Centralized Validation</strong>: Single source of truth for JWT verification</li>
+<li><strong>Cross-Service Communication</strong>: Sub-10ms validation via Cloudflare service bindings</li>
+<li><strong>Error Handling</strong>: Comprehensive error responses for invalid/expired tokens</li>
+<li><strong>Performance</strong>: Edge-optimized for minimal latency</li></p><p><h3 class="heading-3"><strong>Database Schema (SimpleAuth)</strong></h3>
+<pre class="code-block"><code>sql
+<p>-- Users table</p>
+<p>users (</p>
+<p>  id TEXT PRIMARY KEY,</p>
+<p>  email TEXT UNIQUE NOT NULL,</p>
+<p>  name TEXT,</p>
+<p>  emailVerified BOOLEAN,</p>
+<p>  image TEXT,</p>
+<p>  createdAt TIMESTAMP,</p>
+<p>  updatedAt TIMESTAMP</p>
+<p>);</p><p>-- Account table for credentials</p>
+<p>account (</p>
+<p>  id TEXT PRIMARY KEY,</p>
+<p>  userId TEXT REFERENCES users(id),</p>
+<p>  accountId TEXT,</p>
+<p>  providerId TEXT,</p>
+<p>  password TEXT, -- Salt:Hash format</p>
+<p>  accessToken TEXT,</p>
+<p>  refreshToken TEXT,</p>
+<p>  createdAt TIMESTAMP,</p>
+<p>  updatedAt TIMESTAMP</p>
+<p>);</p>
+<p></code></pre></p><p><h2 class="heading-2">Testing Infrastructure</h2></p><p><h3 class="heading-3"><strong>Enhanced Testing Framework</strong> ✅ <strong>COMPLETE</strong></h3></p>
+<li><strong>Vitest Configuration</strong>: Improved configurations across all workers with TypeScript support</li>
+<li><strong>Test Coverage</strong>: 50+ tests across all workers and environments</li>
+<li><strong>Cross-Environment Testing</strong>: Automated testing against dev/staging/prod deployments</li>
+<li><strong>Integration Testing</strong>: Service binding communication and authentication flow testing</li>
+<li><strong>Unit Testing</strong>: Component-level testing with proper mocking and isolation</li>
+<li><strong>CI Integration</strong>: Automated test execution in GitHub Actions pipeline</li></p><p><h3 class="heading-3"><strong>Testing Patterns</strong></h3>
+<pre class="code-block"><code>typescript
+<p>// Enhanced Vitest configuration example</p>
+<p>export default defineConfig({</p>
+<p>  test: {</p>
+<p>    globals: true,</p>
+<p>    environment: "node",</p>
+<p>  },</p>
+<p>  resolve: {</p>
+<p>    alias: {</p>
+<p>      "@": new URL("./src", import.meta.url).pathname,</p>
+<p>    },</p>
+<p>  },</p>
+<p>});</p><p>// Authentication testing pattern</p>
+<p>describe("Authentication Flow", () => {</p>
+<p>  it("validates JWT tokens across services", async () => {</p>
+<p>    const token = await createTestToken();</p>
+<p>    const response = await testServiceBinding(token);</p>
+<p>    expect(response.status).toBe(200);</p>
+<p>  });</p>
+<p>});</p>
+<p></code></pre></p><p><h2 class="heading-2">Analytics & Monitoring Stack</h2></p><p><h3 class="heading-3"><strong>PostHog Analytics Integration</strong></h3></p>
+<li><strong>Client Library</strong>: `posthog-js` for frontend analytics</li>
+<li><strong>Implementation</strong>: Custom PostHogTracker class with React hooks</li>
+<li><strong>Event Tracking</strong>: Authentication flows, dashboard interactions, API usage</li>
+<li><strong>User Identification</strong>: Complete user profile data capture with JWT context</li>
+<li><strong>Error Analytics</strong>: Authentication failures and validation issues</li>
+<li><strong>Performance</strong>: Client-side only (removed server-side posthog-node)</li></p><p><h3 class="heading-3"><strong>Sentry Error Monitoring</strong> </h3>
+<li><strong>Next.js Integration</strong>: `@sentry/nextjs` with automatic instrumentation</li>
+<li><strong>API Monitoring</strong>: Custom Sentry integration in Hono workers</li>
+<li><strong>Production DSNs</strong>: </li>
+<p>  - API: `https://1325eb2e526025fa6c78a3a99c2917d5@o4509537563312128.ingest.us.sentry.io/4509537565474816`</p>
+<p>  - Web App: `https://810d113a4b6da2d79a3b45cf67ad4f43@o4509537563312128.ingest.us.sentry.io/4509537615937536`</p>
+<li><strong>Event ID Logging</strong>: All errors captured with traceable event IDs</li>
+<li><strong>Error Context</strong>: Stack traces, user data, and request information</li>
+<li><strong>Authentication Monitoring</strong>: JWT validation errors and performance metrics</li></p><p><h2 class="heading-2">Development Environment</h2>
+<li><strong>Node.js</strong>: v18+</li>
+<li><strong>pnpm</strong>: Package manager, v10.8.0</li>
+<li><strong>Wrangler</strong>: Cloudflare Workers CLI for development and deployment, v4.9.1</li>
+<li><strong>Miniflare</strong>: Local development environment for Cloudflare Workers with Service Bindings</li>
+<li><strong>tsup</strong>: TypeScript bundler for packages</li>
+<li><strong>Storybook</strong>: Component development and documentation</li>
+<li><strong>Vitest</strong>: Testing framework</li>
+<li><strong>Turso</strong>: Local development database (LibSQL)</li></p><p><h2 class="heading-2">Dependencies</h2>
+<li><strong>@hono/zod-openapi</strong>: OpenAPI integration for Hono</li>
+<li><strong>@libsql/client</strong>: Client for Turso/LibSQL databases, v0.14.0</li>
+<li><strong>@scalar/hono-api-reference</strong>: API documentation</li>
+<li><strong>bcryptjs</strong>: Password hashing (replaced with Web Crypto API)</li>
+<li><strong>drizzle-zod</strong>: Integration between Drizzle and Zod</li>
+<li><strong>hono-pino</strong>: Logging for Hono</li>
+<li><strong>pino</strong>: Logging library</li>
+<li><strong>hono/client</strong>: Client generation for API endpoints</li>
+<li><strong>drizzle-kit</strong>: Database migration tool, v0.30.1</li>
+<li><strong>posthog-js</strong>: Frontend analytics library</li>
+<li><strong>@sentry/nextjs</strong>: Error monitoring for Next.js apps</li>
+<li><strong>@sentry/hono</strong>: Error monitoring for Hono APIs</li></p><p><h2 class="heading-2">Technical Constraints</h2>
+<li>Edge computing limitations on Cloudflare Workers</li>
+<li>CPU time limits (10ms for CPU-intensive operations like Better Auth)</li>
+<li>Serverless architecture constraints (cold starts, execution limits)</li>
+<li>Type safety requirements across all code</li>
+<li>Cloudflare deployment targets for frontend and backend</li>
+<li>Development vs production environment API URL configuration</li>
+<li>Service binding configuration for inter-worker communication</li>
+<li>Database connection pooling for edge environment</li>
+<li>Cold start performance optimization for multiple workers</li>
+<li>PostHog rate limiting considerations for high-frequency events</li>
+<li>Sentry quota management for error reporting</li>
+<li>JWT secret management across environments</li></p><p><h2 class="heading-2">CI/CD Technical Implementation</h2></p><p><h3 class="heading-3"><strong>Deployment Architecture</strong></h3>
+<pre class="code-block"><code>yaml
+<h1 class="heading-1">Deployment order ensures proper dependency resolution</h1>
+<p>1. Workers (Parallel Deployment):</p>
+<p>   - worker-auth: Authentication service</p>
+<p>   - worker-db: Database service</p>
+<p>   - worker-quotes: Quotes service  </p>
+<p>   - worker-tags: Tags/tasks service</p><p>2. API Gateway (Sequential):</p>
+<p>   - udance-api: Depends on all workers being available</p><p>3. Frontend (Final):</p>
+<p>   - udance-web-app: Depends on API Gateway</p>
+<p></code></pre></p><p><h3 class="heading-3"><strong>Environment Configuration</strong></h3></p>
+<li><strong>GitHub Secrets</strong>: Cloudflare API tokens, account IDs, database URLs</li>
+<li><strong>Environment Variables</strong>: Proper separation for dev/staging/prod</li>
+<li><strong>Branch Protection</strong>: Quality gates required before merging</li>
+<li><strong>Deployment Triggers</strong>: Automatic dev, manual staging/prod</li></p><p><h3 class="heading-3"><strong>Quality Assurance</strong></h3>
+<li><strong>Pre-commit Hooks</strong>: Biome formatting and linting validation</li>
+<li><strong>CI Validation</strong>: TypeScript compilation, test execution, build verification</li>
+<li><strong>Deployment Validation</strong>: Health checks and smoke tests post-deployment</li>
+<li><strong>Rollback Procedures</strong>: Automatic rollback on deployment failure</li></p><p><h2 class="heading-2">Authentication Migration Notes</h2></p><p><h3 class="heading-3"><strong>Why SimpleAuth over Better Auth</strong></h3>
+<li><strong>CPU Limits</strong>: Better Auth consistently exceeded Cloudflare Workers CPU limits</li>
+<li><strong>Edge Optimization</strong>: SimpleAuth designed specifically for edge computing constraints</li>
+<li><strong>Performance</strong>: <500ms vs >10s authentication times</li>
+<li><strong>Reliability</strong>: 100% success rate vs frequent timeouts</li>
+<li><strong>Debugging</strong>: Simplified architecture for easier troubleshooting</li></p><p><h3 class="heading-3"><strong>Migration Challenges Solved</strong></h3>
+<li><strong>SQL Query Issues</strong>: Fixed account lookup with proper Drizzle ORM `and()` syntax</li>
+<li><strong>Service Binding Delegation</strong>: Implemented proper JWT validation delegation</li>
+<li><strong>Cross-Service Authentication</strong>: Established reliable worker-to-worker communication</li>
+<li><strong>Token Management</strong>: Secure JWT generation and validation pipeline</li></p><p><h2 class="heading-2">Integration Points</h2>
+<li><strong>Frontend to Backend API</strong>: Next.js to Hono API integration through direct API client import</li>
+<li><strong>Backend to Database</strong>: Drizzle ORM to Turso/LibSQL with SimpleAuth schema</li>
+<li><strong>UI Components to Apps</strong>: Shared UI package integration</li>
+<li><strong>Authentication System</strong>: SimpleAuth JWT system with service binding validation</li>
+<li><strong>Analytics Integration</strong>: PostHog tracking across frontend user interactions with auth context</li>
+<li><strong>Error Monitoring</strong>: Sentry monitoring across API and frontend with authentication events</li>
+<li><strong>External APIs</strong>: Integration with dance-related services (future)</li>
+<li><strong>Worker to Worker</strong>: Inter-worker communication via Service Bindings with user context</li>
+<li><strong>Tags Worker</strong>: Tag management service for dance categories and styles</li>
+<li><strong>Shared Packages</strong>: Common functionality used across services</li></p><p><h2 class="heading-2">API Client Implementation</h2>
+<p>The frontend connects to the backend API using a typed client with authentication:</p>
+<li>Backend (`apps/udance-api/src/client.ts`): Exports a Hono client using `hc<AppType>`</li>
+<li>Frontend (`apps/udance-web-app/src/lib/client.ts`): Imports and re-exports the client from the API package</li>
+<li><strong>Authentication</strong>: JWT tokens passed via Authorization headers</li>
+<li><strong>Type Safety</strong>: Full type safety including authentication context</li>
+<li>The client provides type-safe access to all API routes defined in the backend</li>
+<li>Wrapper functions are created in the frontend for common API operations (e.g., `getTasks()`)</li>
+<li>Production URLs: Frontend calls production API endpoints in deployed environment</li>
+<li><strong>Protected Routes</strong>: Automatic JWT token inclusion for authenticated requests</li></p><p><h2 class="heading-2">Backend Architecture</h2>
+<p>The backend follows a microservices-like architecture using Cloudflare Workers:</p>
+<li>Gateway API (`udance-api`): Serves as the entry point and request router with authentication middleware</li>
+<li>Specialized Workers: Handle specific features (auth, tags, users, etc.)</li>
+<li>Service Bindings: Enable direct worker-to-worker communication with user context</li>
+<li><strong>Authentication Middleware</strong>: JWT validation via service binding delegation</li>
+<li>Configuration: Defined in wrangler.toml files for deployment</li>
+<li>Auth worker (`worker-auth`): SimpleAuth implementation for JWT management</li>
+<li>Tag worker (`worker-tags`): First specialized worker implemented with authentication protection</li></p><p><h2 class="heading-2">Analytics & Monitoring Architecture</h2></p><p><h3 class="heading-3"><strong>PostHog Implementation Pattern</strong></h3>
+<pre class="code-block"><code>typescript
+<p>// PostHogTracker class provides static methods for all tracking</p>
+<p>PostHogTracker.identifyUser(userId, userProperties);</p>
+<p>PostHogTracker.trackLogin("simple_auth", userInfo);</p>
+<p>PostHogTracker.trackAuthEvent("jwt_validation", { success: true });</p>
+<p>PostHogTracker.track("custom_event", properties);</p><p>// usePostHog hook provides React-friendly interface</p>
+<p>const posthog = usePostHog();</p>
+<p>posthog.trackLogin("simple_auth", userInfo);</p>
+<p></code></pre></p><p><h3 class="heading-3"><strong>Sentry Implementation Pattern</strong></h3></p>
+<pre class="code-block"><code>typescript
+<p>// Automatic error capture with event IDs</p>
+<p>try {</p>
+<p>  // Authentication operation</p>
+<p>} catch (error) {</p>
+<p>  const eventId = Sentry.captureException(error, {</p>
+<p>    user: { id: userId, email: userEmail },</p>
+<p>    extra: { operation: 'jwt_validation' }</p>
+<p>  });</p>
+<p>  console.error(`Authentication error captured with ID: ${eventId}`);</p>
+<p>}</p>
+<p></code></pre></p><p><h3 class="heading-3"><strong>Event Tracking Strategy</strong></h3></p>
+<li><strong>User Lifecycle</strong>: Registration, login, logout, profile updates</li>
+<li><strong>Authentication Flow</strong>: SimpleAuth success/failure, JWT validation events</li>
+<li><strong>Dashboard Interactions</strong>: Page views, feature usage, navigation with user context</li>
+<li><strong>Error Tracking</strong>: API failures, authentication errors, client-side issues</li>
+<li><strong>Performance</strong>: Authentication times, JWT validation performance, API response times</li>
+<li><strong>Security Events</strong>: Invalid token attempts, unauthorized access attempts</li></p><p><h2 class="heading-2">Deployment Pipeline</h2>
+<p>The project is set up to deploy to Cloudflare's edge network:</p>
+<li>Frontend: Cloudflare Pages via `wrangler pages deploy`</li>
+<li>Backend Workers: Cloudflare Workers via `wrangler deploy` with Service Bindings configuration</li>
+<li><strong>Authentication</strong>: SimpleAuth workers deployed across all environments</li>
+<li><strong>Environment Isolation</strong>: Separate JWT secrets for dev/staging/prod</li>
+<li><strong>CI/CD Integration</strong>: GitHub Actions with automated dev deployment and manual staging/prod</li>
+<p>Both with automated builds through Turborepo's build pipeline and integrated monitoring.</p><p><h2 class="heading-2">Database Strategy</h2></p>
+<li>Shared database schema defined in the db package</li>
+<li>Drizzle ORM for type-safe database access</li>
+<li><strong>SimpleAuth Schema</strong>: Users and Account tables for authentication</li>
+<li>Turso/LibSQL as the edge-compatible database</li>
+<li>Migration management with drizzle-kit</li>
+<li>Connection pooling optimization for edge environment</li>
+<li><strong>SQL Query Patterns</strong>: Proper multi-condition queries with `and()` function</li></p><p><h2 class="heading-2">Production Monitoring Strategy</h2>
+<li><strong>PostHog Analytics</strong>: Real-time user behavior tracking and feature usage analytics with authentication context</li>
+<li><strong>Sentry Error Monitoring</strong>: Comprehensive error tracking with event ID correlation including authentication events</li>
+<li><strong>Performance Monitoring</strong>: API response times, worker startup metrics, authentication performance</li>
+<li><strong>User Experience Tracking</strong>: Login success rates, navigation patterns, error recovery</li>
+<li><strong>Business Intelligence</strong>: User engagement, feature adoption, churn analysis</li>
+<li><strong>Security Monitoring</strong>: Authentication failure rates, invalid token attempts, security events</li>
+<li><strong>Authentication Metrics</strong>: JWT validation success rates, token refresh patterns, session duration </li>
+<li><strong>CI/CD Monitoring</strong>: Deployment success rates, build times, quality gate metrics </li></ul>
+        </div>
+        
+        <div class="footer">
+            <p>📚 Auto-generated from Memory Bank | 🚀 uDance Project Documentation</p>
+            <p>🔄 Synchronization: <strong>Active</strong> • 🎯 Real-time updates enabled</p>
+        </div>
+    </div>
+</body>
+</html>

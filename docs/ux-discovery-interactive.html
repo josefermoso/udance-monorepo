@@ -1,0 +1,4226 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UDance - UX Discovery & Business Rules</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .header h1 {
+        background: linear-gradient(135deg, #ff3366, #9b59b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 3rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .header .subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      .progress-bar {
+        background: #e0e0e0;
+        border-radius: 10px;
+        height: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .progress-fill {
+        background: linear-gradient(90deg, #ff3366, #ffb74d, #4caf50);
+        height: 100%;
+        width: 100%;
+        transition: width 0.3s ease;
+        box-shadow: 0 0 20px rgba(255, 183, 77, 0.5);
+      }
+
+      .nav-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .nav-tab {
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+      }
+
+      .nav-tab:hover {
+        background: rgba(255, 51, 102, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .nav-tab.active {
+        background: linear-gradient(135deg, #ff3366, #9b59b6);
+        color: white;
+      }
+
+      .content-section {
+        display: none;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-title {
+        color: #ff3366;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #ff3366;
+        padding-bottom: 10px;
+      }
+
+      .user-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .user-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid rgba(255, 51, 102, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .user-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #ff3366, #9b59b6);
+      }
+
+      .user-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(255, 51, 102, 0.15);
+        border-color: rgba(255, 51, 102, 0.2);
+      }
+
+      .user-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      }
+
+      .user-card h3 {
+        color: #2d3748;
+        font-size: 1.3rem;
+        margin: 0;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .user-card .user-emoji {
+        font-size: 1.5rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      .user-details {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 16px;
+        margin: 16px 0;
+        border-left: 3px solid #e2e8f0;
+      }
+
+      .user-details p {
+        margin: 0;
+        color: #4a5568;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .user-details strong {
+        color: #2d3748;
+        font-weight: 600;
+      }
+
+      .revenue-badge {
+        background: linear-gradient(135deg, #48bb78, #38a169);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        white-space: nowrap;
+      }
+
+      .pain-points {
+        margin-top: 16px;
+      }
+
+      .pain-points h4 {
+        color: #e53e3e;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .pain-points ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .pain-points li {
+        background: #fed7d7;
+        color: #c53030;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+        border-left: 3px solid #e53e3e;
+      }
+
+      .pain-points li:last-child {
+        margin-bottom: 0;
+      }
+
+      .mvp-badge {
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-left: auto;
+      }
+
+      .mvp-phase1 {
+        background: #4caf50;
+        color: white;
+      }
+      .mvp-phase2 {
+        background: #ff9800;
+        color: white;
+      }
+      .mvp-phase3 {
+        background: #9c27b0;
+        color: white;
+      }
+
+      .journey-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .journey-phase {
+        background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+        border-radius: 12px;
+        padding: 25px;
+        border-left: 5px solid #9b59b6;
+        position: relative;
+      }
+
+      .journey-phase::before {
+        content: "";
+        position: absolute;
+        left: -7px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 14px;
+        height: 14px;
+        background: #9b59b6;
+        border-radius: 50%;
+      }
+
+      .journey-phase h3 {
+        color: #9b59b6;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .feature-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border-top: 4px solid #ff3366;
+      }
+
+      .revenue-chart {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px 0;
+      }
+
+      .revenue-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .revenue-item:last-child {
+        border-bottom: none;
+      }
+
+      .mockup-frame {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        border: 2px dashed #ddd;
+        text-align: center;
+      }
+
+      .mockup-screen {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 10px auto;
+        max-width: 350px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 8px solid #333;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #ff3366, #9b59b6);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+      }
+
+      .pain-point {
+        background: #ffebee;
+        border-left: 4px solid #f44336;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .solution {
+        background: #e8f5e8;
+        border-left: 4px solid #4caf50;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .next-session {
+        background: linear-gradient(135deg, #ff8e3c, #ff3366);
+        color: white;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ff3366, #9b59b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🕺 UDance Platform</h1>
+        <p class="subtitle">UX Discovery & Business Rules Documentation</p>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <p style="text-align: center; color: #666">
+          🔄 DOCUMENTO ACTUALIZADO - Versión Realista para Desarrollador Solo
+        </p>
+      </div>
+
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">📊 Overview</button>
+        <button class="nav-tab" onclick="showSection('users')">👥 User Ecosystem</button>
+        <button class="nav-tab" onclick="showSection('journey')">🎯 Student Journey</button>
+        <button class="nav-tab" onclick="showSection('studio')">🏢 Studio Management</button>
+        <button class="nav-tab" onclick="showSection('instructor')">
+          👨‍🏫 Instructor Experience
+        </button>
+        <button class="nav-tab" onclick="showSection('events')">🎪 Events & Community</button>
+        <button class="nav-tab" onclick="showSection('payments')">💳 Payment Systems</button>
+        <button class="nav-tab" onclick="showSection('mobile')">📱 Mobile Experience</button>
+        <button class="nav-tab" onclick="showSection('analytics')">📊 Analytics & BI</button>
+        <button class="nav-tab" onclick="showSection('business')">💰 Business Model</button>
+        <button class="nav-tab" onclick="showSection('technical')">🔧 Technical Specs</button>
+        <button class="nav-tab" onclick="showSection('mvp')">🚀 MVP Roadmap</button>
+      </div>
+
+      <!-- OVERVIEW SECTION -->
+      <div id="overview" class="content-section active">
+        <h2 class="section-title">📊 Project Overview</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">17</div>
+            <p>Flujos de Usuario Detallados</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">12</div>
+            <p>Componentes Core Definidos</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">3</div>
+            <p>MVP Launch Phases</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">16</div>
+            <p>Semanas Timeline MVP #1</p>
+          </div>
+        </div>
+
+        <h3>🎯 Vision Statement</h3>
+        <p
+          style="
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #666;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+          "
+        >
+          "Crear una plataforma simple y efectiva donde la gente pueda encontrar fácilmente dónde
+          tomar clases de baile, cuándo son los eventos, y los estudios puedan gestionar sus clases
+          de forma básica. Todo gratis para los estudiantes, con ingresos via subscripciones de
+          estudios."
+        </p>
+
+        <h3>🔍 Market Gap Identified</h3>
+        <div class="pain-point">
+          <strong>Problema Actual:</strong> El mercado de baile está completamente fragmentado. Los
+          estudiantes usan Google + múltiples websites + llamadas telefónicas para encontrar clases.
+          Los studios luchan con marketing costoso y herramientas dispersas. No existe una
+          plataforma que una todo el ecosistema.
+        </div>
+
+        <div class="solution">
+          <strong>Nuestra Solución:</strong> Una plataforma integral que conecta estudiantes,
+          profesores, studios, organizadores de eventos, y todo el ecosistema de baile en una
+          experiencia unificada y optimizada.
+        </div>
+
+        <h3>🎯 Objetivos Realistas Iniciales</h3>
+        <ul style="margin: 20px 0; padding-left: 30px">
+          <li><strong>Estudios suscritos:</strong> 10-15 estudios en Buenos Aires (6 meses)</li>
+          <li><strong>Usuarios activos:</strong> 500-1000 personas buscando clases</li>
+          <li><strong>Eventos cargados:</strong> 20-30 eventos por mes</li>
+          <li><strong>Funcionalidad QR:</strong> Adoptada por 5+ organizadores</li>
+          <li><strong>Revenue mensual:</strong> $150K-300K ARS (estudios + marcas)</li>
+        </ul>
+      </div>
+
+      <!-- USER ECOSYSTEM SECTION -->
+      <div id="users" class="content-section">
+        <h2 class="section-title">👥 Complete User Ecosystem</h2>
+
+        <h3>🎓 Core Users (No pagos - Todo GRATIS para estudiantes)</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🌟</span>
+                Estudiante Principiante
+              </h3>
+              <div class="mvp-badge mvp-phase1">MVP #1</div>
+            </div>
+            <div class="user-details">
+              <p><strong>Edad:</strong> 18-40</p>
+              <p><strong>Motivación:</strong> Aprender a bailar, socializar, fitness</p>
+            </div>
+            <div
+              style="
+                background: #4caf50;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              GRATIS
+            </div>
+            <div class="pain-points">
+              <h4>😰 Pain Points</h4>
+              <ul>
+                <li>No sabe dónde tomar clases</li>
+                <li>No conoce horarios ni precios</li>
+                <li>Miedo al ridículo como principiante</li>
+                <li>Búsqueda manual por Google/Instagram</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">💃</span>
+                Estudiante Intermedio/Avanzado
+              </h3>
+              <div class="mvp-badge mvp-phase1">MVP #1</div>
+            </div>
+            <div class="user-details">
+              <p><strong>Edad:</strong> 20-45</p>
+              <p><strong>Motivación:</strong> Mejorar nivel, probar nuevos estilos</p>
+            </div>
+            <div
+              style="
+                background: #4caf50;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              GRATIS
+            </div>
+            <div class="pain-points">
+              <h4>😤 Pain Points</h4>
+              <ul>
+                <li>Busca variedad de instructores/estilos</li>
+                <li>Quiere clases de su nivel específico</li>
+                <li>Le interesa enterarse de eventos</li>
+                <li>Prefiere recomendaciones personalizadas</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎯</span>
+                Instructor Independiente
+              </h3>
+              <div class="mvp-badge mvp-phase1">MVP #1</div>
+            </div>
+            <div class="user-details">
+              <p><strong>Edad:</strong> 25-50</p>
+              <p><strong>Motivación:</strong> Conseguir más estudiantes, organizarse</p>
+            </div>
+            <div
+              style="
+                background: #4caf50;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              GRATIS
+            </div>
+            <div class="pain-points">
+              <h4>📱 Pain Points</h4>
+              <ul>
+                <li>Promoción manual por Instagram/WhatsApp</li>
+                <li>Difícil conseguir nuevos estudiantes</li>
+                <li>Gestión desorganizada de horarios</li>
+                <li>Sin herramientas de gestión centralizadas</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🏢</span>
+                Estudio de Danza
+              </h3>
+              <div class="mvp-badge mvp-phase1">MVP #1</div>
+            </div>
+            <div class="user-details">
+              <p><strong>Target:</strong> Estudios pequeños/medianos en Buenos Aires</p>
+              <p><strong>Motivación:</strong> Más estudiantes, mejor organización</p>
+            </div>
+            <div
+              style="
+                background: #ff9800;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              $10K-20K ARS/mes
+            </div>
+            <div class="pain-points">
+              <h4>💰 Pain Points</h4>
+              <ul>
+                <li>Marketing caro e ineficiente</li>
+                <li>Gestión manual de horarios/profesores</li>
+                <li>Comunicación dispersa con estudiantes</li>
+                <li>Sin herramientas de gestión integradas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎪 Event & Content Ecosystem</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎵</span>
+                Organizador de Eventos
+              </h3>
+              <div class="mvp-badge mvp-phase2">MVP #2</div>
+            </div>
+            <div class="user-details">
+              <p><strong>Target:</strong> Organizadores de sociales, workshops, competencias</p>
+              <p><strong>Motivación:</strong> Promoción gratis + gestión con QR</p>
+            </div>
+            <div
+              style="
+                background: #4caf50;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              GRATIS (por ahora)
+            </div>
+            <div class="pain-points">
+              <h4>🎫 Pain Points</h4>
+              <ul>
+                <li>Promoción manual por Instagram/WhatsApp</li>
+                <li>Gestión de listas en papel es un caos</li>
+                <li>No saben quién realmente asiste</li>
+                <li>Quieren herramientas modernas (QR)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">📱</span>
+                Creadores de Contenido
+              </h3>
+              <div class="mvp-badge mvp-phase3">MVP #3</div>
+            </div>
+            <div class="user-details">
+              <p><strong>Target:</strong> Videógrafos, fotógrafos, DJs de baile</p>
+              <p><strong>Motivación:</strong> Conseguir más clientes</p>
+            </div>
+            <div
+              style="
+                background: #ff9800;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              Fee por anuncio
+            </div>
+            <div class="pain-points">
+              <h4>📸 Pain Points</h4>
+              <ul>
+                <li>Difícil conseguir clientes nuevos</li>
+                <li>Marketing disperso en redes</li>
+                <li>No hay directorio centralizado</li>
+                <li>Competencia poco visible</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPLETE USER FLOWS SECTION -->
+      <div id="journey" class="content-section">
+        <h2 class="section-title">🎯 Complete User Flow System</h2>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.5rem">🔄 FLUJOS COMPLETOS POR OBJETIVO ESPECÍFICO</h3>
+          <p style="margin: 10px 0 0 0; font-size: 1.1rem">
+            Cada usuario tiene múltiples objetivos - aquí están TODOS los flujos necesarios
+          </p>
+        </div>
+
+        <!-- STUDENT FLOWS -->
+        <div style="background: #e8f5e8; border-radius: 15px; padding: 25px; margin: 30px 0">
+          <h2 style="color: #2e7d32; margin-bottom: 20px">👥 FLUJOS DE ESTUDIANTE</h2>
+
+          <div class="journey-flow">
+            <div class="journey-phase" style="border-left-color: #4caf50">
+              <h3>🔍 FLUJO 1: "Quiero aprender a bailar X estilo"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Encontrar clases de un estilo específico</h4>
+                  <p><strong>1️⃣ Entrada:</strong> "Quiero aprender bachata"</p>
+                  <p><strong>2️⃣ IA Sugiere:</strong> "Nivel principiante, cerca de ti"</p>
+                  <p><strong>3️⃣ Filtros:</strong> Zona, horario, precio, instructor</p>
+                  <p><strong>4️⃣ Resultados:</strong> "15 opciones de bachata principiante"</p>
+                  <p><strong>5️⃣ Comparar:</strong> Ver detalles de 3-4 opciones</p>
+                  <p><strong>6️⃣ Decidir:</strong> Reservar clase + datos básicos</p>
+                  <div
+                    style="
+                      background: #4caf50;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    ✅ "Reserva confirmada! El estudio te contactará en 2 horas"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #2196f3">
+              <h3>🎪 FLUJO 2: "Qué eventos hay este fin de semana"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Descubrir eventos sociales/workshops</h4>
+                  <p><strong>1️⃣ Entrada:</strong> "Eventos este fin de semana"</p>
+                  <p><strong>2️⃣ Calendario:</strong> Vista de eventos por fecha</p>
+                  <p><strong>3️⃣ Filtros:</strong> Estilo, precio, nivel, ubicación</p>
+                  <p><strong>4️⃣ Lista:</strong> "8 eventos este sábado y domingo"</p>
+                  <p><strong>5️⃣ Detalles:</strong> Instructor, programa, precio, ubicación</p>
+                  <p><strong>6️⃣ Interés:</strong> "Me interesa" + datos de contacto</p>
+                  <div
+                    style="
+                      background: #2196f3;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🎉 "Te avisaremos cuando abra la inscripción"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #ff9800">
+              <h3>📍 FLUJO 3: "Dónde puedo bailar cerca de mi trabajo"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Encontrar opciones por ubicación específica</h4>
+                  <p><strong>1️⃣ Ubicación:</strong> "Cerca de Puerto Madero"</p>
+                  <p><strong>2️⃣ Radio:</strong> Seleccionar distancia (1km, 2km, 5km)</p>
+                  <p><strong>3️⃣ Mapa:</strong> Ver estudios y eventos en el mapa</p>
+                  <p><strong>4️⃣ Horarios:</strong> Filtrar por "después de las 18:00"</p>
+                  <p><strong>5️⃣ Opciones:</strong> "12 estudios con clases nocturnas"</p>
+                  <p><strong>6️⃣ Transporte:</strong> Ver opciones de transporte público</p>
+                  <div
+                    style="
+                      background: #ff9800;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🚇 "Studio Tango: 8 min caminando desde estación Retiro"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #9c27b0">
+              <h3>👨‍🏫 FLUJO 4: "Quiero clases con instructor específico"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Seguir a un instructor favorito</h4>
+                  <p><strong>1️⃣ Búsqueda:</strong> "Clases con María González"</p>
+                  <p><strong>2️⃣ Perfil:</strong> Ver perfil completo del instructor</p>
+                  <p><strong>3️⃣ Horarios:</strong> "Enseña en 3 estudios diferentes"</p>
+                  <p><strong>4️⃣ Calendario:</strong> Ver todos sus horarios semanales</p>
+                  <p><strong>5️⃣ Notificaciones:</strong> "Seguir instructor" para updates</p>
+                  <p><strong>6️⃣ Reservar:</strong> Elegir horario y estudio preferido</p>
+                  <div
+                    style="
+                      background: #9c27b0;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🔔 "Te avisaremos de nuevas clases de María"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #e91e63">
+              <h3>💰 FLUJO 5: "Opciones económicas para estudiante"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Encontrar opciones de bajo costo</h4>
+                  <p><strong>1️⃣ Filtro:</strong> "Precio máximo $2000 ARS"</p>
+                  <p><strong>2️⃣ Opciones:</strong> Clases grupales, packs, descuentos</p>
+                  <p><strong>3️⃣ Comparar:</strong> "Clase suelta vs pack de 4 vs mensual"</p>
+                  <p><strong>4️⃣ Becas:</strong> Ver programas de becas disponibles</p>
+                  <p><strong>5️⃣ Grupos:</strong> "Grupos de práctica gratuitos"</p>
+                  <p><strong>6️⃣ Decidir:</strong> Mejor opción calidad-precio</p>
+                  <div
+                    style="
+                      background: #e91e63;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    💡 "Pack de 4 clases: $6000 (ahorrás $2000)"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #00bcd4">
+              <h3>⏰ FLUJO 6: "Clases de último minuto - hoy"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Encontrar disponibilidad inmediata</h4>
+                  <p><strong>1️⃣ Urgente:</strong> "Qué hay disponible HOY"</p>
+                  <p><strong>2️⃣ Tiempo real:</strong> Ver disponibilidad actual</p>
+                  <p><strong>3️⃣ Cancelaciones:</strong> "2 lugares liberados hace 1 hora"</p>
+                  <p><strong>4️⃣ Notificación:</strong> "Clase de salsa en 3 horas - 1 lugar"</p>
+                  <p><strong>5️⃣ Reserva rápida:</strong> Confirmar en 30 segundos</p>
+                  <p><strong>6️⃣ Preparación:</strong> Datos del estudio y qué llevar</p>
+                  <div
+                    style="
+                      background: #00bcd4;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    ⚡ "Confirmado! Clase a las 19:30 - te esperan"
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STUDIO FLOWS -->
+        <div style="background: #fff3e0; border-radius: 15px; padding: 25px; margin: 30px 0">
+          <h2 style="color: #f57c00; margin-bottom: 20px">🏢 FLUJOS DE ESTUDIO</h2>
+
+          <div class="journey-flow">
+            <div class="journey-phase" style="border-left-color: #ff9800">
+              <h3>🚀 FLUJO 1: "Quiero registrar mi estudio en la plataforma"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Onboarding completo del estudio</h4>
+                  <p><strong>1️⃣ Registro:</strong> Datos básicos del estudio</p>
+                  <p><strong>2️⃣ Verificación:</strong> Documentos y legitimidad</p>
+                  <p><strong>3️⃣ Perfil:</strong> Fotos, descripción, especialidades</p>
+                  <p><strong>4️⃣ Horarios:</strong> Cargar grilla de clases semanal</p>
+                  <p><strong>5️⃣ Instructores:</strong> Agregar equipo de profesores</p>
+                  <p><strong>6️⃣ Precios:</strong> Configurar tarifas y paquetes</p>
+                  <p><strong>7️⃣ Testing:</strong> Período de prueba gratuito 30 días</p>
+                  <div
+                    style="
+                      background: #ff9800;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🎉 "¡Estudio activo! Ya apareces en búsquedas"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #4caf50">
+              <h3>📊 FLUJO 2: "Quiero ver cómo va mi negocio"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Monitorear performance y métricas</h4>
+                  <p><strong>1️⃣ Dashboard:</strong> Vista general del mes</p>
+                  <p><strong>2️⃣ Reservas:</strong> "127 reservas este mes (+15%)"</p>
+                  <p>
+                    <strong>3️⃣ Clases populares:</strong> "Bachata principiantes: 95% ocupación"
+                  </p>
+                  <p><strong>4️⃣ Instructores:</strong> Performance por profesor</p>
+                  <p><strong>5️⃣ Ingresos:</strong> Proyección mensual y tendencias</p>
+                  <p><strong>6️⃣ Recomendaciones:</strong> "Agregar clase de kizomba"</p>
+                  <div
+                    style="
+                      background: #4caf50;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    📈 "Crecimiento del 23% vs mes anterior"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #2196f3">
+              <h3>👥 FLUJO 3: "Gestionar reservas del día"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Operaciones diarias del estudio</h4>
+                  <p><strong>1️⃣ Vista diaria:</strong> "Hoy: 8 clases, 45 estudiantes"</p>
+                  <p><strong>2️⃣ Check-in:</strong> Marcar asistencia en tiempo real</p>
+                  <p><strong>3️⃣ Cancelaciones:</strong> "3 cancelaciones de último minuto"</p>
+                  <p><strong>4️⃣ Lista de espera:</strong> Notificar a estudiantes en espera</p>
+                  <p><strong>5️⃣ Notas:</strong> Agregar comentarios sobre estudiantes</p>
+                  <p><strong>6️⃣ Comunicación:</strong> Enviar mensajes grupales</p>
+                  <div
+                    style="
+                      background: #2196f3;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    📱 "2 lugares liberados - 4 personas notificadas"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #9c27b0">
+              <h3>📢 FLUJO 4: "Promocionar evento especial"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Marketing de workshops y eventos</h4>
+                  <p><strong>1️⃣ Crear evento:</strong> Workshop de salsa cubana</p>
+                  <p><strong>2️⃣ Detalles:</strong> Instructor invitado, programa, precio</p>
+                  <p><strong>3️⃣ Targeting:</strong> "Enviar a estudiantes de salsa"</p>
+                  <p><strong>4️⃣ Promoción:</strong> Descuentos early bird</p>
+                  <p><strong>5️⃣ Seguimiento:</strong> Ver interés y confirmaciones</p>
+                  <p><strong>6️⃣ Gestión:</strong> Lista final de participantes</p>
+                  <div
+                    style="
+                      background: #9c27b0;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🎯 "23 interesados en las primeras 2 horas"
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INSTRUCTOR FLOWS -->
+        <div style="background: #f3e5f5; border-radius: 15px; padding: 25px; margin: 30px 0">
+          <h2 style="color: #7b1fa2; margin-bottom: 20px">👨‍🏫 FLUJOS DE INSTRUCTOR</h2>
+
+          <div class="journey-flow">
+            <div class="journey-phase" style="border-left-color: #9c27b0">
+              <h3>🎯 FLUJO 1: "Crear mi perfil de instructor"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Establecer presencia profesional</h4>
+                  <p><strong>1️⃣ Datos básicos:</strong> Nombre, experiencia, especialidades</p>
+                  <p><strong>2️⃣ Certificaciones:</strong> Subir títulos y certificados</p>
+                  <p><strong>3️⃣ Video demo:</strong> Muestra de estilo de enseñanza</p>
+                  <p><strong>4️⃣ Disponibilidad:</strong> Horarios y ubicaciones</p>
+                  <p><strong>5️⃣ Tarifas:</strong> Precios por clase individual/grupal</p>
+                  <p><strong>6️⃣ Verificación:</strong> Validación de credenciales</p>
+                  <div
+                    style="
+                      background: #9c27b0;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    ✅ "Perfil aprobado! Ya apareces en búsquedas"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #e91e63">
+              <h3>📅 FLUJO 2: "Gestionar mi agenda semanal"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Organizar horarios y disponibilidad</h4>
+                  <p><strong>1️⃣ Calendario:</strong> Vista semanal de compromisos</p>
+                  <p><strong>2️⃣ Estudios:</strong> "Lunes: Studio A, Martes: Studio B"</p>
+                  <p><strong>3️⃣ Clases privadas:</strong> Gestionar estudiantes individuales</p>
+                  <p><strong>4️⃣ Disponibilidad:</strong> Marcar horas libres para nuevas clases</p>
+                  <p><strong>5️⃣ Cambios:</strong> Notificar modificaciones a estudiantes</p>
+                  <p><strong>6️⃣ Ingresos:</strong> Tracking de ganancias semanales</p>
+                  <div
+                    style="
+                      background: #e91e63;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    💰 "Esta semana: $12,500 ARS en 18 clases"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #ff5722">
+              <h3>🎪 FLUJO 3: "Organizar workshop propio"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Crear y promocionar evento especial</h4>
+                  <p><strong>1️⃣ Concepto:</strong> "Workshop de Bachata Sensual"</p>
+                  <p><strong>2️⃣ Logística:</strong> Lugar, fecha, duración, precio</p>
+                  <p><strong>3️⃣ Promoción:</strong> Crear página de evento atractiva</p>
+                  <p><strong>4️⃣ Marketing:</strong> Enviar a base de estudiantes</p>
+                  <p><strong>5️⃣ Inscripciones:</strong> Gestionar lista de participantes</p>
+                  <p><strong>6️⃣ Ejecución:</strong> Check-in con QR el día del evento</p>
+                  <div
+                    style="
+                      background: #ff5722;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🎉 "Workshop completo: 24/24 participantes"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #795548">
+              <h3>📈 FLUJO 4: "Hacer crecer mi negocio"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Expandir base de estudiantes</h4>
+                  <p><strong>1️⃣ Análisis:</strong> "Tus estudiantes prefieren bachata"</p>
+                  <p><strong>2️⃣ Oportunidades:</strong> "Demanda alta de kizomba en tu zona"</p>
+                  <p><strong>3️⃣ Networking:</strong> Conectar con otros instructores</p>
+                  <p><strong>4️⃣ Colaboraciones:</strong> Workshops en pareja</p>
+                  <p><strong>5️⃣ Certificación:</strong> Nuevos estilos y técnicas</p>
+                  <p><strong>6️⃣ Marketing:</strong> Estrategias para atraer más estudiantes</p>
+                  <div
+                    style="
+                      background: #795548;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    📊 "Potencial: +40% ingresos con kizomba"
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EVENT ORGANIZER FLOWS -->
+        <div style="background: #fff8e1; border-radius: 15px; padding: 25px; margin: 30px 0">
+          <h2 style="color: #f57f17; margin-bottom: 20px">🎪 FLUJOS DE ORGANIZADOR DE EVENTOS</h2>
+
+          <div class="journey-flow">
+            <div class="journey-phase" style="border-left-color: #ff9800">
+              <h3>🎉 FLUJO 1: "Crear social de baile mensual"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Organizar evento social recurrente</h4>
+                  <p><strong>1️⃣ Concepto:</strong> "Social de Salsa - Primer viernes del mes"</p>
+                  <p><strong>2️⃣ Venue:</strong> Reservar lugar, sonido, pista</p>
+                  <p><strong>3️⃣ DJs/Música:</strong> Contratar DJ o crear playlist</p>
+                  <p><strong>4️⃣ Promoción:</strong> Crear evento en plataforma</p>
+                  <p><strong>5️⃣ Entradas:</strong> Precio, early bird, descuentos</p>
+                  <p><strong>6️⃣ Gestión:</strong> Lista de asistentes con QR</p>
+                  <div
+                    style="
+                      background: #ff9800;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🎵 "180 personas confirmadas - evento exitoso"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #4caf50">
+              <h3>🏆 FLUJO 2: "Organizar competencia de baile"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Evento competitivo con múltiples categorías</h4>
+                  <p><strong>1️⃣ Formato:</strong> "Bachata Battle - Principiante a Profesional"</p>
+                  <p><strong>2️⃣ Categorías:</strong> Por nivel, edad, estilo</p>
+                  <p><strong>3️⃣ Jueces:</strong> Invitar instructores reconocidos</p>
+                  <p><strong>4️⃣ Premios:</strong> Trofeos, dinero, clases gratis</p>
+                  <p><strong>5️⃣ Inscripciones:</strong> Formulario con validación de nivel</p>
+                  <p><strong>6️⃣ Logística:</strong> Cronograma, música, streaming</p>
+                  <div
+                    style="
+                      background: #4caf50;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🏆 "45 parejas inscritas en 6 categorías"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #2196f3">
+              <h3>🌟 FLUJO 3: "Traer instructor internacional"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Workshop exclusivo con maestro reconocido</h4>
+                  <p><strong>1️⃣ Contacto:</strong> Negociar con instructor internacional</p>
+                  <p><strong>2️⃣ Logística:</strong> Vuelos, hotel, visa, transporte</p>
+                  <p><strong>3️⃣ Venue:</strong> Estudio grande para 50+ personas</p>
+                  <p><strong>4️⃣ Pricing:</strong> "Premium workshop: $8000 ARS"</p>
+                  <p><strong>5️⃣ Marketing:</strong> Campaña especial multi-canal</p>
+                  <p><strong>6️⃣ Experiencia:</strong> Video, fotos, certificados</p>
+                  <div
+                    style="
+                      background: #2196f3;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    ⭐ "Workshop sold out: 60/60 participantes"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #e91e63">
+              <h3>📱 FLUJO 4: "Gestión con QR y analytics"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Modernizar gestión de eventos</h4>
+                  <p><strong>1️⃣ QR Tickets:</strong> Generar códigos únicos por persona</p>
+                  <p><strong>2️⃣ Check-in:</strong> Escaneo rápido en la entrada</p>
+                  <p><strong>3️⃣ Analytics:</strong> "85% asistencia real vs inscripciones"</p>
+                  <p><strong>4️⃣ Engagement:</strong> Fotos, videos, networking en vivo</p>
+                  <p><strong>5️⃣ Follow-up:</strong> Encuesta post-evento automática</p>
+                  <p><strong>6️⃣ Database:</strong> Construir base de asistentes fieles</p>
+                  <div
+                    style="
+                      background: #e91e63;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    📊 "92% satisfacción - 78% quiere próximo evento"
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BRAND/SPONSOR FLOWS -->
+        <div style="background: #fce4ec; border-radius: 15px; padding: 25px; margin: 30px 0">
+          <h2 style="color: #c2185b; margin-bottom: 20px">🏷️ FLUJOS DE MARCAS Y PATROCINADORES</h2>
+
+          <div class="journey-flow">
+            <div class="journey-phase" style="border-left-color: #e91e63">
+              <h3>👟 FLUJO 1: "Marca de zapatos busca visibilidad"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Promocionar productos a bailarines</h4>
+                  <p><strong>1️⃣ Perfil:</strong> "Zapatos de baile premium"</p>
+                  <p><strong>2️⃣ Target:</strong> Estudiantes intermedios/avanzados</p>
+                  <p><strong>3️⃣ Contenido:</strong> Artículos sobre técnica y equipamiento</p>
+                  <p><strong>4️⃣ Promociones:</strong> Descuentos exclusivos para usuarios</p>
+                  <p><strong>5️⃣ Eventos:</strong> Patrocinar competencias y workshops</p>
+                  <p><strong>6️⃣ Analytics:</strong> Tracking de conversión y ROI</p>
+                  <div
+                    style="
+                      background: #e91e63;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    📈 "127 ventas en primer mes - ROI 340%"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #9c27b0">
+              <h3>🎵 FLUJO 2: "Escuela de música busca estudiantes"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Atraer bailarines a clases de música</h4>
+                  <p><strong>1️⃣ Conexión:</strong> "Aprende a tocar lo que bailas"</p>
+                  <p><strong>2️⃣ Crossover:</strong> "Clases de percusión para salseros"</p>
+                  <p><strong>3️⃣ Workshops:</strong> "Musicality para bailarines"</p>
+                  <p><strong>4️⃣ Colaboración:</strong> Con instructores de baile</p>
+                  <p><strong>5️⃣ Eventos:</strong> Jam sessions baile + música en vivo</p>
+                  <p><strong>6️⃣ Paquetes:</strong> Descuentos combinados baile + música</p>
+                  <div
+                    style="
+                      background: #9c27b0;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    🎶 "23 bailarines se inscribieron a percusión"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="journey-phase" style="border-left-color: #ff5722">
+              <h3>📱 FLUJO 3: "App de fitness busca partnership"</h3>
+              <div class="mockup-frame">
+                <div class="mockup-screen">
+                  <h4>🎯 Objetivo: Integrar baile como ejercicio</h4>
+                  <p><strong>1️⃣ Integración:</strong> "Baile como cardio en tu rutina"</p>
+                  <p><strong>2️⃣ Tracking:</strong> Calorías quemadas por estilo de baile</p>
+                  <p><strong>3️⃣ Challenges:</strong> "30 días de baile fitness"</p>
+                  <p><strong>4️⃣ Content:</strong> Videos de calentamiento y estiramiento</p>
+                  <p><strong>5️⃣ Community:</strong> Grupos de fitness + baile</p>
+                  <p><strong>6️⃣ Rewards:</strong> Descuentos en clases por metas cumplidas</p>
+                  <div
+                    style="
+                      background: #ff5722;
+                      color: white;
+                      padding: 10px;
+                      border-radius: 5px;
+                      margin: 10px 0;
+                    "
+                  >
+                    💪 "1,200 usuarios activos en challenges"
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDIO MANAGEMENT SECTION -->
+      <div id="studio" class="content-section">
+        <h2 class="section-title">🏢 Studio Management Experience</h2>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.5rem">🎯 SESIÓN #3: STUDIO DISCOVERY</h3>
+          <p style="margin: 10px 0 0 0; font-size: 1.1rem">
+            Diseñando la experiencia completa del lado de la oferta (studios)
+          </p>
+        </div>
+
+        <h3>🔍 Current State: How Studios Operate Today</h3>
+        <div class="pain-point">
+          <strong>Fragmentado y Costoso:</strong> Los studios usan múltiples herramientas dispersas
+          - Mindbody para bookings, Instagram para marketing, WhatsApp para comunicación, Excel para
+          finanzas, email para promociones. Cada herramienta cuesta $50-200/mes y no se integran
+          entre sí.
+        </div>
+
+        <h3>😤 Studio Owner Pain Points</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">💰</span>
+                Marketing & Acquisition
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>$500-2000/month en Google Ads con ROI incierto</li>
+                <li>Dependencia de Instagram orgánico (algoritmo impredecible)</li>
+                <li>Competencia feroz con otros studios locales</li>
+                <li>Difícil medir qué marketing funciona realmente</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">⏰</span>
+                Operational Efficiency
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Gestión manual de horarios y disponibilidad</li>
+                <li>Cancelaciones de último minuto sin relleno</li>
+                <li>Comunicación dispersa con estudiantes</li>
+                <li>Reportes financieros complejos y manuales</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">👥</span>
+                Student Retention
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>60% de estudiantes abandonan después del primer mes</li>
+                <li>Difícil identificar estudiantes en riesgo de abandono</li>
+                <li>Falta de datos sobre progreso del estudiante</li>
+                <li>Comunicación reactiva en lugar de proactiva</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">📊</span>
+                Business Intelligence
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Sin datos en tiempo real sobre performance</li>
+                <li>Decisiones basadas en intuición, no datos</li>
+                <li>Imposible predecir demanda futura</li>
+                <li>ROI de marketing completamente opaco</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Perfect Studio Management Journey</h3>
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #4caf50">
+            <h3>🚀 Phase 1: Onboarding & Setup (Day 1)</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎯 Smart Studio Setup</h4>
+                <p><strong>1️⃣ Studio Profile:</strong> "Upload photos, describe your vibe"</p>
+                <p><strong>2️⃣ Import Schedule:</strong> "Connect your existing calendar"</p>
+                <p><strong>3️⃣ Instructor Profiles:</strong> "Add your teaching team"</p>
+                <p><strong>4️⃣ Pricing Strategy:</strong> "AI suggests optimal pricing"</p>
+                <div
+                  style="
+                    background: #4caf50;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🎉 Studio live in 30 minutes!
+                </div>
+              </div>
+            </div>
+
+            <h4>Key Features:</h4>
+            <ul>
+              <li>One-click import from existing booking systems</li>
+              <li>AI-powered pricing recommendations based on local market</li>
+              <li>Automated photo optimization and virtual tour creation</li>
+              <li>Instant integration with payment processing</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ff9800">
+            <h3>📊 Phase 2: Daily Operations Dashboard</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>📈 Real-time Studio Intelligence</h4>
+                <p><strong>Today:</strong> 23 bookings, $1,840 revenue</p>
+                <p><strong>This Week:</strong> 89% capacity, trending +12%</p>
+                <p><strong>Alert:</strong> 3 students at risk of churning</p>
+                <p>
+                  <strong>Opportunity:</strong> Salsa beginner class has waitlist - add session?
+                </p>
+              </div>
+            </div>
+
+            <h4>Intelligence Features:</h4>
+            <ul>
+              <li>Predictive analytics for demand forecasting</li>
+              <li>Automated churn risk identification</li>
+              <li>Dynamic pricing suggestions based on demand</li>
+              <li>Competitor analysis and market positioning</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #9c27b0">
+            <h3>🎯 Phase 3: Automated Student Success</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🤖 Proactive Student Engagement</h4>
+                <p><strong>Auto-message:</strong> "Maria missed 2 classes - send check-in?"</p>
+                <p>
+                  <strong>Recommendation:</strong> "John ready for intermediate - suggest upgrade?"
+                </p>
+                <p><strong>Retention:</strong> "Send personalized practice video to Sarah"</p>
+                <p><strong>Upsell:</strong> "5 students perfect for private lessons"</p>
+              </div>
+            </div>
+
+            <h4>Automation Features:</h4>
+            <ul>
+              <li>AI-powered student journey optimization</li>
+              <li>Automated retention campaigns</li>
+              <li>Smart upselling and cross-selling</li>
+              <li>Personalized communication at scale</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>💡 Studio Success Metrics</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">+40%</div>
+            <p>Revenue Increase<br /><small>vs traditional methods</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">85%</div>
+            <p>Student Retention<br /><small>vs 40% industry avg</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">-60%</div>
+            <p>Marketing Costs<br /><small>through platform discovery</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">2 hours</div>
+            <p>Daily Admin Time<br /><small>vs 6 hours manual</small></p>
+          </div>
+        </div>
+
+        <div class="next-session">
+          <h3>🎯 Next Discovery Session</h3>
+          <p style="font-size: 1.2rem; margin-bottom: 15px">
+            <strong>"How should the instructor experience work?"</strong>
+          </p>
+          <p>
+            Diseñar la experiencia para profesores independientes y empleados de studios - desde el
+            onboarding hasta la gestión de clases y pagos.
+          </p>
+          <button class="btn-primary" style="margin-top: 15px; background: white; color: #ff3366">
+            Continuar con Sesión #4 →
+          </button>
+        </div>
+      </div>
+
+      <!-- INSTRUCTOR EXPERIENCE SECTION -->
+      <div id="instructor" class="content-section">
+        <h2 class="section-title">👨‍🏫 Instructor Experience</h2>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.5rem">🎯 SESIÓN #4: INSTRUCTOR DISCOVERY</h3>
+          <p style="margin: 10px 0 0 0; font-size: 1.1rem">
+            Diseñando la experiencia completa para instructores independientes y empleados
+          </p>
+        </div>
+
+        <h3>🔍 Current State: How Instructors Work Today</h3>
+        <div class="pain-point">
+          <strong>Fragmentado y Manual:</strong> Los instructores independientes manejan todo
+          manualmente - WhatsApp para comunicación, Instagram para promoción, transferencias
+          bancarias para pagos, Excel para horarios. Los empleados de studios dependen completamente
+          de las herramientas del studio sin autonomía.
+        </div>
+
+        <h3>💡 NUEVA FUNCIONALIDAD: Flyer Intelligence + WhatsApp Integration</h3>
+        <div class="solution">
+          <strong>Game Changer:</strong> Los instructores suben flyers de eventos/clases y nuestra
+          AI extrae automáticamente toda la información (fecha, hora, lugar, precio, estilo). Los
+          usuarios pueden enviar flyers por WhatsApp a nuestro bot para obtener info instantánea y
+          booking directo.
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>📱 WhatsApp Bot Integration</h4>
+            <ul>
+              <li>Usuarios envían flyers al WhatsApp de UDance</li>
+              <li>AI extrae: fecha, hora, ubicación, precio, instructor</li>
+              <li>Respuesta automática con detalles + link de booking</li>
+              <li>Notificaciones de eventos cercanos por ubicación</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>🎨 Smart Flyer Processing</h4>
+            <ul>
+              <li>OCR + AI para extraer información de cualquier flyer</li>
+              <li>Auto-categorización por estilo de baile</li>
+              <li>Detección de ubicación y mapeo automático</li>
+              <li>Validación de precios y disponibilidad</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📢 Viral Distribution</h4>
+            <ul>
+              <li>Flyers se comparten automáticamente en la plataforma</li>
+              <li>Push notifications a usuarios interesados</li>
+              <li>Integration con Instagram Stories y posts</li>
+              <li>Tracking de conversión flyer-to-booking</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>😤 Instructor Pain Points</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">💰</span>
+                Income Instability
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Ingresos impredecibles mes a mes</li>
+                <li>Dependencia de pocos estudiantes regulares</li>
+                <li>Dificultad para escalar sin más horas físicas</li>
+                <li>Falta de beneficios (seguro, vacaciones)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">📱</span>
+                Marketing & Promotion
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Crear contenido constantemente para redes sociales</li>
+                <li>Gestión manual de flyers y promociones</li>
+                <li>Alcance limitado a seguidores existentes</li>
+                <li>Competencia con otros instructores locales</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">⏰</span>
+                Administrative Overhead
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Gestión manual de pagos y cobros</li>
+                <li>Coordinación de horarios con múltiples venues</li>
+                <li>Seguimiento manual de asistencia</li>
+                <li>Comunicación dispersa con estudiantes</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">📈</span>
+                Professional Growth
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Falta de métricas sobre su performance</li>
+                <li>Sin feedback estructurado de estudiantes</li>
+                <li>Limitadas oportunidades de networking</li>
+                <li>Dificultad para construir reputación online</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Perfect Instructor Journey</h3>
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #9c27b0">
+            <h3>🚀 Phase 1: Smart Onboarding (15 minutes)</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎯 Instructor Profile Creation</h4>
+                <p><strong>1️⃣ Upload Video:</strong> "Show us your teaching style"</p>
+                <p>
+                  <strong>2️⃣ AI Analysis:</strong> "We detected: Salsa, Intermediate level,
+                  Energetic style"
+                </p>
+                <p><strong>3️⃣ Schedule Import:</strong> "Connect your calendar or upload flyers"</p>
+                <p>
+                  <strong>4️⃣ Pricing Strategy:</strong> "AI suggests $25-35/class based on your
+                  profile"
+                </p>
+                <div
+                  style="
+                    background: #9c27b0;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🎉 Profile live! 3 students already interested
+                </div>
+              </div>
+            </div>
+
+            <h4>Key Features:</h4>
+            <ul>
+              <li>AI-powered video analysis for automatic skill tagging</li>
+              <li>Smart pricing recommendations based on market data</li>
+              <li>Flyer upload with automatic event extraction</li>
+              <li>Instant matching with interested students</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ff5722">
+            <h3>📱 Phase 2: Flyer & WhatsApp Magic</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎨 Flyer Intelligence System</h4>
+                <p><strong>Upload:</strong> Instructor uploads flyer image</p>
+                <p><strong>AI Extract:</strong> "Salsa Social, Sábado 8PM, Studio XYZ, €15"</p>
+                <p><strong>Auto-Post:</strong> Event live on platform + social media</p>
+                <p>
+                  <strong>WhatsApp Bot:</strong> Users send flyer → instant event details + booking
+                </p>
+                <div
+                  style="
+                    background: #25d366;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  💬 "Hola! Detecté un evento de Salsa el sábado. ¿Te interesa? [RESERVAR]"
+                </div>
+              </div>
+            </div>
+
+            <h4>WhatsApp Integration Features:</h4>
+            <ul>
+              <li>24/7 bot que procesa flyers enviados por usuarios</li>
+              <li>Extracción automática de fecha, hora, lugar, precio</li>
+              <li>Respuesta instantánea con detalles + booking link</li>
+              <li>Notificaciones proactivas de eventos relevantes</li>
+              <li>Tracking de conversión flyer → booking</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #4caf50">
+            <h3>💰 Phase 3: Revenue Optimization</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>📊 Instructor Business Dashboard</h4>
+                <p><strong>This Month:</strong> €2,340 earned, 89 students, 4.8★ rating</p>
+                <p><strong>Trending:</strong> Your salsa classes +25% vs last month</p>
+                <p><strong>Opportunity:</strong> 12 students want private lessons</p>
+                <p><strong>Suggestion:</strong> Add bachata classes - high demand in your area</p>
+              </div>
+            </div>
+
+            <h4>Revenue Features:</h4>
+            <ul>
+              <li>Automated payment processing and instant payouts</li>
+              <li>Dynamic pricing suggestions based on demand</li>
+              <li>Upselling opportunities (privates, workshops)</li>
+              <li>Cross-selling different dance styles</li>
+              <li>Performance analytics and growth recommendations</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ff9800">
+            <h3>🌟 Phase 4: Professional Growth</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🏆 Instructor Development</h4>
+                <p><strong>Achievements:</strong> "100 Happy Students" badge unlocked</p>
+                <p><strong>Networking:</strong> "Connect with 5 instructors in your area"</p>
+                <p><strong>Opportunities:</strong> "3 studios want to interview you"</p>
+                <p><strong>Skills:</strong> "Students request more bachata - take our course?"</p>
+              </div>
+            </div>
+
+            <h4>Growth Features:</h4>
+            <ul>
+              <li>Reputation system with verified student reviews</li>
+              <li>Professional networking with other instructors</li>
+              <li>Job opportunities from studios</li>
+              <li>Skill development recommendations</li>
+              <li>Event organization and collaboration tools</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>💡 Instructor Success Metrics</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">+180%</div>
+            <p>Income Increase<br /><small>vs traditional methods</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">90%</div>
+            <p>Student Retention<br /><small>vs 50% industry avg</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">-70%</div>
+            <p>Admin Time<br /><small>through automation</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5x</div>
+            <p>Reach Expansion<br /><small>through platform discovery</small></p>
+          </div>
+        </div>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+          "
+        >
+          <h3>🎯 WhatsApp Flyer Bot - Technical Specs</h3>
+          <div class="feature-grid" style="margin-top: 20px">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>📱 Bot Capabilities</h4>
+              <ul style="margin: 0; color: white">
+                <li>Recibe imágenes de flyers 24/7</li>
+                <li>OCR + AI para extraer datos</li>
+                <li>Respuesta en <3 segundos</li>
+                <li>Soporte multi-idioma</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🧠 AI Processing</h4>
+              <ul style="margin: 0; color: white">
+                <li>Detección de fecha/hora</li>
+                <li>Extracción de ubicación</li>
+                <li>Identificación de estilo de baile</li>
+                <li>Análisis de precios</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="next-session">
+          <h3>🎯 Next Discovery Session</h3>
+          <p style="font-size: 1.2rem; margin-bottom: 15px">
+            <strong>"How should events and community features work?"</strong>
+          </p>
+          <p>
+            Diseñar el ecosistema completo de eventos sociales, competencias, workshops y
+            funcionalidades de comunidad que conecten a todos los usuarios.
+          </p>
+          <button class="btn-primary" style="margin-top: 15px; background: white; color: #ff3366">
+            Continuar con Sesión #5 →
+          </button>
+        </div>
+      </div>
+
+      <!-- EVENTS & COMMUNITY SECTION -->
+      <div id="events" class="content-section">
+        <h2 class="section-title">🎪 Events & Community Features</h2>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.5rem">🎯 SESIÓN #5: EVENTS & COMMUNITY DISCOVERY</h3>
+          <p style="margin: 10px 0 0 0; font-size: 1.1rem">
+            Diseñando el ecosistema viral de eventos, sociales, competencias y comunidad
+          </p>
+        </div>
+
+        <h3>🔍 Current State: How Dance Events Work Today</h3>
+        <div class="pain-point">
+          <strong>Caótico y Disperso:</strong> Los eventos de baile se promocionan por Instagram,
+          Facebook, WhatsApp groups, flyers físicos. Los asistentes se enteran por casualidad o boca
+          a boca. No hay forma centralizada de descubrir eventos, RSVP es manual, y no existe
+          seguimiento post-evento.
+        </div>
+
+        <h3>🎪 Event Ecosystem Pain Points</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🔍</span>
+                Event Discovery
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Eventos se pierden en el ruido de redes sociales</li>
+                <li>Sin filtros por nivel, estilo, o ubicación</li>
+                <li>Información incompleta o desactualizada</li>
+                <li>Difícil encontrar eventos de último minuto</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">👥</span>
+                Social Connection
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Ir solo a eventos da ansiedad social</li>
+                <li>Difícil encontrar partners de nivel similar</li>
+                <li>Sin forma de conectar después del evento</li>
+                <li>Comunidades fragmentadas por studio/estilo</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🏆</span>
+                Competition & Growth
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Sin tracking de progreso personal</li>
+                <li>Competencias limitadas a círculos cerrados</li>
+                <li>Falta de reconocimiento y gamificación</li>
+                <li>Sin incentivos para mejorar y participar</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">📊</span>
+                Event Organization
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Gestión manual de RSVPs y pagos</li>
+                <li>Sin datos sobre preferencias de asistentes</li>
+                <li>Marketing costoso con alcance limitado</li>
+                <li>Difícil medir éxito y ROI de eventos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Perfect Event & Community Experience</h3>
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #ff6b35">
+            <h3>🔍 Phase 1: Intelligent Event Discovery</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎪 Smart Event Feed</h4>
+                <p><strong>Tonight:</strong> 3 salsa sociales cerca de ti</p>
+                <p><strong>This Weekend:</strong> Bachata workshop con Ataca y Alemana</p>
+                <p><strong>Your Level:</strong> 2 intermediate competitions this month</p>
+                <p><strong>Friends Going:</strong> Maria y 5 más van al social de sábado</p>
+                <div
+                  style="
+                    background: #ff6b35;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🎯 "Perfect match: 94% - Salsa social, tu nivel, 3 amigos van"
+                </div>
+              </div>
+            </div>
+
+            <h4>Discovery Features:</h4>
+            <ul>
+              <li>AI-powered event recommendations based on skill level</li>
+              <li>Social proof: friends attending, community buzz</li>
+              <li>Real-time updates on capacity and last-minute changes</li>
+              <li>Flyer processing integration (from Session #4)</li>
+              <li>Location-based push notifications</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #9c27b0">
+            <h3>👥 Phase 2: Social Connection & Matching</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🤝 Pre-Event Networking</h4>
+                <p><strong>Going Solo?</strong> "3 people looking for dance partners"</p>
+                <p><strong>Skill Match:</strong> "Ana (intermediate) wants to practice spins"</p>
+                <p><strong>Group Formation:</strong> "Join the 'Beginners Table' - 8 people"</p>
+                <p>
+                  <strong>Ride Sharing:</strong> "Carlos offers ride from Centro - 2 spots left"
+                </p>
+                <div
+                  style="
+                    background: #9c27b0;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  💬 "¡Hola! Vamos al mismo evento. ¿Practicamos juntos?"
+                </div>
+              </div>
+            </div>
+
+            <h4>Social Features:</h4>
+            <ul>
+              <li>Pre-event partner matching by skill level</li>
+              <li>Group formation for beginners and solo attendees</li>
+              <li>Ride sharing and meetup coordination</li>
+              <li>Event-specific chat rooms and discussions</li>
+              <li>Ice-breaker games and activities</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #4caf50">
+            <h3>🎉 Phase 3: Live Event Experience</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>📱 Live Event Hub</h4>
+                <p><strong>Now Playing:</strong> "Vivir Mi Vida" - Marc Anthony</p>
+                <p><strong>Next:</strong> Bachata block in 10 minutes</p>
+                <p><strong>Challenges:</strong> "Spin Challenge - 15 people participating"</p>
+                <p><strong>Social:</strong> "Tag your best dance partner tonight!"</p>
+                <div
+                  style="
+                    background: #4caf50;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🏆 "Achievement Unlocked: Social Butterfly - danced with 10 people!"
+                </div>
+              </div>
+            </div>
+
+            <h4>Live Features:</h4>
+            <ul>
+              <li>Real-time music identification and playlists</li>
+              <li>Live challenges and mini-competitions</li>
+              <li>Photo/video sharing with auto-tagging</li>
+              <li>Achievement system and gamification</li>
+              <li>Live polling and feedback</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #e91e63">
+            <h3>🌟 Phase 4: Post-Event Community Building</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>📸 Event Memories & Connections</h4>
+                <p><strong>Your Night:</strong> "Danced 12 songs, met 8 new people"</p>
+                <p><strong>New Connections:</strong> "5 people want to practice with you"</p>
+                <p><strong>Next Events:</strong> "Ana is going to 3 events you'd love"</p>
+                <p>
+                  <strong>Practice Groups:</strong> "Join the Tuesday practice group - 12 members"
+                </p>
+                <div
+                  style="
+                    background: #e91e63;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🎵 "Tonight's playlist saved! Share with your new dance partners"
+                </div>
+              </div>
+            </div>
+
+            <h4>Community Features:</h4>
+            <ul>
+              <li>Automatic connection suggestions based on dances shared</li>
+              <li>Practice group formation and scheduling</li>
+              <li>Event photo/video sharing and memories</li>
+              <li>Follow-up event recommendations</li>
+              <li>Community challenges and goals</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🏆 Gamification & Achievement System</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>🎯 Personal Progress</h4>
+            <ul>
+              <li><strong>Dance Passport:</strong> Track events attended by city/style</li>
+              <li><strong>Skill Badges:</strong> Beginner → Intermediate → Advanced</li>
+              <li><strong>Social Achievements:</strong> "Community Connector", "Event Explorer"</li>
+              <li><strong>Streak Tracking:</strong> "7 consecutive weeks dancing"</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>👥 Community Challenges</h4>
+            <ul>
+              <li><strong>Monthly Themes:</strong> "Salsa September", "Bachata November"</li>
+              <li><strong>Group Goals:</strong> "Studio vs Studio dance-off"</li>
+              <li><strong>Charity Events:</strong> "Dance for a cause" fundraisers</li>
+              <li><strong>Viral Challenges:</strong> TikTok-style dance challenges</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>🏅 Competition System</h4>
+            <ul>
+              <li><strong>Skill-Based Brackets:</strong> Fair competition by level</li>
+              <li><strong>Online Qualifiers:</strong> Video submissions for major events</li>
+              <li><strong>Community Voting:</strong> People's choice awards</li>
+              <li><strong>Professional Path:</strong> Pathway to pro competitions</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>🎁 Rewards & Incentives</h4>
+            <ul>
+              <li><strong>Event Discounts:</strong> Loyalty points for regular attendees</li>
+              <li><strong>Exclusive Access:</strong> VIP events for top community members</li>
+              <li><strong>Merchandise:</strong> Custom UDance gear and dance accessories</li>
+              <li><strong>Partnerships:</strong> Discounts with dance shoe brands, studios</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🚀 Viral Growth Mechanisms</h3>
+        <div
+          style="
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+          "
+        >
+          <h3>📈 Community-Driven Growth Engine</h3>
+          <div class="stats-grid" style="margin-top: 20px">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🎪 Event Virality</h4>
+              <ul style="margin: 0; color: white">
+                <li>Cada evento genera 2.3 nuevos usuarios</li>
+                <li>Social sharing con auto-tagging</li>
+                <li>FOMO-driven notifications</li>
+                <li>Influencer partnership program</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>👥 Network Effects</h4>
+              <ul style="margin: 0; color: white">
+                <li>Más usuarios = más eventos = más valor</li>
+                <li>Cross-pollination entre estilos</li>
+                <li>Geographic expansion natural</li>
+                <li>Community-generated content</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>💡 Community Success Metrics</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">2.3x</div>
+            <p>Viral Coefficient<br /><small>per event attended</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">85%</div>
+            <p>Event Attendance Rate<br /><small>vs 60% industry avg</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">+300%</div>
+            <p>Social Connections<br /><small>vs traditional events</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">40%</div>
+            <p>Monthly Active Users<br /><small>in community features</small></p>
+          </div>
+        </div>
+
+        <div class="next-session">
+          <h3>🎯 Next Discovery Session</h3>
+          <p style="font-size: 1.2rem; margin-bottom: 15px">
+            <strong>"How should payments and financial systems work?"</strong>
+          </p>
+          <p>
+            Diseñar un sistema de pagos transparente, seguro y optimizado para todos los
+            stakeholders - estudiantes, instructores, studios, y organizadores de eventos.
+          </p>
+          <button class="btn-primary" style="margin-top: 15px; background: white; color: #ff3366">
+            Continuar con Sesión #6 →
+          </button>
+        </div>
+      </div>
+
+      <!-- PAYMENT SYSTEMS SECTION -->
+      <div id="payments" class="content-section">
+        <h2 class="section-title">💳 Payment & Financial Systems</h2>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #00c9ff, #92fe9d);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.5rem">🎯 SESIÓN #6: PAYMENT SYSTEMS DISCOVERY</h3>
+          <p style="margin: 10px 0 0 0; font-size: 1.1rem">
+            Diseñando un sistema financiero transparente y frictionless para todo el ecosistema
+          </p>
+        </div>
+
+        <h3>🔍 Current State: How Dance Payments Work Today</h3>
+        <div class="pain-point">
+          <strong>Fragmentado y Opaco:</strong> Los pagos en el mundo del baile son un caos -
+          transferencias bancarias, efectivo, Bizum, PayPal, Stripe por separado. Los instructores
+          esperan semanas para cobrar, los studios tienen cash flow impredecible, y los estudiantes
+          no saben exactamente qué están pagando.
+        </div>
+
+        <h3>💸 Financial Pain Points by User Type</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎓</span>
+                Student Payment Friction
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Múltiples métodos de pago por studio/instructor</li>
+                <li>Falta de transparencia en precios (fees ocultos)</li>
+                <li>Sin opciones de financiamiento para workshops caros</li>
+                <li>Imposible trackear gastos en baile mensualmente</li>
+                <li>Cancelaciones complicadas y reembolsos lentos</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎯</span>
+                Instructor Cash Flow Issues
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Pagos irregulares y tardíos (15-30 días)</li>
+                <li>Comisiones de plataformas confusas (5-15%)</li>
+                <li>Sin protección ante cancelaciones de último minuto</li>
+                <li>Dificultad para gestionar impuestos y facturas</li>
+                <li>Falta de herramientas de financial planning</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🏢</span>
+                Studio Revenue Complexity
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Cash flow impredecible por pagos dispersos</li>
+                <li>Reconciliación manual compleja (horas/semana)</li>
+                <li>Sin insights sobre customer lifetime value</li>
+                <li>Dificultad para optimizar pricing strategies</li>
+                <li>Problemas con chargebacks y disputes</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎪</span>
+                Event Payment Chaos
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Split payments complejos entre múltiples stakeholders</li>
+                <li>Gestión manual de group bookings</li>
+                <li>Sin opciones de payment plans para eventos caros</li>
+                <li>Reembolsos complicados por cancelaciones</li>
+                <li>Falta de transparencia en fee breakdown</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Perfect Payment Experience Journey</h3>
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #00c9ff">
+            <h3>💳 Phase 1: Frictionless Student Payments</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎯 Smart Payment Options</h4>
+                <p><strong>One-Click:</strong> "Saved cards, Apple Pay, Google Pay"</p>
+                <p><strong>Flexible:</strong> "Pay €65 now or 3x €22/month"</p>
+                <p><strong>Transparent:</strong> "€60 class + €5 platform fee = €65 total"</p>
+                <p><strong>Smart Bundles:</strong> "Save €15 with 5-class package"</p>
+                <div
+                  style="
+                    background: #00c9ff;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  💰 "Payment confirmed! €5 back in rewards for next booking"
+                </div>
+              </div>
+            </div>
+
+            <h4>Student Payment Features:</h4>
+            <ul>
+              <li>One-click payments with saved methods (cards, wallets, BNPL)</li>
+              <li>Transparent fee breakdown with no hidden costs</li>
+              <li>Flexible payment plans for expensive workshops/events</li>
+              <li>Automatic rewards and cashback system</li>
+              <li>Instant refunds and cancellation protection</li>
+              <li>Monthly spending tracking and budgeting tools</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #92fe9d">
+            <h3>⚡ Phase 2: Instant Instructor Payouts</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>💸 Real-Time Earnings Dashboard</h4>
+                <p><strong>Today:</strong> "€180 earned, €162 after fees (10%)"</p>
+                <p><strong>Available:</strong> "€162 ready for instant payout"</p>
+                <p><strong>Protection:</strong> "€18 held for 24h (cancellation buffer)"</p>
+                <p><strong>Tax Ready:</strong> "Q4 report: €12,450 earned, €1,245 fees"</p>
+                <div
+                  style="
+                    background: #92fe9d;
+                    color: #2d3748;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🚀 "Instant payout to your account in 2 minutes"
+                </div>
+              </div>
+            </div>
+
+            <h4>Instructor Payout Features:</h4>
+            <ul>
+              <li>Instant payouts (2-minute bank transfers)</li>
+              <li>Transparent fee structure with no surprises</li>
+              <li>Automatic tax reporting and invoice generation</li>
+              <li>Cancellation protection and dispute resolution</li>
+              <li>Performance-based fee reductions (high-rated instructors)</li>
+              <li>Financial planning tools and earnings forecasting</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #667eea">
+            <h3>📊 Phase 3: Studio Revenue Intelligence</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>💰 Revenue Optimization Dashboard</h4>
+                <p><strong>This Month:</strong> "€28,450 revenue, €4,267 platform fees"</p>
+                <p><strong>Trending:</strong> "Bachata classes +35% vs last month"</p>
+                <p>
+                  <strong>Optimization:</strong> "Increase beginner salsa price by €3 → +€890/month"
+                </p>
+                <p><strong>Cash Flow:</strong> "Next payout: €24,183 tomorrow at 9 AM"</p>
+                <div
+                  style="
+                    background: #667eea;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  📈 "Recommended: Launch 'Couples Package' → +€1,200/month"
+                </div>
+              </div>
+            </div>
+
+            <h4>Studio Financial Features:</h4>
+            <ul>
+              <li>Predictable daily payouts with cash flow forecasting</li>
+              <li>AI-powered pricing optimization recommendations</li>
+              <li>Automatic reconciliation and financial reporting</li>
+              <li>Customer lifetime value tracking and insights</li>
+              <li>Dynamic pricing based on demand patterns</li>
+              <li>Integrated accounting software connections</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ff6b6b">
+            <h3>🎪 Phase 4: Smart Event Financial Management</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎫 Event Payment Orchestration</h4>
+                <p><strong>Event Revenue:</strong> "€15,680 total, 234 attendees"</p>
+                <p>
+                  <strong>Auto-Split:</strong> "€9,408 venue, €4,704 instructors, €1,568 platform"
+                </p>
+                <p><strong>Group Booking:</strong> "Studio XYZ: 15 students, 20% group discount"</p>
+                <p><strong>Payment Plans:</strong> "47 attendees using 3-month payment plan"</p>
+                <div
+                  style="
+                    background: #ff6b6b;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🎉 "All payouts processed automatically. Event financially closed!"
+                </div>
+              </div>
+            </div>
+
+            <h4>Event Financial Features:</h4>
+            <ul>
+              <li>Automatic revenue splitting between multiple stakeholders</li>
+              <li>Group booking discounts and corporate packages</li>
+              <li>Flexible payment plans for expensive workshops</li>
+              <li>Early bird pricing and dynamic pricing optimization</li>
+              <li>Instant refunds for cancellations with smart policies</li>
+              <li>Comprehensive financial reporting for all parties</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🔒 Security & Compliance</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>🛡️ Payment Security</h4>
+            <ul>
+              <li><strong>PCI DSS Compliance:</strong> Bank-level security standards</li>
+              <li><strong>3D Secure:</strong> Advanced fraud protection</li>
+              <li><strong>Tokenization:</strong> No sensitive data stored</li>
+              <li><strong>Biometric Auth:</strong> Fingerprint/Face ID payments</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>⚖️ Regulatory Compliance</h4>
+            <ul>
+              <li><strong>EU Regulations:</strong> PSD2, GDPR compliance</li>
+              <li><strong>Tax Automation:</strong> VAT, income tax reporting</li>
+              <li><strong>AML/KYC:</strong> Anti-money laundering checks</li>
+              <li><strong>Multi-Currency:</strong> EUR, USD, GBP support</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>🔄 Dispute Resolution</h4>
+            <ul>
+              <li><strong>Smart Contracts:</strong> Automated dispute handling</li>
+              <li><strong>Escrow System:</strong> Payment protection for both parties</li>
+              <li><strong>Mediation Tools:</strong> In-app resolution process</li>
+              <li><strong>Insurance:</strong> Payment protection coverage</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📱 Payment Innovation</h4>
+            <ul>
+              <li><strong>Buy Now Pay Later:</strong> Klarna, Afterpay integration</li>
+              <li><strong>Crypto Payments:</strong> Bitcoin, stablecoins support</li>
+              <li><strong>Social Payments:</strong> Split bills with friends</li>
+              <li><strong>Subscription Management:</strong> Flexible recurring payments</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>💰 Fee Structure Innovation</h3>
+        <div
+          style="
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+          "
+        >
+          <h3>🎯 Transparent & Performance-Based Fees</h3>
+          <div class="stats-grid" style="margin-top: 20px">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🎓 Student Fees</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Standard:</strong> 3% + €0.30 per transaction</li>
+                <li><strong>Premium:</strong> €9.99/month → 0% fees</li>
+                <li><strong>Rewards:</strong> 2% cashback on bookings</li>
+                <li><strong>Group:</strong> 1% fee for 5+ people bookings</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🎯 Instructor Fees</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>New:</strong> 15% first 3 months</li>
+                <li><strong>Standard:</strong> 10% ongoing</li>
+                <li><strong>Pro (4.8+ rating):</strong> 8%</li>
+                <li><strong>Elite (4.9+ rating):</strong> 6%</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🏢 Studio Fees</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Starter:</strong> €99/month + 5%</li>
+                <li><strong>Professional:</strong> €299/month + 3%</li>
+                <li><strong>Enterprise:</strong> €599/month + 2%</li>
+                <li><strong>Volume Discounts:</strong> 1000+ bookings → -1%</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🎪 Event Fees</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Small (&lt;50 people):</strong> 8%</li>
+                <li><strong>Medium (50-200):</strong> 6%</li>
+                <li><strong>Large (200+):</strong> 4%</li>
+                <li><strong>Charity Events:</strong> 2%</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>💡 Financial Success Metrics</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">&lt;2min</div>
+            <p>Payout Speed<br /><small>vs 7-14 days industry</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">99.8%</div>
+            <p>Payment Success Rate<br /><small>vs 95% industry avg</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">-40%</div>
+            <p>Admin Time<br /><small>vs manual reconciliation</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">+25%</div>
+            <p>Revenue Increase<br /><small>through optimization</small></p>
+          </div>
+        </div>
+
+        <div
+          style="
+            background: #ffb74d;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+          "
+        >
+          <h3>⚠️ IMPORTANTE: Sin Pagos Integrados</h3>
+          <p style="margin: 10px 0; font-size: 1.1rem">
+            <strong>DECISIÓN:</strong> Por simplicidad legal/impositiva, NO manejamos pagos online.
+          </p>
+          <div class="feature-grid" style="margin-top: 20px">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>✅ Lo que SÍ hacemos</h4>
+              <ul style="margin: 0; color: white; text-align: left">
+                <li>Reservas simples (datos básicos)</li>
+                <li>Notificaciones al estudio</li>
+                <li>Datos de contacto visibles</li>
+                <li>Revenue via subscripciones de estudios</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>❌ Lo que NO hacemos</h4>
+              <ul style="margin: 0; color: white; text-align: left">
+                <li>Procesamiento de pagos online</li>
+                <li>Comisiones por transacción</li>
+                <li>Integración Stripe/PayPal</li>
+                <li>Problemas legales/impositivos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE EXPERIENCE SECTION -->
+      <div id="mobile" class="content-section">
+        <h2 class="section-title">📱 Mobile Experience & Notifications</h2>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.5rem">🎯 SESIÓN #7: MOBILE EXPERIENCE DISCOVERY</h3>
+          <p style="margin: 10px 0 0 0; font-size: 1.1rem">
+            Diseñando una experiencia móvil nativa con notificaciones inteligentes que fomenten el
+            engagement sin ser intrusivas
+          </p>
+        </div>
+
+        <h3>📱 Current State: Mobile Dance App Landscape</h3>
+        <div class="pain-point">
+          <strong>Fragmentado y Básico:</strong> La mayoría de apps de baile son básicas (solo
+          horarios/booking), sin personalización, notificaciones spam, y experiencias web responsive
+          pobres. Los usuarios alternan entre múltiples apps, websites, y WhatsApp para gestionar su
+          vida de baile.
+        </div>
+
+        <h3>📱 Mobile Pain Points by User Type</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎓</span>
+                Student Mobile Friction
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Apps lentas y con interfaces confusas</li>
+                <li>Notificaciones irrelevantes que terminan silenciadas</li>
+                <li>Imposible encontrar clases rápidamente en el móvil</li>
+                <li>Sin integración con calendario personal</li>
+                <li>Booking process complicado en pantallas pequeñas</li>
+                <li>Sin modo offline para horarios guardados</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎯</span>
+                Instructor Mobile Challenges
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Gestión de clases desde móvil es frustrante</li>
+                <li>Sin herramientas rápidas para comunicar con estudiantes</li>
+                <li>Imposible trackear earnings en tiempo real</li>
+                <li>Sin notificaciones inteligentes sobre cancelaciones</li>
+                <li>Dificultad para subir contenido (videos, fotos) desde móvil</li>
+                <li>Sin acceso offline a listas de estudiantes</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🏢</span>
+                Studio Mobile Management
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Dashboards no optimizados para móvil</li>
+                <li>Sin notificaciones proactivas sobre problemas</li>
+                <li>Imposible gestionar emergencias desde móvil</li>
+                <li>Sin insights en tiempo real sobre ocupación</li>
+                <li>Comunicación manual con estudiantes</li>
+                <li>Sin herramientas móviles para staff</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎪</span>
+                Event Mobile Experience
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Información de eventos dispersa en múltiples apps</li>
+                <li>Sin notificaciones contextuales sobre eventos cercanos</li>
+                <li>Booking de eventos complicado en móvil</li>
+                <li>Sin networking tools durante eventos</li>
+                <li>Imposible compartir momentos fácilmente</li>
+                <li>Sin follow-up post-evento</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Perfect Mobile Experience Journey</h3>
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #667eea">
+            <h3>⚡ Phase 1: Lightning-Fast Discovery & Booking</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>📱 Smart Home Screen</h4>
+                <p><strong>Personalized Feed:</strong> "3 salsa classes near you tonight"</p>
+                <p><strong>Quick Actions:</strong> "Book usual Tuesday bachata" (1 tap)</p>
+                <p>
+                  <strong>Smart Suggestions:</strong> "Try kizomba? 85% match based on your
+                  preferences"
+                </p>
+                <p><strong>Live Updates:</strong> "2 spots left in your favorite class"</p>
+                <div
+                  style="
+                    background: #667eea;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  ⚡ "Booked in 3 seconds! Added to your calendar automatically"
+                </div>
+              </div>
+            </div>
+
+            <h4>Lightning-Fast Mobile Features:</h4>
+            <ul>
+              <li>Sub-3-second app startup with intelligent caching</li>
+              <li>One-tap booking for regular classes with smart defaults</li>
+              <li>Predictive class suggestions based on behavior patterns</li>
+              <li>Instant search with voice commands and filters</li>
+              <li>Offline mode for saved schedules and bookings</li>
+              <li>Native calendar integration with smart conflict detection</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ff6b6b">
+            <h3>🔔 Phase 2: Intelligent Notification System</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🧠 Smart Notifications</h4>
+                <p>
+                  <strong>Contextual:</strong> "Salsa class in 30min. Traffic is light, leave in
+                  15min"
+                </p>
+                <p>
+                  <strong>Proactive:</strong> "Your instructor just shared new choreography video"
+                </p>
+                <p><strong>Social:</strong> "3 friends are attending tonight's bachata social"</p>
+                <p>
+                  <strong>Opportunity:</strong> "Last-minute spot available in advanced workshop"
+                </p>
+                <div
+                  style="
+                    background: #ff6b6b;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🎯 "Smart timing: Only relevant notifications when you need them"
+                </div>
+              </div>
+            </div>
+
+            <h4>Intelligent Notification Features:</h4>
+            <ul>
+              <li>Context-aware notifications (location, time, behavior)</li>
+              <li>ML-powered optimal timing (when user is most likely to engage)</li>
+              <li>Progressive notification preferences (learns from user actions)</li>
+              <li>Rich notifications with quick actions (book, reschedule, share)</li>
+              <li>Smart grouping to avoid notification fatigue</li>
+              <li>Emergency notifications for class changes/cancellations</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #4ecdc4">
+            <h3>🎨 Phase 3: Native Mobile-First Design</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>📱 Mobile-Optimized Interface</h4>
+                <p>
+                  <strong>Gesture Navigation:</strong> "Swipe right to book, left to save for later"
+                </p>
+                <p><strong>Thumb-Friendly:</strong> "All actions within thumb reach zone"</p>
+                <p><strong>Visual Priority:</strong> "Key info visible without scrolling"</p>
+                <p><strong>Dark Mode:</strong> "Auto-switch based on time/environment"</p>
+                <div
+                  style="
+                    background: #4ecdc4;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  ✨ "Feels like a native app, performs like a web app"
+                </div>
+              </div>
+            </div>
+
+            <h4>Mobile-First Design Features:</h4>
+            <ul>
+              <li>Gesture-based navigation optimized for one-handed use</li>
+              <li>Progressive Web App (PWA) with native app-like experience</li>
+              <li>Adaptive UI that responds to screen size and orientation</li>
+              <li>Thumb-zone optimization for primary actions</li>
+              <li>Smart dark/light mode with automatic switching</li>
+              <li>Haptic feedback for important interactions</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ffd93d">
+            <h3>📍 Phase 4: Location & Context Intelligence</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🗺️ Smart Location Features</h4>
+                <p>
+                  <strong>Arrival Notifications:</strong> "You're at the studio! Check-in for
+                  class?"
+                </p>
+                <p>
+                  <strong>Discovery:</strong> "New studio 2 blocks away offers your favorite style"
+                </p>
+                <p><strong>Social Context:</strong> "5 dancers from your network are nearby"</p>
+                <p>
+                  <strong>Travel Integration:</strong> "In Barcelona? Here are top-rated tango
+                  classes"
+                </p>
+                <div
+                  style="
+                    background: #ffd93d;
+                    color: #2d3748;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🌍 "Your dance world adapts to wherever you are"
+                </div>
+              </div>
+            </div>
+
+            <h4>Location Intelligence Features:</h4>
+            <ul>
+              <li>Geofencing for automatic check-ins and studio arrival notifications</li>
+              <li>Location-based class discovery with smart radius adjustment</li>
+              <li>Travel mode with international class recommendations</li>
+              <li>Social proximity alerts (friends/connections nearby)</li>
+              <li>Traffic-aware departure reminders with route optimization</li>
+              <li>Weather-aware suggestions (indoor alternatives for bad weather)</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🔔 Smart Notification Strategy</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>🎯 Personalization Engine</h4>
+            <ul>
+              <li><strong>Behavioral Learning:</strong> Adapts to user engagement patterns</li>
+              <li><strong>Preference Evolution:</strong> Notifications improve over time</li>
+              <li><strong>Context Awareness:</strong> Location, time, calendar integration</li>
+              <li><strong>Frequency Optimization:</strong> Prevents notification fatigue</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>⏰ Timing Intelligence</h4>
+            <ul>
+              <li><strong>Optimal Windows:</strong> ML-powered best engagement times</li>
+              <li><strong>Do Not Disturb:</strong> Respects user sleep/work schedules</li>
+              <li><strong>Urgency Levels:</strong> Different timing for different priorities</li>
+              <li><strong>Batch Grouping:</strong> Multiple updates in single notification</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📱 Rich Interactions</h4>
+            <ul>
+              <li><strong>Quick Actions:</strong> Book, reschedule, share without opening app</li>
+              <li><strong>Smart Replies:</strong> Pre-generated contextual responses</li>
+              <li><strong>Media Rich:</strong> Images, videos, location maps in notifications</li>
+              <li><strong>Interactive Elements:</strong> Polls, confirmations, quick feedback</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>🤝 Social Integration</h4>
+            <ul>
+              <li><strong>Friend Activity:</strong> Opt-in sharing of class attendance</li>
+              <li>
+                <strong>Group Coordination:</strong> Coordinated notifications for group bookings
+              </li>
+              <li><strong>Social Proof:</strong> "X friends also attending this event"</li>
+              <li><strong>Viral Moments:</strong> Easy sharing of achievements and moments</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🏗️ Technical Mobile Architecture</h3>
+        <div
+          style="
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+          "
+        >
+          <h3>📱 Progressive Web App (PWA) Strategy</h3>
+          <div class="stats-grid" style="margin-top: 20px">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>⚡ Performance</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>First Load:</strong> <2 seconds</li>
+                <li><strong>Subsequent:</strong> <500ms</li>
+                <li><strong>Offline Mode:</strong> Core features available</li>
+                <li><strong>Cache Strategy:</strong> Smart background updates</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>📱 Native Features</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Push Notifications:</strong> Rich, interactive</li>
+                <li><strong>Background Sync:</strong> Offline actions sync when online</li>
+                <li><strong>Device Integration:</strong> Camera, calendar, contacts</li>
+                <li><strong>App Shell:</strong> Instant loading interface</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🔧 Edge Optimization</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Cloudflare Workers:</strong> Global edge deployment</li>
+                <li><strong>Smart Caching:</strong> Personalized content caching</li>
+                <li><strong>Image Optimization:</strong> WebP/AVIF with fallbacks</li>
+                <li><strong>Code Splitting:</strong> Load only what's needed</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🔔 Notification Tech</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Web Push API:</strong> Cross-platform notifications</li>
+                <li><strong>Service Workers:</strong> Background processing</li>
+                <li><strong>ML Pipeline:</strong> Timing and content optimization</li>
+                <li><strong>A/B Testing:</strong> Continuous notification improvement</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>📊 Mobile Success Metrics</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">&lt;3sec</div>
+            <p>App Load Time<br /><small>vs 8-12sec industry</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">85%</div>
+            <p>Mobile Conversion<br /><small>vs 45% industry avg</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">92%</div>
+            <p>Notification Opt-in<br /><small>vs 40% industry</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">35%</div>
+            <p>Daily Active Users<br /><small>from mobile</small></p>
+          </div>
+        </div>
+
+        <h3>🎯 Mobile Engagement Strategy</h3>
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #9b59b6">
+            <h3>📈 Progressive Engagement</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🔄 Engagement Ladder</h4>
+                <p><strong>Week 1:</strong> "Welcome! Here's your first class recommendation"</p>
+                <p><strong>Week 2:</strong> "Rate your experience + unlock advanced features"</p>
+                <p><strong>Week 3:</strong> "Join the community! Connect with other dancers"</p>
+                <p><strong>Month 1:</strong> "You're a regular! Unlock VIP benefits"</p>
+                <div
+                  style="
+                    background: #9b59b6;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🏆 "Each milestone unlocks new features and experiences"
+                </div>
+              </div>
+            </div>
+
+            <h4>Progressive Engagement Features:</h4>
+            <ul>
+              <li>Onboarding journey with milestone rewards</li>
+              <li>Feature unlocking based on engagement level</li>
+              <li>Gamification elements (streaks, achievements, levels)</li>
+              <li>Social features unlock after community trust building</li>
+              <li>Premium features preview with usage-based access</li>
+              <li>Referral rewards and community building incentives</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="next-session">
+          <h3>🎯 Next Discovery Session</h3>
+          <p style="font-size: 1.2rem; margin-bottom: 15px">
+            <strong>"How should analytics and business intelligence work?"</strong>
+          </p>
+          <p>
+            Diseñar un sistema de analytics comprehensivo que proporcione insights accionables para
+            todos los stakeholders del ecosistema de baile.
+          </p>
+          <button class="btn-primary" style="margin-top: 15px; background: white; color: #667eea">
+            Continuar con Sesión #8 (FINAL) →
+          </button>
+        </div>
+      </div>
+
+      <!-- ANALYTICS & BI SECTION -->
+      <div id="analytics" class="content-section">
+        <h2 class="section-title">📊 Analytics & Business Intelligence</h2>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 1.5rem">
+            🎯 SESIÓN #8: ANALYTICS & BI DISCOVERY (FINAL)
+          </h3>
+          <p style="margin: 10px 0 0 0; font-size: 1.1rem">
+            Diseñando un sistema de analytics comprehensivo que proporcione insights accionables
+            para todos los stakeholders del ecosistema
+          </p>
+        </div>
+
+        <h3>📊 Current State: Dance Industry Analytics Gap</h3>
+        <div class="pain-point">
+          <strong>Datos Fragmentados y Sin Acción:</strong> El mundo del baile opera "a ciegas" -
+          studios no saben qué clases son más rentables, instructores no entienden qué funciona con
+          sus estudiantes, y los estudiantes no tienen insights sobre su progreso. Los datos existen
+          pero están dispersos y no generan insights accionables.
+        </div>
+
+        <h3>📈 Analytics Pain Points by User Type</h3>
+        <div class="user-grid">
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎓</span>
+                Student Analytics Void
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Sin tracking de progreso real en baile</li>
+                <li>No saben cuánto gastan mensualmente en baile</li>
+                <li>Sin insights sobre qué estilos les convienen más</li>
+                <li>Imposible comparar su evolución con otros</li>
+                <li>Sin datos sobre frecuencia óptima de clases</li>
+                <li>No entienden su patrón de asistencia</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎯</span>
+                Instructor Analytics Gap
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Sin métricas sobre efectividad de enseñanza</li>
+                <li>No saben qué contenido funciona mejor</li>
+                <li>Sin insights sobre retención de estudiantes</li>
+                <li>Imposible optimizar pricing basado en datos</li>
+                <li>Sin análisis de competencia local</li>
+                <li>No trackean su crecimiento profesional</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🏢</span>
+                Studio Analytics Chaos
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Sin insights sobre rentabilidad por clase/instructor</li>
+                <li>No entienden patrones de demanda estacional</li>
+                <li>Sin análisis de customer lifetime value</li>
+                <li>Imposible optimizar horarios basado en datos</li>
+                <li>Sin métricas de marketing ROI</li>
+                <li>No predicen churn de estudiantes</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card-header">
+              <h3>
+                <span class="user-emoji">🎪</span>
+                Event Analytics Blindness
+              </h3>
+            </div>
+            <div class="pain-points">
+              <ul>
+                <li>Sin métricas sobre éxito de eventos</li>
+                <li>No entienden qué atrae más audiencia</li>
+                <li>Sin análisis de pricing óptimo</li>
+                <li>Imposible predecir asistencia</li>
+                <li>Sin insights sobre networking efectivo</li>
+                <li>No trackean ROI de marketing de eventos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Perfect Analytics Experience Journey</h3>
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #ff6b6b">
+            <h3>📈 Phase 1: Student Progress Intelligence</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎯 Personal Dance Analytics</h4>
+                <p>
+                  <strong>Progress Tracking:</strong> "You've improved 40% in bachata timing this
+                  month"
+                </p>
+                <p>
+                  <strong>Smart Insights:</strong> "You learn best with 2 classes/week + 1 social"
+                </p>
+                <p>
+                  <strong>Spending Analysis:</strong> "€180/month on dance, 85% on classes, 15%
+                  events"
+                </p>
+                <p><strong>Goal Tracking:</strong> "67% toward your 'Intermediate Salsa' goal"</p>
+                <div
+                  style="
+                    background: #ff6b6b;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🏆 "Recommendation: Add 1 practice session/week → +25% faster progress"
+                </div>
+              </div>
+            </div>
+
+            <h4>Student Analytics Features:</h4>
+            <ul>
+              <li>AI-powered progress tracking based on instructor feedback and self-assessment</li>
+              <li>Spending analytics with budgeting recommendations</li>
+              <li>Learning pattern analysis (optimal frequency, styles, instructors)</li>
+              <li>Goal setting and milestone tracking with smart recommendations</li>
+              <li>Comparative analytics (anonymized benchmarking with similar dancers)</li>
+              <li>Predictive insights for skill development and class recommendations</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #4ecdc4">
+            <h3>🎯 Phase 2: Instructor Performance Intelligence</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>💡 Teaching Effectiveness Dashboard</h4>
+                <p>
+                  <strong>Student Progress:</strong> "Your students improve 35% faster than average"
+                </p>
+                <p><strong>Retention Rate:</strong> "92% retention vs 60% studio average"</p>
+                <p>
+                  <strong>Revenue Optimization:</strong> "Increase advanced classes → +€450/month"
+                </p>
+                <p>
+                  <strong>Content Performance:</strong> "Your 'Timing Fundamentals' lesson = 95%
+                  success rate"
+                </p>
+                <div
+                  style="
+                    background: #4ecdc4;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  📊 "You're in top 10% instructors. Unlock Elite tier benefits!"
+                </div>
+              </div>
+            </div>
+
+            <h4>Instructor Analytics Features:</h4>
+            <ul>
+              <li>Student progress attribution and teaching effectiveness metrics</li>
+              <li>Revenue analytics with pricing optimization recommendations</li>
+              <li>Content performance tracking (which lessons/methods work best)</li>
+              <li>Retention and satisfaction analytics with improvement suggestions</li>
+              <li>Competitive benchmarking and market positioning insights</li>
+              <li>Professional development tracking and certification progress</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #667eea">
+            <h3>📊 Phase 3: Studio Business Intelligence</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>💰 Revenue Optimization Engine</h4>
+                <p>
+                  <strong>Class Profitability:</strong> "Bachata Tuesdays: €85/hour, Salsa Fridays:
+                  €120/hour"
+                </p>
+                <p>
+                  <strong>Demand Prediction:</strong> "Add beginner salsa Mondays → +€2,400/month"
+                </p>
+                <p>
+                  <strong>Instructor ROI:</strong> "Maria generates €450/class, Pedro €320/class"
+                </p>
+                <p><strong>Customer LTV:</strong> "Average: €1,200, Bachata students: €1,800"</p>
+                <div
+                  style="
+                    background: #667eea;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  🚀 "Implement 3 recommendations → +€8,500/month revenue"
+                </div>
+              </div>
+            </div>
+
+            <h4>Studio BI Features:</h4>
+            <ul>
+              <li>Real-time profitability analysis by class, instructor, and time slot</li>
+              <li>Demand forecasting and capacity optimization recommendations</li>
+              <li>Customer lifetime value analysis and churn prediction</li>
+              <li>Marketing ROI tracking and attribution modeling</li>
+              <li>Competitive analysis and market opportunity identification</li>
+              <li>Automated financial reporting and KPI dashboards</li>
+            </ul>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ffd93d">
+            <h3>🎪 Phase 4: Event & Community Analytics</h3>
+            <div class="mockup-frame">
+              <div class="mockup-screen">
+                <h4>🎉 Event Success Intelligence</h4>
+                <p>
+                  <strong>Attendance Prediction:</strong> "This bachata social: 180-220 people (85%
+                  confidence)"
+                </p>
+                <p>
+                  <strong>Pricing Optimization:</strong> "Increase price to €18 → same attendance,
+                  +€540 revenue"
+                </p>
+                <p>
+                  <strong>Network Analysis:</strong> "47 new connections formed, 23% became regular
+                  partners"
+                </p>
+                <p>
+                  <strong>Viral Tracking:</strong> "This event generated 2.8x viral coefficient"
+                </p>
+                <div
+                  style="
+                    background: #ffd93d;
+                    color: #2d3748;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                  "
+                >
+                  📈 "Optimal: Monthly themed events → +65% community engagement"
+                </div>
+              </div>
+            </div>
+
+            <h4>Event Analytics Features:</h4>
+            <ul>
+              <li>Attendance prediction models based on historical data and trends</li>
+              <li>Dynamic pricing optimization for maximum revenue and attendance</li>
+              <li>Social network analysis and community building metrics</li>
+              <li>Viral coefficient tracking and growth attribution</li>
+              <li>Event ROI analysis and success factor identification</li>
+              <li>Cross-event recommendation engine for attendees</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🧠 AI-Powered Analytics Engine</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>🤖 Machine Learning Models</h4>
+            <ul>
+              <li>
+                <strong>Churn Prediction:</strong> Identify at-risk students 30 days in advance
+              </li>
+              <li>
+                <strong>Demand Forecasting:</strong> Predict class attendance with 90% accuracy
+              </li>
+              <li><strong>Price Optimization:</strong> Dynamic pricing for maximum revenue</li>
+              <li>
+                <strong>Recommendation Engine:</strong> Personalized class and event suggestions
+              </li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📊 Real-Time Dashboards</h4>
+            <ul>
+              <li>
+                <strong>Live Metrics:</strong> Real-time booking, attendance, revenue tracking
+              </li>
+              <li>
+                <strong>Alert System:</strong> Proactive notifications for anomalies and
+                opportunities
+              </li>
+              <li><strong>Mobile Optimized:</strong> Key metrics accessible on any device</li>
+              <li>
+                <strong>Customizable Views:</strong> Role-based dashboards for different user types
+              </li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>🔮 Predictive Analytics</h4>
+            <ul>
+              <li>
+                <strong>Trend Analysis:</strong> Identify emerging dance styles and market shifts
+              </li>
+              <li>
+                <strong>Seasonal Patterns:</strong> Optimize scheduling for peak and low seasons
+              </li>
+              <li><strong>Growth Modeling:</strong> Forecast business growth and capacity needs</li>
+              <li>
+                <strong>Risk Assessment:</strong> Identify potential business risks and mitigation
+                strategies
+              </li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📈 Benchmarking & Insights</h4>
+            <ul>
+              <li>
+                <strong>Industry Benchmarks:</strong> Compare performance against industry standards
+              </li>
+              <li>
+                <strong>Competitive Analysis:</strong> Market positioning and opportunity
+                identification
+              </li>
+              <li>
+                <strong>Best Practices:</strong> Data-driven recommendations based on top performers
+              </li>
+              <li>
+                <strong>Success Stories:</strong> Case studies and pattern recognition from high
+                performers
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>🏗️ Technical Analytics Architecture</h3>
+        <div
+          style="
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+          "
+        >
+          <h3>📊 Edge-Native Analytics Stack</h3>
+          <div class="stats-grid" style="margin-top: 20px">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>⚡ Real-Time Processing</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Edge Analytics:</strong> Sub-100ms query response</li>
+                <li><strong>Stream Processing:</strong> Real-time event ingestion</li>
+                <li><strong>Hot Storage:</strong> Recent data instantly accessible</li>
+                <li><strong>Smart Caching:</strong> Predictive data pre-loading</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🧠 ML Pipeline</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>AutoML:</strong> Continuous model improvement</li>
+                <li><strong>Feature Store:</strong> Centralized feature management</li>
+                <li><strong>A/B Testing:</strong> Continuous insight validation</li>
+                <li><strong>Model Monitoring:</strong> Performance tracking and alerts</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>📊 Data Infrastructure</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Event Sourcing:</strong> Complete audit trail</li>
+                <li><strong>Data Lake:</strong> Scalable historical storage</li>
+                <li><strong>Privacy First:</strong> GDPR compliance by design</li>
+                <li><strong>API First:</strong> Headless analytics architecture</li>
+              </ul>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px">
+              <h4>🔐 Privacy & Security</h4>
+              <ul style="margin: 0; color: white">
+                <li><strong>Anonymization:</strong> Personal data protection</li>
+                <li><strong>Consent Management:</strong> Granular privacy controls</li>
+                <li><strong>Data Minimization:</strong> Collect only what's needed</li>
+                <li><strong>Encryption:</strong> End-to-end data protection</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>📊 Analytics Success Metrics</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">&lt;100ms</div>
+            <p>Query Response<br /><small>vs 2-5sec industry</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">90%</div>
+            <p>Prediction Accuracy<br /><small>for demand forecasting</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">+35%</div>
+            <p>Revenue Increase<br /><small>through optimization</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">95%</div>
+            <p>User Satisfaction<br /><small>with insights quality</small></p>
+          </div>
+        </div>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #ffb74d, #4caf50);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+          "
+        >
+          <h2 style="margin: 0 0 20px 0; font-size: 2rem">🔄 DOCUMENTO ACTUALIZADO!</h2>
+          <p style="font-size: 1.3rem; margin: 0 0 20px 0; font-weight: bold">
+            Versión Realista - Desarrollador Solo en Argentina
+          </p>
+          <div class="stats-grid" style="margin: 30px 0">
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px">
+              <h3 style="margin: 0; color: white">💰 Revenue Realista</h3>
+              <p style="margin: 5px 0 0 0; font-size: 1.5rem; font-weight: bold">$300K ARS/mes</p>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px">
+              <h3 style="margin: 0; color: white">👥 User Types Core</h3>
+              <p style="margin: 5px 0 0 0; font-size: 1.5rem; font-weight: bold">6 Esenciales</p>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px">
+              <h3 style="margin: 0; color: white">⏰ Timeline MVP #1</h3>
+              <p style="margin: 5px 0 0 0; font-size: 1.5rem; font-weight: bold">16 semanas</p>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px">
+              <h3 style="margin: 0; color: white">🎯 Feature Estrella</h3>
+              <p style="margin: 5px 0 0 0; font-size: 1.5rem; font-weight: bold">QR Events</p>
+            </div>
+          </div>
+          <p style="font-size: 1.1rem; margin: 20px 0 0 0">
+            ¡Listo para comenzar con MVP #1 - Discovery + Reservas Básicas!
+          </p>
+        </div>
+      </div>
+
+      <!-- BUSINESS MODEL SECTION -->
+      <div id="business" class="content-section">
+        <h2 class="section-title">💰 Business Model & Revenue</h2>
+
+        <div class="revenue-chart">
+          <h3 style="margin-bottom: 20px">💰 Revenue Model REALISTA (Buenos Aires)</h3>
+
+          <div class="revenue-item">
+            <span
+              ><strong>Estudios de Danza (80%)</strong><br />15-20 estudios × $10K-20K ARS/mes</span
+            >
+            <span style="font-size: 1.5rem; font-weight: bold">$150K-400K ARS/mes</span>
+          </div>
+
+          <div class="revenue-item">
+            <span
+              ><strong>Marcas de Ropa/Zapatos (15%)</strong><br />3-5 marcas × $5K-15K ARS por
+              artículo</span
+            >
+            <span style="font-size: 1.5rem; font-weight: bold">$15K-75K ARS/mes</span>
+          </div>
+
+          <div class="revenue-item">
+            <span
+              ><strong>Eventos Premium (5%)</strong><br />Organizadores grandes × fee pequeño</span
+            >
+            <span style="font-size: 1.5rem; font-weight: bold">$10K-25K ARS/mes</span>
+          </div>
+
+          <div
+            class="revenue-item"
+            style="border-top: 2px solid white; margin-top: 10px; padding-top: 15px"
+          >
+            <span style="font-size: 1.2rem"><strong>TOTAL REVENUE REALISTA</strong></span>
+            <span style="font-size: 2rem; font-weight: bold">$175K-500K ARS/mes</span>
+          </div>
+        </div>
+
+        <h3>🎯 Métricas Realistas</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">15-20</div>
+            <p>Estudios Target<br /><small>Buenos Aires inicial</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">$15K</div>
+            <p>Precio Mensual Estudio<br /><small>ARS promedio</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">500+</div>
+            <p>Usuarios Objetivo<br /><small>6 meses</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">$300K</div>
+            <p>Revenue Meta<br /><small>ARS mensual año 1</small></p>
+          </div>
+        </div>
+
+        <h3>💡 Revenue Model Innovation</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>🔄 Subscription + Commission Hybrid</h4>
+            <p>
+              Studios pay monthly subscription + we take commission on bookings. This ensures
+              platform sustainability while aligning incentives.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4>📈 Dynamic Pricing</h4>
+            <p>
+              AI-optimized pricing based on demand, time, instructor popularity, and user history to
+              maximize revenue and accessibility.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4>🎁 Package Optimization</h4>
+            <p>
+              Smart package recommendations increase average order value by 60% while improving user
+              commitment and retention.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4>🌐 Network Effects</h4>
+            <p>
+              Each new user increases platform value for all users, creating strong defensibility
+              and viral growth.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TECHNICAL SPECS SECTION -->
+      <div id="technical" class="content-section">
+        <h2 class="section-title">🔧 Technical Architecture</h2>
+
+        <h3>🏗️ Core Platform Capabilities</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>🔍 Intelligent Search Engine</h4>
+            <ul>
+              <li>Natural language processing ("beginner salsa near me")</li>
+              <li>Visual filters with video previews</li>
+              <li>Real-time availability and capacity</li>
+              <li>ML-based personalized recommendations</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📅 Advanced Booking System</h4>
+            <ul>
+              <li>One-click booking with saved preferences</li>
+              <li>Dynamic pricing and package optimization</li>
+              <li>Calendar integration (Google/Apple)</li>
+              <li>Intelligent waitlist management</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📱 Mobile-First Experience</h4>
+            <ul>
+              <li>Progressive Web App (PWA)</li>
+              <li>GPS integration for location services</li>
+              <li>Push notifications with smart timing</li>
+              <li>Offline capability for key features</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>💳 Payment & Financial</h4>
+            <ul>
+              <li>Multiple payment methods support</li>
+              <li>Automated payout system for instructors</li>
+              <li>Subscription management</li>
+              <li>International payment processing</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>🤝 Community Features</h4>
+            <ul>
+              <li>Classmate matching system</li>
+              <li>Self-organizing practice groups</li>
+              <li>Achievement and gamification</li>
+              <li>Social sharing and content creation</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h4>📊 Analytics & Intelligence</h4>
+            <ul>
+              <li>Real-time business analytics</li>
+              <li>User behavior tracking</li>
+              <li>Recommendation engine optimization</li>
+              <li>Performance monitoring</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>⚡ Performance Requirements</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">&lt;3s</div>
+            <p>Page Load Time<br /><small>Critical for mobile discovery</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">99.9%</div>
+            <p>Uptime SLA<br /><small>Business-critical availability</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">Real-time</div>
+            <p>Booking Updates<br /><small>Live capacity & scheduling</small></p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">Multi-language</div>
+            <p>Localization<br /><small>Spanish, English, Catalan</small></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MVP ROADMAP SECTION -->
+      <div id="mvp" class="content-section">
+        <h2 class="section-title">🚀 MVP Launch Roadmap</h2>
+
+        <div class="journey-flow">
+          <div class="journey-phase" style="border-left-color: #4caf50">
+            <h3>✅ MVP #1: Discovery + Reservas Básicas (16 semanas)</h3>
+
+            <h4>🎯 Core Features (Desarrollador Solo):</h4>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h4>👥 Flujos del Estudiante (6 objetivos)</h4>
+                <ul>
+                  <li>
+                    🎯 Aprender estilo específico (ChatInput IA → Filtros → Resultados → Contacto)
+                  </li>
+                  <li>
+                    🎪 Eventos fin de semana (EventList → Filtros fecha → Detalles → Registro)
+                  </li>
+                  <li>
+                    📍 Búsqueda por ubicación (MapView → Geolocalización → Radio → Estudios cerca)
+                  </li>
+                  <li>
+                    👨‍🏫 Instructor específico (InstructorCard → Horarios → Reviews → Contactar)
+                  </li>
+                  <li>💰 Opciones económicas (Filtros precio → Descuentos → Clases grupales)</li>
+                  <li>⏰ Horarios compatibles (Filtros tiempo → Disponibilidad → Reserva)</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>🏢 Flujos del Estudio (4 objetivos)</h4>
+                <ul>
+                  <li>📝 Registro y setup inicial (StudioForm → Verificación → Publicación)</li>
+                  <li>📅 Gestión de clases (ClassForm → Horarios → Instructores → Publicar)</li>
+                  <li>👥 Gestión estudiantes (Reservas → Contacto → Comunicación → Seguimiento)</li>
+                  <li>📊 Analytics básicos (Métricas → Reportes → Insights → Optimización)</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>👨‍🏫 Flujos del Instructor (3 objetivos)</h4>
+                <ul>
+                  <li>
+                    👤 Crear perfil completo (InstructorForm → Portfolio → Especialidades →
+                    Publicar)
+                  </li>
+                  <li>📅 Gestión disponibilidad (Calendario → Horarios → Ubicaciones → Precios)</li>
+                  <li>
+                    🤝 Conectar con estudiantes (Solicitudes → Coordinación → Clases → Reviews)
+                  </li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>🎫 Flujos del Revendedor/Organizador (4 objetivos)</h4>
+                <ul>
+                  <li>🎪 Crear y publicar evento (EventForm → Media → Publicación → Promoción)</li>
+                  <li>
+                    👥 Gestionar inscripciones (AttendeesList → Contactos → Comunicación →
+                    Analytics)
+                  </li>
+                  <li>
+                    📲 Generar QR para asistente (Contacto → Registro manual → QR Generator → Envío)
+                  </li>
+                  <li>
+                    ✅ Check-in día del evento (QR Scanner → Validación → Tracker → Dashboard)
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-number">3-5</div>
+                <p>Estudios Piloto<br /><small>Objetivo inicial</small></p>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">100-200</div>
+                <p>Usuarios Test<br /><small>Buenos Aires</small></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #ff9800">
+            <h3>⏳ MVP #2: QR Events + Funcionalidades Avanzadas (20 semanas)</h3>
+
+            <h4>🎯 Features Estrella Expandidas:</h4>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h4>📱 Sistema QR Completo ⭐</h4>
+                <ul>
+                  <li>🎫 QR Generator integrado en flujos de revendedor</li>
+                  <li>📲 QR Scanner app para organizadores</li>
+                  <li>✅ AttendanceTracker en tiempo real</li>
+                  <li>📊 EventDashboard con estadísticas completas</li>
+                  <li>📧 Envío automático de QR por WhatsApp/Email</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>🤖 WhatsApp Bot + IA Mejorada</h4>
+                <ul>
+                  <li>💬 ChatInput IA más inteligente</li>
+                  <li>🔍 Procesamiento de consultas complejas</li>
+                  <li>📸 OCR para flyers de eventos</li>
+                  <li>🎯 Sugerencias personalizadas</li>
+                  <li>📱 Integración directa con la plataforma</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>📊 Analytics y Gestión Avanzada</h4>
+                <ul>
+                  <li>📈 Dashboard completo para estudios</li>
+                  <li>👥 Gestión de estudiantes mejorada</li>
+                  <li>📅 Sistema de reservas más robusto</li>
+                  <li>💰 Tracking de ingresos por referencia</li>
+                  <li>📧 Comunicación automatizada</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>🌟 Funcionalidades Sociales</h4>
+                <ul>
+                  <li>⭐ Sistema de reviews expandido</li>
+                  <li>👥 Perfiles de estudiantes</li>
+                  <li>🏆 Rankings de instructores/estudios</li>
+                  <li>📱 Lista de "quién va" a eventos</li>
+                  <li>💬 Comentarios y feedback</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-number">10+</div>
+                <p>Estudios Suscritos<br /><small>Crecimiento</small></p>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">500+</div>
+                <p>Usuarios Activos<br /><small>Base sólida</small></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="journey-phase" style="border-left-color: #9c27b0">
+            <h3>🔮 MVP #3: Expansion + Monetización (24 semanas)</h3>
+
+            <h4>🎯 Crecimiento y Revenue:</h4>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h4>💰 Monetización Marcas</h4>
+                <ul>
+                  <li>Directorio de marcas de ropa/zapatos</li>
+                  <li>Artículos promocionales pagos</li>
+                  <li>Banner ads simples</li>
+                  <li>Descuentos para comunidad</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>📱 App Móvil Básica</h4>
+                <ul>
+                  <li>PWA o React Native simple</li>
+                  <li>Discovery rápido</li>
+                  <li>Reservas mobile-first</li>
+                  <li>QR scanner integrado</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>🌎 Expansión Geográfica</h4>
+                <ul>
+                  <li>Córdoba, Rosario, Mendoza</li>
+                  <li>Red de estudios multi-ciudad</li>
+                  <li>Eventos inter-ciudades</li>
+                  <li>Base de datos nacional</li>
+                </ul>
+              </div>
+
+              <div class="feature-card">
+                <h4>🔧 A Futuro (No prioritario)</h4>
+                <ul>
+                  <li>Notificaciones push</li>
+                  <li>Gamificación básica</li>
+                  <li>Integración calendario</li>
+                  <li>Analytics avanzados</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-number">20+</div>
+                <p>Estudios Total<br /><small>Multi-ciudad</small></p>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">$300K+</div>
+                <p>Revenue Mensual<br /><small>ARS sostenible</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Detallado MVP #1 -->
+        <div
+          style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+          "
+        >
+          <h3 style="margin: 0 0 20px 0; text-align: center; font-size: 1.8rem">
+            📅 Timeline Detallado MVP #1 (16 Semanas)
+          </h3>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 20px;
+              margin-top: 20px;
+            "
+          >
+            <!-- Semanas 1-4: Fundamentos -->
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+              "
+            >
+              <h4 style="margin: 0 0 12px 0; color: #4caf50">🚀 Semanas 1-4: Fundamentos</h4>
+              <ul style="margin: 0; padding-left: 16px; font-size: 0.9rem; line-height: 1.6">
+                <li>Setup inicial: Next.js + Hono + Drizzle</li>
+                <li>Database schema y migraciones</li>
+                <li>ChatInput IA básico</li>
+                <li>FilterSidebar component</li>
+                <li>MapView integración</li>
+              </ul>
+            </div>
+
+            <!-- Semanas 5-8: Core Features -->
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+              "
+            >
+              <h4 style="margin: 0 0 12px 0; color: #ff9800">🏗️ Semanas 5-8: Core Features</h4>
+              <ul style="margin: 0; padding-left: 16px; font-size: 0.9rem; line-height: 1.6">
+                <li>ResultsGrid con clases</li>
+                <li>EventList y EventCard</li>
+                <li>InstructorCard y perfiles</li>
+                <li>BookingForm sin pagos</li>
+                <li>StudioCard y gestión básica</li>
+              </ul>
+            </div>
+
+            <!-- Semanas 9-12: Flujos Completos -->
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+              "
+            >
+              <h4 style="margin: 0 0 12px 0; color: #9c27b0">🔄 Semanas 9-12: Flujos Completos</h4>
+              <ul style="margin: 0; padding-left: 16px; font-size: 0.9rem; line-height: 1.6">
+                <li>6 flujos de estudiante completos</li>
+                <li>4 flujos de estudio implementados</li>
+                <li>3 flujos de instructor funcionales</li>
+                <li>Sistema de reviews básico</li>
+                <li>Comunicación directa (WhatsApp/Email)</li>
+              </ul>
+            </div>
+
+            <!-- Semanas 13-16: Polish y Launch -->
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+              "
+            >
+              <h4 style="margin: 0 0 12px 0; color: #f44336">✨ Semanas 13-16: Polish y Launch</h4>
+              <ul style="margin: 0; padding-left: 16px; font-size: 0.9rem; line-height: 1.6">
+                <li>Testing con 3-5 estudios piloto</li>
+                <li>UI/UX polish y responsive</li>
+                <li>Analytics básicos</li>
+                <li>SEO y performance</li>
+                <li>🚀 Launch MVP #1</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Componentes Clave a Desarrollar -->
+        <div
+          style="
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+          "
+        >
+          <h3 style="color: #ff3366; margin: 0 0 20px 0; text-align: center">
+            🧩 Componentes Clave a Desarrollar
+          </h3>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px">
+            <div
+              style="
+                background: #f8f9ff;
+                border-radius: 10px;
+                padding: 15px;
+                border-left: 4px solid #9c27b0;
+              "
+            >
+              <h4 style="margin: 0 0 8px 0; color: #9c27b0">🔍 Discovery & Search</h4>
+              <ul style="margin: 0; padding-left: 16px; font-size: 0.85rem">
+                <li>ChatInput IA</li>
+                <li>FilterSidebar</li>
+                <li>MapComponent</li>
+                <li>ResultsGrid</li>
+              </ul>
+            </div>
+
+            <div
+              style="
+                background: #f0f8ff;
+                border-radius: 10px;
+                padding: 15px;
+                border-left: 4px solid #2196f3;
+              "
+            >
+              <h4 style="margin: 0 0 8px 0; color: #2196f3">📋 Booking & Management</h4>
+              <ul style="margin: 0; padding-left: 16px; font-size: 0.85rem">
+                <li>BookingForm</li>
+                <li>ClassCard</li>
+                <li>EventCard</li>
+                <li>AttendeesList</li>
+              </ul>
+            </div>
+
+            <div
+              style="
+                background: #f0fff8;
+                border-radius: 10px;
+                padding: 15px;
+                border-left: 4px solid #4caf50;
+              "
+            >
+              <h4 style="margin: 0 0 8px 0; color: #4caf50">👥 Profiles & Social</h4>
+              <ul style="margin: 0; padding-left: 16px; font-size: 0.85rem">
+                <li>InstructorCard</li>
+                <li>StudioCard</li>
+                <li>StudentProfile</li>
+                <li>ReviewSystem</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conexión con Wireframes -->
+        <div
+          style="
+            background: linear-gradient(135deg, #ff3366 0%, #9b59b6 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            color: white;
+            text-align: center;
+          "
+        >
+          <h3 style="margin: 0 0 15px 0; font-size: 1.6rem">🔗 Documentación Complementaria</h3>
+          <p style="margin: 0 0 20px 0; font-size: 1.1rem; opacity: 0.9">
+            Este roadmap se complementa perfectamente con los wireframes detallados
+          </p>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 20px;
+              margin-top: 20px;
+            "
+          >
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+              "
+            >
+              <h4 style="margin: 0 0 10px 0; color: #ffeb3b">📋 Este Archivo (UX Discovery)</h4>
+              <ul
+                style="
+                  margin: 0;
+                  padding-left: 16px;
+                  font-size: 0.9rem;
+                  text-align: left;
+                  line-height: 1.6;
+                "
+              >
+                <li>✅ Definición de usuarios y objetivos</li>
+                <li>✅ Timeline y roadmap de desarrollo</li>
+                <li>✅ Features por MVP</li>
+                <li>✅ Métricas y objetivos de negocio</li>
+              </ul>
+            </div>
+
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+              "
+            >
+              <h4 style="margin: 0 0 10px 0; color: #4caf50">🖼️ Wireframes Interactivos</h4>
+              <ul
+                style="
+                  margin: 0;
+                  padding-left: 16px;
+                  font-size: 0.9rem;
+                  text-align: left;
+                  line-height: 1.6;
+                "
+              >
+                <li>🎨 Homepage y layout visual</li>
+                <li>🔄 17 flujos de usuario detallados</li>
+                <li>🧩 Componentes específicos con wireframes</li>
+                <li>📱 Pantallas de detalle y booking</li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            style="
+              margin-top: 20px;
+              padding: 15px;
+              background: rgba(255, 255, 255, 0.1);
+              border-radius: 10px;
+            "
+          >
+            <p style="margin: 0; font-size: 0.95rem; font-weight: 600">
+              💡 Ambos archivos están 100% sincronizados y listos para implementación
+            </p>
+          </div>
+        </div>
+
+        <div class="next-session">
+          <h3>🎯 Ready to Start Implementation</h3>
+          <p style="font-size: 1.2rem; margin-bottom: 15px">
+            <strong
+              >MVP #1 está completamente planificado con flujos detallados y componentes
+              específicos</strong
+            >
+          </p>
+          <p>
+            Todos los wireframes están listos. El próximo paso es comenzar la implementación
+            siguiendo el timeline de 16 semanas.
+          </p>
+          <button class="btn-primary" style="margin-top: 15px; background: white; color: #ff3366">
+            🚀 Comenzar Implementación MVP #1 →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showSection(sectionId) {
+        // Hide all sections
+        const sections = document.querySelectorAll(".content-section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        // Remove active class from all tabs
+        const tabs = document.querySelectorAll(".nav-tab");
+        tabs.forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // Show selected section
+        document.getElementById(sectionId).classList.add("active");
+
+        // Add active class to clicked tab
+        event.target.classList.add("active");
+      }
+
+      // Update progress bar based on completed sessions
+      function updateProgress() {
+        const progressFill = document.querySelector(".progress-fill");
+        // Currently at session 5 of 8 = 62%
+        progressFill.style.width = "62%";
+      }
+
+      // Initialize
+      updateProgress();
+    </script>
+  </body>
+</html>

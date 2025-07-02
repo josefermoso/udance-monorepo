@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Context - uDance Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .content {
+            margin-bottom: 2rem;
+        }
+        
+        .heading-1 { 
+            color: #667eea; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .heading-2 { 
+            color: #5a67d8; 
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .heading-3 { 
+            color: #4c51bf;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-block {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        
+        ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin: 0.5rem 0;
+        }
+        
+        p {
+            margin: 1rem 0;
+        }
+        
+        .footer {
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid #667eea;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .back-link:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #48bb78;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Documentation Hub</a>
+        
+        <div class="header">
+            <h1>Product Context<span class="status-badge">Live</span></h1>
+            <div class="meta">
+                📝 Last updated: 6/30/2025, 2:30:36 AM | 📂 Source: ../../memory-bank/core/productContext.md
+            </div>
+        </div>
+        
+        <div class="content">
+            <h1 class="heading-1">Product Context</h1></p><p><h2 class="heading-2">Problem Statement</h2>
+<p>UDance addresses the fragmented landscape of dance discovery and studio management in Buenos Aires. Currently, dance enthusiasts struggle to find classes suited to their style and level, while studios lack unified tools for student management, instructor coordination, and event monetization. The platform bridges this gap by providing AI-powered discovery for students and comprehensive management tools for the dance business ecosystem.</p><p><h2 class="heading-2">Target Market & Business Model</h2></p>
+<p><strong>Primary Market</strong>: Buenos Aires dance community with 200+ active studios and 15,000+ regular dance practitioners</p><p><strong>Revenue Target</strong>: $175K-500K ARS/month through:</p>
+<ul><li>Studio subscription fees (primary revenue stream)</li>
+<li>Event management and QR ticketing system</li>
+<li>Premium features for instructors and event organizers</li>
+<li>Commission-based partnerships with dance equipment vendors</li></p><p><strong>Market Validation</strong>: 8 comprehensive UX discovery sessions confirmed strong demand for unified discovery and management platform.</p><p><h2 class="heading-2">Core User Types & Their Needs</h2></p><p><h3 class="heading-3">🎓 <strong>Students (Primary Users)</strong></h3>
+<p><strong>Pain Points</strong>: Difficulty finding classes by style/level, scattered information across multiple platforms</p>
+<p><strong>Solutions</strong>: AI-powered search, map-based discovery, class reviews and ratings</p>
+<p><strong>Value</strong>: "Discover dance classes that match my style, level, and location preferences"</p><p><h3 class="heading-3">🏢 <strong>Studio Owners/Managers</strong></h3></p>
+<p><strong>Pain Points</strong>: Manual student management, fragmented instructor coordination, limited financial visibility</p>
+<p><strong>Solutions</strong>: Comprehensive business dashboard with KPIs, class management, financial tracking</p>
+<p><strong>Value</strong>: "Manage my entire studio operation from one professional interface"</p>
+<p><strong>Dashboard Features</strong>: 847 students tracking, $45,230 revenue monitoring, 23 weekly classes coordination</p><p><h3 class="heading-3">👨‍🏫 <strong>Teachers/Instructors</strong></h3></p>
+<p><strong>Pain Points</strong>: Scattered student communication, manual schedule management, performance tracking</p>
+<p><strong>Solutions</strong>: Educational dashboard with student relationship tools, schedule optimization</p>
+<p><strong>Value</strong>: "Focus on teaching while efficiently managing my students and schedule"</p>
+<p><strong>Dashboard Features</strong>: 156 students management, $12,840 earnings tracking, 4.8⭐ rating display</p><p><h3 class="heading-3">💰 <strong>Event Organizers/Salespersons</strong></h3></p>
+<p><strong>Pain Points</strong>: Complex event setup, manual ticket sales, attendance tracking difficulties</p>
+<p><strong>Solutions</strong>: Event-focused dashboard with QR generation, sales tracking, inventory management</p>
+<p><strong>Value</strong>: "Maximize event revenue through efficient sales and attendance management"</p>
+<p><strong>Dashboard Features</strong>: 8 monthly events, $28,950 sales tracking, 442 attendees management</p><p><h3 class="heading-3">🎪 <strong>Competition Organizers</strong></h3></p>
+<p><strong>Pain Points</strong>: Judge coordination, participant management, scoring complexity</p>
+<p><strong>Solutions</strong>: Competition-specific tools, judge management, structured evaluation systems</p>
+<p><strong>Value</strong>: "Organize professional competitions with streamlined management tools"</p><p><h3 class="heading-3">🛍️ <strong>Vendors/Suppliers</strong></h3></p>
+<p><strong>Pain Points</strong>: Limited access to dance community, event partnership challenges</p>
+<p><strong>Solutions</strong>: Vendor marketplace integration, event partnership opportunities</p>
+<p><strong>Value</strong>: "Connect with dance community and participate in events efficiently"</p><p><h2 class="heading-2">User Experience Goals & Design Principles</h2></p><p><h3 class="heading-3"><strong>Role-Based Interface Design</strong></h3></p>
+<p>Each user type receives a customized dashboard optimized for their specific workflow:</p>
+<li><strong>Studio Admin</strong>: Verde theme emphasizing growth and business management</li>
+<li><strong>Teacher</strong>: Azul theme focusing on trust and educational professionalism  </li>
+<li><strong>Salesperson</strong>: Naranja theme highlighting energy and sales optimization</li></p><p><h3 class="heading-3"><strong>Core UX Principles</strong></h3>
+<p>1. <strong>Workflow Optimization</strong>: 6 quick actions per dashboard for most frequent tasks</p>
+<p>2. <strong>Visual Clarity</strong>: Role-specific color schemes and iconography for instant recognition</p>
+<p>3. <strong>Real-Time Updates</strong>: Live KPIs updating every 30 seconds for engagement</p>
+<p>4. <strong>Mobile-First</strong>: Responsive design prioritizing mobile dance community usage</p>
+<p>5. <strong>Progressive Disclosure</strong>: Complex features accessible without overwhelming simple workflows</p><p><h3 class="heading-3"><strong>Discovery Experience for Students</strong></h3></p>
+<li><strong>AI-Powered Search</strong>: Natural language processing for "clases de salsa principiante zona norte"</li>
+<li><strong>Visual Map Interface</strong>: Location-based discovery with style and level filters</li>
+<li><strong>Social Proof</strong>: Reviews, ratings, and community recommendations</li>
+<li><strong>Simplified Booking</strong>: Reservation system without integrated payments (legal compliance)</li></p><p><h2 class="heading-2">Features and Capabilities</h2></p><p><h3 class="heading-3"><strong>MVP #1 Core Features (16-week development)</strong></h3>
+<li><strong>Student Discovery System</strong>: AI search, map filters, class listings with reviews</li>
+<li><strong>Studio Management Dashboard</strong>: Class creation, instructor management, basic financial tracking</li>
+<li><strong>Teacher Tools</strong>: Schedule management, student communication, attendance tracking</li>
+<li><strong>Event System Foundation</strong>: Basic event creation and interest management</li></p><p><h3 class="heading-3"><strong>MVP #2 Advanced Features (20-week development)</strong></h3>
+<li><strong>QR Event System</strong> (Star Feature): Advanced QR generation, vendor assignments, attendance validation</li>
+<li><strong>WhatsApp Bot Integration</strong>: Automated customer service and booking assistance</li>
+<li><strong>Enhanced Analytics</strong>: Performance metrics, trend analysis, revenue optimization</li>
+<li><strong>Community Features</strong>: Social interactions, dance style communities, content sharing</li></p><p><h3 class="heading-3"><strong>Future Enhancements</strong></h3>
+<li><strong>Competition Management</strong>: Judge coordination, scoring systems, tournament brackets</li>
+<li><strong>Vendor Marketplace</strong>: Equipment sales, partnership opportunities, commission tracking</li>
+<li><strong>Advanced AI</strong>: Personalized recommendations, style matching, progress tracking</li>
+<li><strong>Mobile App</strong>: Native iOS/Android with offline capabilities and push notifications</li></p><p><h2 class="heading-2">Competitive Landscape & Differentiation</h2></p><p><h3 class="heading-3"><strong>Current Market Gaps</strong></h3>
+<li>No unified platform specifically for Buenos Aires dance community</li>
+<li>Studio management tools are generic (not dance-focused)</li>
+<li>Event platforms lack dance-specific features (QR systems, vendor management)</li>
+<li>Discovery tools don't understand dance style nuances</li></p><p><h3 class="heading-3"><strong>UDance Competitive Advantages</strong></h3>
+<p>1. <strong>Dance-Specific Architecture</strong>: Built specifically for dance workflows and terminology</p>
+<p>2. <strong>Role-Based Optimization</strong>: Interfaces designed for each user type's specific needs</p>
+<p>3. <strong>QR Event Innovation</strong>: Unique QR-based attendance and vendor management system</p>
+<p>4. <strong>Local Market Focus</strong>: Buenos Aires-specific features, language, and business model</p>
+<p>5. <strong>Integrated Ecosystem</strong>: All dance stakeholders on one platform with cross-referencing</p><p><h3 class="heading-3"><strong>Technology Differentiation</strong></h3></p>
+<li><strong>Edge Computing</strong>: Cloudflare Workers for sub-100ms response times globally</li>
+<li><strong>Modern Stack</strong>: Next.js 15, React 19, Hono, Drizzle ORM for optimal performance</li>
+<li><strong>Real-Time Architecture</strong>: Live updates for dashboards and booking systems</li>
+<li><strong>Scalable Infrastructure</strong>: Monorepo with microservices supporting growth to enterprise</li></p><p><h2 class="heading-2">Value Proposition</h2></p><p><h3 class="heading-3"><strong>For Students</strong></h3>
+<p>"Discover your perfect dance class through AI-powered search that understands your style, level, and location preferences. Connect with the Buenos Aires dance community through one beautifully designed platform."</p><p><h3 class="heading-3"><strong>For Studios</strong></h3></p>
+<p>"Transform your studio management with professional dashboards that track every aspect of your business - from student enrollment to instructor coordination to financial performance - all in real-time."</p><p><h3 class="heading-3"><strong>For Teachers</strong></h3></p>
+<p>"Focus on what you love - teaching dance - while our platform handles student communication, schedule optimization, and performance tracking. Build stronger relationships with your students."</p><p><h3 class="heading-3"><strong>For Event Organizers</strong></h3></p>
+<p>"Maximize your event success with advanced QR systems, vendor management, and sales tracking. Turn any dance event into a profitable, well-organized experience."</p><p><h3 class="heading-3"><strong>For the Ecosystem</strong></h3></p>
+<p>"Unite the Buenos Aires dance community on one platform where students discover opportunities, studios manage growth, teachers build careers, and events create memorable experiences - all supported by cutting-edge technology designed specifically for dance."</p><p><h2 class="heading-2">Success Metrics & Validation</h2></p><p><h3 class="heading-3"><strong>Business Success Indicators</strong></h3></p>
+<li><strong>Revenue Growth</strong>: $175K+ ARS/month within 12 months</li>
+<li><strong>Studio Adoption</strong>: 50+ Buenos Aires studios using management dashboards</li>
+<li><strong>Student Engagement</strong>: 5,000+ active monthly users for class discovery</li>
+<li><strong>Event Volume</strong>: 100+ events managed through QR system quarterly</li></p><p><h3 class="heading-3"><strong>User Experience Success</strong></h3>
+<li><strong>Dashboard Utilization</strong>: 80%+ of studio features used weekly</li>
+<li><strong>Discovery Success Rate</strong>: 70%+ of searches result in class interest/booking</li>
+<li><strong>User Retention</strong>: 60%+ monthly active user retention rate</li>
+<li><strong>Net Promoter Score</strong>: 8+ rating from studio owners and teachers</li></p><p><h3 class="heading-3"><strong>Technical Performance</strong></h3>
+<li><strong>Response Times</strong>: <100ms API responses, <30s dashboard updates</li>
+<li><strong>Uptime</strong>: 99.9% availability across all Cloudflare Workers</li>
+<li><strong>Mobile Performance</strong>: <3s page load times on mobile devices</li>
+<li><strong>Real-Time Accuracy</strong>: KPIs update within 30 seconds of data changes</li></ul></p><p>The platform is positioned to become the definitive digital infrastructure for Buenos Aires dance community, solving real pain points while creating sustainable revenue streams for all stakeholders. 
+        </div>
+        
+        <div class="footer">
+            <p>📚 Auto-generated from Memory Bank | 🚀 uDance Project Documentation</p>
+            <p>🔄 Synchronization: <strong>Active</strong> • 🎯 Real-time updates enabled</p>
+        </div>
+    </div>
+</body>
+</html>

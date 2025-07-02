@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Patterns - uDance Documentation</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+        color: #333;
+        background: #fafafa;
+      }
+
+      .container {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .header h1 {
+        color: #667eea;
+        margin: 0;
+        font-size: 2.5rem;
+      }
+
+      .meta {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+
+      .content {
+        margin-bottom: 2rem;
+      }
+
+      .heading-1 {
+        color: #667eea;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 0.5rem;
+        margin-top: 2rem;
+      }
+      .heading-2 {
+        color: #5a67d8;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      .heading-3 {
+        color: #4c51bf;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .code-block {
+        background: #f7fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+        font-family: "Monaco", "Menlo", monospace;
+        font-size: 0.9rem;
+      }
+
+      /* Modern Visual Components */
+      .architecture-diagram {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        margin: 2rem 0;
+        color: white;
+      }
+
+      .layer {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .layer:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .layer h4 {
+        margin: 0 0 1rem 0;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+      }
+
+      .layer-icon {
+        margin-right: 0.5rem;
+        font-size: 1.5rem;
+      }
+
+      .layer-services {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .service-card {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .service-card h5 {
+        margin: 0 0 0.5rem 0;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .service-card p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+      }
+
+      .flow-arrow {
+        text-align: center;
+        color: #fff;
+        font-size: 2rem;
+        margin: 1rem 0;
+        opacity: 0.7;
+      }
+
+      .role-dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .role-card {
+        border-radius: 16px;
+        padding: 2rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .role-card.studio {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      }
+      .role-card.teacher {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      }
+      .role-card.sales {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      }
+
+      .role-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(30px, -30px);
+      }
+
+      .role-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .role-icon {
+        margin-right: 0.5rem;
+        font-size: 1.8rem;
+      }
+
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .kpi-item {
+        text-align: center;
+        padding: 0.8rem;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+      }
+
+      .kpi-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        display: block;
+      }
+
+      .kpi-label {
+        font-size: 0.8rem;
+        opacity: 0.9;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+      }
+
+      .feature-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+      }
+
+      .feature-list li:before {
+        content: "✓";
+        margin-right: 0.5rem;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .auth-flow {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 2rem;
+        margin: 2rem 0;
+      }
+
+      .auth-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .auth-step {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
+        position: relative;
+      }
+
+      .auth-step::before {
+        content: attr(data-step);
+        position: absolute;
+        top: -10px;
+        left: 1rem;
+        background: #667eea;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+
+      .auth-step h5 {
+        color: #374151;
+        margin: 0.5rem 0 1rem 0;
+      }
+
+      .auth-step code {
+        background: #f3f4f6;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+      }
+
+      ul {
+        margin: 1rem 0;
+        padding-left: 2rem;
+      }
+
+      li {
+        margin: 0.5rem 0;
+      }
+
+      p {
+        margin: 1rem 0;
+      }
+
+      .footer {
+        border-top: 1px solid #eee;
+        padding-top: 1rem;
+        color: #666;
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border: 1px solid #667eea;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+      }
+
+      .back-link:hover {
+        background: #667eea;
+        color: white;
+      }
+
+      .status-badge {
+        display: inline-block;
+        background: #48bb78;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-left: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .role-dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .kpi-grid {
+          grid-template-columns: 1fr;
+        }
+        .auth-steps {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../index.html" class="back-link">← Back to Documentation Hub</a>
+
+      <div class="header">
+        <h1>System Patterns<span class="status-badge">Live</span></h1>
+        <div class="meta">
+          📝 Last updated: 6/30/2025, 1:58:20 AM | 📂 Source:
+          ../../memory-bank/core/systemPatterns.md
+        </div>
+      </div>
+
+      <div class="content">
+        <h1 class="heading-1">System Patterns</h1>
+
+        <h2 class="heading-2">System Architecture Overview</h2>
+        <p>
+          UDance follows a <strong>role-based edge-computing architecture</strong> designed for the
+          Buenos Aires dance community. The system combines Cloudflare Workers microservices with
+          specialized admin dashboards for different user types (Studio Admin, Teacher,
+          Salesperson), providing both discovery tools for students and management tools for the
+          business ecosystem.
+        </p>
+
+        <h2 class="heading-2">Core Architectural Patterns</h2>
+
+        <h3 class="heading-3">🎭 Role-Based Dashboard Architecture</h3>
+        <p>
+          Each user type receives a specialized interface optimized for their specific workflow:
+        </p>
+
+        <div class="role-dashboard-grid">
+          <div class="role-card studio">
+            <div class="role-title">
+              <span class="role-icon">🏢</span>
+              Studio Admin Dashboard
+            </div>
+            <div class="kpi-grid">
+              <div class="kpi-item">
+                <span class="kpi-value">847</span>
+                <span class="kpi-label">Students</span>
+              </div>
+              <div class="kpi-item">
+                <span class="kpi-value">$45K</span>
+                <span class="kpi-label">Revenue</span>
+              </div>
+              <div class="kpi-item">
+                <span class="kpi-value">23</span>
+                <span class="kpi-label">Classes</span>
+              </div>
+            </div>
+            <ul class="feature-list">
+              <li>Business KPIs & Analytics</li>
+              <li>Class coordination & management</li>
+              <li>Payment tracking & financials</li>
+              <li>Staff administration</li>
+            </ul>
+          </div>
+
+          <div class="role-card teacher">
+            <div class="role-title">
+              <span class="role-icon">👨‍🏫</span>
+              Teacher Dashboard
+            </div>
+            <div class="kpi-grid">
+              <div class="kpi-item">
+                <span class="kpi-value">156</span>
+                <span class="kpi-label">Students</span>
+              </div>
+              <div class="kpi-item">
+                <span class="kpi-value">$12.8K</span>
+                <span class="kpi-label">Earnings</span>
+              </div>
+              <div class="kpi-item">
+                <span class="kpi-value">4.8⭐</span>
+                <span class="kpi-label">Rating</span>
+              </div>
+            </div>
+            <ul class="feature-list">
+              <li>Teaching KPIs & performance</li>
+              <li>Class schedules & attendance</li>
+              <li>Student messages & feedback</li>
+              <li>Performance tracking</li>
+            </ul>
+          </div>
+
+          <div class="role-card sales">
+            <div class="role-title">
+              <span class="role-icon">💰</span>
+              Salesperson Dashboard
+            </div>
+            <div class="kpi-grid">
+              <div class="kpi-item">
+                <span class="kpi-value">8</span>
+                <span class="kpi-label">Events/Month</span>
+              </div>
+              <div class="kpi-item">
+                <span class="kpi-value">$28.9K</span>
+                <span class="kpi-label">Sales</span>
+              </div>
+              <div class="kpi-item">
+                <span class="kpi-value">442</span>
+                <span class="kpi-label">Attendees</span>
+              </div>
+            </div>
+            <ul class="feature-list">
+              <li>QR code generation & tracking</li>
+              <li>Sales tracking & inventory</li>
+              <li>Event management</li>
+              <li>Ticket sales & analytics</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="heading-3">🔐 SimpleAuth JWT Authentication Pattern</h3>
+        <div class="auth-flow">
+          <h4>Edge-Optimized Authentication Flow</h4>
+          <div class="auth-steps">
+            <div class="auth-step" data-step="1">
+              <h5>📝 Registration</h5>
+              <p><code>POST /auth/simple-register</code></p>
+              <ul style="font-size: 0.9rem">
+                <li>Password hashing with Web Crypto API</li>
+                <li>User record creation</li>
+                <li>Account table with salt:hash format</li>
+              </ul>
+            </div>
+
+            <div class="auth-step" data-step="2">
+              <h5>🔑 Login</h5>
+              <p><code>POST /auth/simple-login</code></p>
+              <ul style="font-size: 0.9rem">
+                <li>Account lookup with proper SQL</li>
+                <li>HMAC password verification</li>
+                <li>JWT generation with HMAC-SHA256</li>
+              </ul>
+            </div>
+
+            <div class="auth-step" data-step="3">
+              <h5>✅ Validation</h5>
+              <p><code>GET /auth/simple-profile</code></p>
+              <ul style="font-size: 0.9rem">
+                <li>Service binding delegation</li>
+                <li>Token validation & user context</li>
+                <li>API Gateway → worker-auth</li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            style="
+              background: white;
+              padding: 1.5rem;
+              border-radius: 8px;
+              margin-top: 1rem;
+              border: 1px solid #e5e7eb;
+            "
+          >
+            <h5 style="color: #374151; margin-bottom: 1rem">JWT Token Structure:</h5>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+              "
+            >
+              <div>
+                <strong>Header:</strong><br />
+                <code>{"alg": "HS256", "typ": "JWT"}</code>
+              </div>
+              <div>
+                <strong>Payload:</strong><br />
+                <code>userId, email, name, iat, exp</code>
+              </div>
+              <div>
+                <strong>Signature:</strong><br />
+                <code>HMAC-SHA256(header.payload, secret)</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="heading-3">🌐 Edge-First Microservices with Service Bindings</h3>
+        <div class="architecture-diagram">
+          <div class="layer">
+            <h4><span class="layer-icon">💻</span>Frontend Layer</h4>
+            <p><strong>udance-web-app</strong> (Next.js + React 19)</p>
+            <div class="layer-services">
+              <div class="service-card">
+                <h5>🎭 Role-based Routing</h5>
+                <p>Dashboard components specialized for each user type</p>
+              </div>
+              <div class="service-card">
+                <h5>🤖 AI-powered Discovery</h5>
+                <p>Student interface for finding classes and studios</p>
+              </div>
+              <div class="service-card">
+                <h5>🔒 JWT Management</h5>
+                <p>Token handling and protected routes</p>
+              </div>
+              <div class="service-card">
+                <h5>📊 Real-time KPIs</h5>
+                <p>Live updates every 30 seconds</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-arrow">⬇️ JWT tokens ⬇️</div>
+
+          <div class="layer">
+            <h4><span class="layer-icon">🛡️</span>API Gateway Layer</h4>
+            <p><strong>udance-api</strong> (Hono Framework)</p>
+            <div class="layer-services">
+              <div class="service-card">
+                <h5>🔐 JWT Validation</h5>
+                <p>Middleware via service bindings</p>
+              </div>
+              <div class="service-card">
+                <h5>🔄 Request Routing</h5>
+                <p>Intelligent routing to specialized workers</p>
+              </div>
+              <div class="service-card">
+                <h5>👥 Role-based Middleware</h5>
+                <p>Permissions checking and access control</p>
+              </div>
+              <div class="service-card">
+                <h5>🌐 CORS & Logging</h5>
+                <p>Centralized error handling and monitoring</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-arrow">⬇️ Service Bindings ⬇️</div>
+
+          <div class="layer">
+            <h4><span class="layer-icon">⚙️</span>Specialized Workers Layer</h4>
+            <p><strong>Microservices Architecture</strong> (16 workers planned)</p>
+            <div class="layer-services">
+              <div class="service-card">
+                <h5>🔐 worker-auth</h5>
+                <p>SimpleAuth + JWT custom implementation</p>
+              </div>
+              <div class="service-card">
+                <h5>🏢 worker-studios</h5>
+                <p>Studio management APIs with protection</p>
+              </div>
+              <div class="service-card">
+                <h5>🎫 worker-events</h5>
+                <p>QR generation + sales with JWT protection</p>
+              </div>
+              <div class="service-card">
+                <h5>📊 worker-analytics</h5>
+                <p>Real-time KPI calculations, role-scoped data access</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-arrow">⬇️ Database Connections ⬇️</div>
+
+          <div class="layer">
+            <h4><span class="layer-icon">🗄️</span>Database Layer</h4>
+            <p><strong>Turso/LibSQL</strong> (Edge-compatible)</p>
+            <div class="layer-services">
+              <div class="service-card">
+                <h5>📋 20+ Tables</h5>
+                <p>Across 6 categories with role system</p>
+              </div>
+              <div class="service-card">
+                <h5>🏢 Studio Scoping</h5>
+                <p>Context-specific permissions per studio</p>
+              </div>
+              <div class="service-card">
+                <h5>👤 SimpleAuth Tables</h5>
+                <p>user/account tables for credential management</p>
+              </div>
+              <div class="service-card">
+                <h5>🎯 Context Permissions</h5>
+                <p>Event-specific permission tables</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Continue with rest of content... -->
+      </div>
+
+      <div class="footer">
+        Generated from memory-bank/core/systemPatterns.md | Last synced: 6/30/2025, 1:58:20 AM
+      </div>
+    </div>
+  </body>
+</html>

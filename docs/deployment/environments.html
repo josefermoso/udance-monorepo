@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deployment Environments - uDance</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: white;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        opacity: 0.9;
+        transition: opacity 0.2s;
+      }
+
+      .nav a:hover {
+        opacity: 1;
+      }
+
+      .main-content {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .environment-diagram {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 3rem 0;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+
+      .env-box {
+        position: relative;
+        width: 200px;
+        height: 150px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .env-box:hover {
+        transform: scale(1.05);
+      }
+
+      .env-dev {
+        background: linear-gradient(135deg, #4ade80, #22d3ee);
+      }
+
+      .env-staging {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      }
+
+      .env-prod {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+      }
+
+      .env-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .env-url {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        text-align: center;
+        padding: 0 1rem;
+      }
+
+      .flow-arrow {
+        width: 40px;
+        height: 2px;
+        background: #667eea;
+        position: relative;
+        margin: 0 1rem;
+      }
+
+      .flow-arrow:after {
+        content: "";
+        position: absolute;
+        right: -6px;
+        top: -4px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid #667eea;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+
+      .architecture-flow {
+        margin: 3rem 0;
+        padding: 2rem;
+        background: #f8fafc;
+        border-radius: 12px;
+      }
+
+      .flow-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .service-box {
+        padding: 1rem 1.5rem;
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        text-align: center;
+        min-width: 120px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .service-box.frontend {
+        border-color: #3b82f6;
+        background: #dbeafe;
+      }
+
+      .service-box.api {
+        border-color: #10b981;
+        background: #d1fae5;
+      }
+
+      .service-box.worker {
+        border-color: #f59e0b;
+        background: #fef3c7;
+      }
+
+      .service-box.db {
+        border-color: #8b5cf6;
+        background: #ede9fe;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .feature-card {
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+      }
+
+      .feature-card h3 {
+        color: #667eea;
+        margin-bottom: 1rem;
+      }
+
+      .feature-list {
+        list-style: none;
+      }
+
+      .feature-list li {
+        padding: 0.5rem 0;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .feature-list li:before {
+        content: "✅";
+        position: absolute;
+        left: 0;
+      }
+
+      .deployment-timeline {
+        margin: 3rem 0;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 2rem;
+      }
+
+      .timeline:before {
+        content: "";
+        position: absolute;
+        left: 0.5rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #667eea;
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .timeline-item:before {
+        content: "";
+        position: absolute;
+        left: -1.75rem;
+        top: 1.5rem;
+        width: 12px;
+        height: 12px;
+        background: #667eea;
+        border-radius: 50%;
+      }
+
+      .timeline-step {
+        color: #667eea;
+        font-weight: bold;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .environment-diagram {
+          flex-direction: column;
+        }
+
+        .flow-arrow {
+          transform: rotate(90deg);
+          margin: 1rem 0;
+        }
+
+        .flow-container {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🌍 Deployment Environments</h1>
+        <p>uDance multi-environment deployment architecture</p>
+      </header>
+
+      <div class="nav">
+        <a href="../index.html">← Back to Documentation Hub</a>
+      </div>
+
+      <div class="main-content">
+        <h2>Environment Overview</h2>
+        <p>
+          uDance operates across three carefully managed environments, each serving specific
+          purposes in our development and deployment lifecycle.
+        </p>
+
+        <div class="environment-diagram">
+          <div class="env-box env-dev">
+            <div class="env-title">🧪 DEVELOPMENT</div>
+            <div class="env-url">udance-*-dev.workers.dev</div>
+          </div>
+
+          <div class="flow-arrow"></div>
+
+          <div class="env-box env-staging">
+            <div class="env-title">🔍 STAGING</div>
+            <div class="env-url">udance-*-staging.workers.dev</div>
+          </div>
+
+          <div class="flow-arrow"></div>
+
+          <div class="env-box env-prod">
+            <div class="env-title">🚀 PRODUCTION</div>
+            <div class="env-url">udance-*.workers.dev</div>
+          </div>
+        </div>
+
+        <div class="architecture-flow">
+          <h3>Service Architecture Flow</h3>
+          <div class="flow-container">
+            <div class="service-box frontend">📱<br />Next.js<br />Frontend</div>
+            <div class="flow-arrow"></div>
+            <div class="service-box api">🌐<br />API<br />Gateway</div>
+            <div class="flow-arrow"></div>
+            <div class="service-box worker">⚙️<br />Worker<br />Services</div>
+            <div class="flow-arrow"></div>
+            <div class="service-box db">🗄️<br />Turso<br />Database</div>
+          </div>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <h3>🧪 Development Environment</h3>
+            <ul class="feature-list">
+              <li>Auto-deployment on main branch push</li>
+              <li>Latest features and experiments</li>
+              <li>Debug logging enabled</li>
+              <li>Separate database instance</li>
+              <li>GitHub OAuth integration</li>
+              <li>Real-time testing environment</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h3>🔍 Staging Environment</h3>
+            <ul class="feature-list">
+              <li>Manual deployment triggers</li>
+              <li>Production-like configuration</li>
+              <li>QA and integration testing</li>
+              <li>Stakeholder previews</li>
+              <li>Performance benchmarking</li>
+              <li>Security validation</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h3>🚀 Production Environment</h3>
+            <ul class="feature-list">
+              <li>Manual deployment with approvals</li>
+              <li>Optimized performance settings</li>
+              <li>24/7 monitoring and alerts</li>
+              <li>Backup and disaster recovery</li>
+              <li>SSL/TLS encryption</li>
+              <li>Global edge distribution</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="deployment-timeline">
+          <h3>Deployment Process</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-step">STEP 1: Development</div>
+              <h4>Feature Development & Testing</h4>
+              <p>
+                Developers push code to feature branches. Auto-deployment to dev environment for
+                immediate testing and validation.
+              </p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-step">STEP 2: Integration</div>
+              <h4>Pull Request & CI/CD</h4>
+              <p>
+                Pull requests trigger automated testing: linting, unit tests, integration tests, and
+                build verification.
+              </p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-step">STEP 3: Staging</div>
+              <h4>Manual Staging Deployment</h4>
+              <p>
+                Approved changes are manually deployed to staging for QA testing, stakeholder
+                review, and performance validation.
+              </p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-step">STEP 4: Production</div>
+              <h4>Production Release</h4>
+              <p>
+                After staging approval, manual production deployment with rollback capabilities and
+                monitoring.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="architecture-flow">
+          <h3>🔒 Security & Access Control</h3>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+              gap: 1rem;
+              margin-top: 1rem;
+            "
+          >
+            <div class="service-box">🔐<br />SimpleAuth<br />JWT System</div>
+            <div class="service-box">🛡️<br />Service<br />Bindings</div>
+            <div class="service-box">🔍<br />Environment<br />Isolation</div>
+            <div class="service-box">📊<br />Audit<br />Logging</div>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #e0f2fe;
+            border-radius: 8px;
+            border-left: 4px solid #0284c7;
+          "
+        >
+          <h4>🚀 Quick Links</h4>
+          <p>
+            <strong>Development:</strong> All services deployed automatically on main branch updates
+          </p>
+          <p><strong>Staging:</strong> Manual deployment for QA validation</p>
+          <p><strong>Production:</strong> Manual deployment with approval process</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

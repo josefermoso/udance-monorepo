@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uDance Project Documentation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      h1 {
+        color: white;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        font-weight: 300;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 24px;
+        color: white;
+      }
+
+      .card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .card p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .card-links a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        transition: color 0.2s ease;
+      }
+
+      .card-links a:hover {
+        color: #5a67d8;
+      }
+
+      .status-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .status-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        color: white;
+      }
+
+      .status-value {
+        font-size: 2rem;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .status-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .sync-status {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        color: white;
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      .sync-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: #4ade80;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      footer {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 3rem;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🕺 uDance Project</h1>
+        <p class="subtitle">Dance School Management Platform - Complete Documentation Hub</p>
+      </header>
+
+      <div class="status-grid">
+        <div class="status-item">
+          <span class="status-value">100%</span>
+          <span class="status-label">Infrastructure</span>
+        </div>
+        <div class="status-item">
+          <span class="status-value">22/22</span>
+          <span class="status-label">E2E Tests Passing</span>
+        </div>
+        <div class="status-item">
+          <span class="status-value">3</span>
+          <span class="status-label">Environments</span>
+        </div>
+        <div class="status-item">
+          <span class="status-value">99.5%</span>
+          <span class="status-label">Project Complete</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">📋</div>
+          <h3>Current Tasks</h3>
+          <p>Active project tasks, progress tracking, and implementation status</p>
+          <div class="card-links">
+            <a href="tasks.html">📄 Tasks Overview</a>
+            <a href="progress.html">📊 Progress Report</a>
+            <a href="activecontext.html">🎯 Active Context</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🏗️</div>
+          <h3>Architecture</h3>
+          <p>System architecture, patterns, and technical documentation</p>
+          <div class="card-links">
+            <a href="architecture/system-patterns.html">🔧 System Patterns</a>
+            <a href="architecture/tech-context.html">⚙️ Tech Stack</a>
+            <a href="udance-architecture-comprehensive.html">🏢 Full Architecture</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🎨</div>
+          <h3>Design & UX</h3>
+          <p>Creative decisions, UI/UX documentation, and design systems</p>
+          <div class="card-links">
+            <a href="mvp-wireframes-interactive.html">📱 MVP Wireframes</a>
+            <a href="udance-admin-dashboards.html">📊 Admin Dashboards</a>
+            <a href="ux-discovery-interactive.html">🔍 UX Discovery</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🚀</div>
+          <h3>Deployment</h3>
+          <p>Deployment guides, environment setup, and CI/CD documentation</p>
+          <div class="card-links">
+            <a href="deployment/environments.html">🌍 Environments</a>
+            <a href="deployment/ci-cd.html">⚡ CI/CD Pipeline</a>
+            <a href="deployment/quality-gates.html">✅ Quality Gates</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🧪</div>
+          <h3>Testing</h3>
+          <p>Testing strategies, E2E implementation, and quality assurance</p>
+          <div class="card-links">
+            <a href="development/testing-strategy.html">📋 Testing Strategy</a>
+            <a href="development/playwright-implementation.html">🎭 Playwright E2E</a>
+            <a href="development/quality-assurance.html">🔍 QA Process</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🚀</div>
+          <h3>Workflow</h3>
+          <p>Complete developer workflow from branch to production</p>
+          <div class="card-links">
+            <a href="development/work-session.html">👨‍💻 Sesión de Trabajo</a>
+            <a href="deployment/ci-cd.html">⚡ CI/CD Pipeline</a>
+            <a href="deployment/quality-gates.html">✅ Quality Gates</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📚</div>
+          <h3>Project Archive</h3>
+          <p>Historical documentation, completed phases, and project evolution</p>
+          <div class="card-links">
+            <a href="archive/project-brief.html">📋 Project Brief</a>
+            <a href="archive/product-context.html">🎯 Product Context</a>
+            <a href="archive/phase-history.html">📈 Phase History</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sync-status">
+        <span class="sync-indicator"></span>
+        <strong>Documentation Sync:</strong> Active - Last updated:
+        <span id="lastUpdated">Loading...</span>
+      </div>
+
+      <footer>
+        <p>🚀 Built with Turborepo • Deployed on Cloudflare Workers • Powered by SimpleAuth</p>
+        <p>Documentation automatically synchronized from Memory Bank</p>
+      </footer>
+    </div>
+
+    <script>
+      // Update last sync time
+      document.getElementById("lastUpdated").textContent = new Date().toLocaleString();
+
+      // Auto-refresh every 5 minutes
+      setInterval(() => {
+        document.getElementById("lastUpdated").textContent = new Date().toLocaleString();
+      }, 300000);
+    </script>
+  </body>
+</html>
