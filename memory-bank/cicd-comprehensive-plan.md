@@ -24,7 +24,7 @@ Este documento detalla la planificación completa para implementar CI/CD, ambien
 
 **CI/CD Pipeline:**
 - **GitHub Actions**: Para CI/CD completo
-- **Branching Strategy**: main → prod, develop → staging, feature → dev
+- **Branching Strategy**: main → prod, dev → staging, feature → dev
 
 ## 🔧 Implementación Detallada
 
@@ -33,7 +33,7 @@ Este documento detalla la planificación completa para implementar CI/CD, ambien
 #### 1.1 Estructura de Branches
 ```
 main (protected)          → Production
-├── develop (protected)   → Staging  
+├── dev (protected)       → Staging  
 ├── feature/xxx           → Development (manual deploy)
 └── hotfix/xxx           → Development → Production
 ```
@@ -42,7 +42,7 @@ main (protected)          → Production
 ```bash
 # En Vercel Dashboard:
 # Project 1: udance-dev (connected to any branch for testing)
-# Project 2: udance-staging (auto-deploy from develop)  
+# Project 2: udance-staging (auto-deploy from dev)  
 # Project 3: udance-prod (auto-deploy from main)
 ```
 
@@ -209,9 +209,9 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [main, dev]
   push:
-    branches: [main, develop]
+    branches: [main, dev]
 
 jobs:
   quality-checks:
@@ -283,7 +283,7 @@ name: Continuous Deployment
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, dev]
   workflow_dispatch:
     inputs:
       environment:
@@ -297,7 +297,7 @@ on:
 
 jobs:
   deploy-staging:
-    if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+    if: github.ref == 'refs/heads/dev' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
     runs-on: ubuntu-latest
     environment: staging
     
