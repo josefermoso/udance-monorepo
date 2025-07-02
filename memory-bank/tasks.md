@@ -98,9 +98,10 @@ Implement comprehensive authentication and API system for UDance platform migrat
 
 **Subtasks**:
 - [x] [SUB-001]: Create development environment (dev branch) - ✅ COMPLETED
-- [ ] [SUB-002]: Create staging environment (dev branch) - 🎯 IN PROGRESS  
-- [ ] [SUB-003]: Configure production environment (main branch) - TODO
-- [ ] [SUB-004]: Set up custom domains for staging/prod - TODO
+- [x] [SUB-002]: Create staging environment setup guide - ✅ COMPLETED  
+- [x] [SUB-003]: Configure production environment setup guide - ✅ COMPLETED
+- [ ] [SUB-004]: Create actual Vercel projects (manual step) - 🎯 READY
+- [ ] [SUB-005]: Set up custom domains for staging/prod - TODO
 
 ###### [TASK-002]: Environment Variables Configuration
 - **Description**: Configure environment-specific variables for each environment

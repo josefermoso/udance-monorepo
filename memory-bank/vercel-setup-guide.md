@@ -23,9 +23,9 @@ Project Name: udance-staging
 GitHub Repo: josefermoso/udance-monorepo
 Framework: Next.js
 Root Directory: ./
-Build Command: npm run build
+Build Command: pnpm run build
 Output Directory: .next
-Install Command: npm install
+Install Command: pnpm install
 Git Branch: dev (IMPORTANT: Set to dev, not main)
 ```
 
@@ -58,9 +58,9 @@ Project Name: udance-prod
 GitHub Repo: josefermoso/udance-monorepo
 Framework: Next.js
 Root Directory: ./
-Build Command: npm run build
+Build Command: pnpm run build
 Output Directory: .next
-Install Command: npm install
+Install Command: pnpm install
 Git Branch: main
 ```
 
@@ -93,9 +93,9 @@ Project Name: udance-dev
 GitHub Repo: josefermoso/udance-monorepo
 Framework: Next.js
 Root Directory: ./
-Build Command: npm run build
+Build Command: pnpm run build
 Output Directory: .next
-Install Command: npm install
+Install Command: pnpm install
 Git Branch: All branches (for manual testing)
 ```
 
