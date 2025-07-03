@@ -1,27 +1,31 @@
-"use client"
+'use client';
 
-import { createClient } from '../../../utils/supabase/client'
-import { useRouter } from 'next/navigation'
+import { createClient } from '../../../utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const router = useRouter()
+  const router = useRouter();
 
   const signInWithGoogle = async () => {
-    const supabase = createClient()
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
-    })
-  }
+    });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">UDance Login</h2>
-          <p className="mt-2 text-sm text-gray-600">Access your dance platform</p>
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+            UDance Login
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Access your dance platform
+          </p>
         </div>
         <button
           onClick={signInWithGoogle}
@@ -31,5 +35,5 @@ export default function LoginPage() {
         </button>
       </div>
     </div>
-  )
-} 
+  );
+}

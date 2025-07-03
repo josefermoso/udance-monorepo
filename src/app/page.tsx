@@ -1,55 +1,59 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { createClient } from '../../utils/supabase/client'
-import { publicAction, protectedAction } from './actions'
+import { useEffect, useState } from 'react';
+import { createClient } from '../../utils/supabase/client';
+import { publicAction, protectedAction } from './actions';
 
 export default function HomePage() {
-  const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = createClient()
+    const supabase = createClient();
 
     // Get initial session
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user ?? null)
-      setLoading(false)
-    }
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
 
-    getInitialSession()
+    getInitialSession();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
 
-    return () => subscription.unsubscribe()
-  }, [])
+    return () => subscription.unsubscribe();
+  }, []);
 
   const signInWithGoogle = async () => {
-    const supabase = createClient()
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`
-      }
-    })
-  }
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
 
   const signOut = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-  }
+    const supabase = createClient();
+    await supabase.auth.signOut();
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -59,27 +63,28 @@ export default function HomePage() {
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
             Welcome to UDance
           </h1>
-          
+
           {user ? (
             <div className="text-center space-y-6">
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                 <p className="text-green-800">
-                  Welcome back, <span className="font-semibold">{user.email}</span>!
+                  Welcome back,{' '}
+                  <span className="font-semibold">{user.email}</span>!
                 </p>
               </div>
-              
+
               <div className="space-y-4">
                 <form action={publicAction}>
-                  <button 
+                  <button
                     type="submit"
                     className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
                   >
                     Test Public Action
                   </button>
                 </form>
-                
+
                 <form action={protectedAction}>
-                  <button 
+                  <button
                     type="submit"
                     className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
                   >
@@ -87,8 +92,8 @@ export default function HomePage() {
                   </button>
                 </form>
               </div>
-              
-              <button 
+
+              <button
                 onClick={signOut}
                 className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
               >
@@ -98,10 +103,12 @@ export default function HomePage() {
           ) : (
             <div className="text-center space-y-6">
               <p className="text-gray-600 mb-6">
-                Your ultimate dance platform experience awaits. Sign in to access exclusive features, connect with the dance community, and take your passion to the next level.
+                Your ultimate dance platform experience awaits. Sign in to
+                access exclusive features, connect with the dance community, and
+                take your passion to the next level.
               </p>
-              
-              <button 
+
+              <button
                 onClick={signInWithGoogle}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center mx-auto space-x-2"
               >
@@ -125,13 +132,13 @@ export default function HomePage() {
                 </svg>
                 <span>Continue with Google</span>
               </button>
-              
+
               <div className="mt-8">
                 <h3 className="text-lg font-medium text-gray-700 mb-4">
                   Try our public features:
                 </h3>
                 <form action={publicAction}>
-                  <button 
+                  <button
                     type="submit"
                     className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
                   >
@@ -141,7 +148,7 @@ export default function HomePage() {
               </div>
             </div>
           )}
-          
+
           {/* Feature highlights */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-4">
@@ -149,27 +156,33 @@ export default function HomePage() {
                 <span className="text-2xl">🕺</span>
               </div>
               <h3 className="font-semibold text-gray-800 mb-2">Learn Dance</h3>
-              <p className="text-gray-600 text-sm">Access comprehensive dance tutorials and lessons</p>
+              <p className="text-gray-600 text-sm">
+                Access comprehensive dance tutorials and lessons
+              </p>
             </div>
-            
+
             <div className="text-center p-4">
               <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">👥</span>
               </div>
               <h3 className="font-semibold text-gray-800 mb-2">Connect</h3>
-              <p className="text-gray-600 text-sm">Join a vibrant community of dance enthusiasts</p>
+              <p className="text-gray-600 text-sm">
+                Join a vibrant community of dance enthusiasts
+              </p>
             </div>
-            
+
             <div className="text-center p-4">
               <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🏆</span>
               </div>
               <h3 className="font-semibold text-gray-800 mb-2">Compete</h3>
-              <p className="text-gray-600 text-sm">Participate in competitions and showcase your skills</p>
+              <p className="text-gray-600 text-sm">
+                Participate in competitions and showcase your skills
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
