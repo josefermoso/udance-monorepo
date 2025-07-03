@@ -21,4 +21,10 @@ describe('CI/CD Pipeline Test', () => {
     expect(getByText('Hello CI/CD')).toBeTruthy();
     expect(getByText('This is a simple test component')).toBeTruthy();
   });
+
+  it('confirms CI/CD pipeline is working', () => {
+    const { getByText } = render(<TestComponent />);
+    expect(getByText('Hello CI/CD')).toBeTruthy();
+    // This test confirms our CI/CD pipeline is executing successfully
+  });
 });
