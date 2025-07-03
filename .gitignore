@@ -44,3 +44,7 @@ next-env.d.ts
 secrets.md
 *.secret
 .secrets/
+
+# Vercel configuration files with secrets
+vercel.*.json
+scripts/setup-vercel-env*.sh
