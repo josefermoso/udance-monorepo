@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sesión de Trabajo - Guía Completa para Developers</title>
+    <title>Guía de Trabajo: De Feature a Producción</title>
     <style>
       * {
         margin: 0;
@@ -20,7 +20,7 @@
       }
 
       .container {
-        max-width: 1200px;
+        max-width: 1000px;
         margin: 0 auto;
         padding: 2rem;
       }
@@ -35,6 +35,12 @@
         font-size: 2.5rem;
         margin-bottom: 0.5rem;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
       }
 
       .nav {
@@ -71,43 +77,50 @@
       }
 
       .step-container {
-        margin: 3rem 0;
+        margin: 2rem 0;
         padding: 2rem;
         background: #f8fafc;
         border-radius: 12px;
-        border: 2px solid #e5e7eb;
+        border-left: 6px solid #e5e7eb;
+        position: relative;
+      }
+
+      .step-container.current {
+        border-left-color: #f59e0b;
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      }
+
+      .step-container.completed {
+        border-left-color: #22c55e;
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
       }
 
       .step-header {
         display: flex;
         align-items: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         padding-bottom: 1rem;
-        border-bottom: 2px solid #e5e7eb;
+        border-bottom: 2px solid rgba(0,0,0,0.1);
       }
 
       .step-number {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: bold;
-        margin-right: 1.5rem;
+        margin-right: 1rem;
         box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-      }
-
-      .step-title {
-        flex: 1;
       }
 
       .step-title h3 {
         color: #1e293b;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         margin-bottom: 0.5rem;
       }
 
@@ -119,12 +132,13 @@
       .command-block {
         background: #1e293b;
         color: #e2e8f0;
-        padding: 1.5rem;
+        padding: 1rem;
         border-radius: 8px;
         margin: 1rem 0;
         font-family: "Monaco", "Menlo", monospace;
         overflow-x: auto;
         position: relative;
+        font-size: 0.9rem;
       }
 
       .command-block::before {
@@ -140,64 +154,47 @@
         border-radius: 8px;
         margin: 1rem 0;
         font-family: "Monaco", "Menlo", monospace;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         border-left: 4px solid #22c55e;
       }
 
       .flow-diagram {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         margin: 2rem 0;
         flex-wrap: wrap;
-        gap: 1rem;
+        gap: 0.5rem;
       }
 
       .flow-box {
-        flex: 1;
-        min-width: 120px;
+        min-width: 100px;
         text-align: center;
-        padding: 1rem;
+        padding: 0.8rem;
         background: white;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         border: 2px solid #e5e7eb;
         transition: all 0.3s ease;
-        position: relative;
       }
 
-      .flow-box:hover {
-        border-color: #667eea;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+      .flow-box.active {
+        border-color: #f59e0b;
+        background: #fffbeb;
+        transform: scale(1.05);
       }
 
-      .flow-box.local {
+      .flow-box.completed {
         border-color: #22c55e;
         background: #f0fdf4;
       }
 
-      .flow-box.ci {
-        border-color: #f59e0b;
-        background: #fffbeb;
-      }
-
-      .flow-box.deploy {
-        border-color: #3b82f6;
-        background: #eff6ff;
-      }
-
-      .flow-box.prod {
-        border-color: #ef4444;
-        background: #fef2f2;
-      }
-
       .flow-arrow {
-        width: 40px;
+        width: 30px;
         height: 2px;
-        background: #667eea;
+        background: #94a3b8;
         position: relative;
-        margin: 0 10px;
+        margin: 0 5px;
       }
 
       .flow-arrow:after {
@@ -207,7 +204,7 @@
         top: -4px;
         width: 0;
         height: 0;
-        border-left: 10px solid #667eea;
+        border-left: 10px solid #94a3b8;
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
       }
@@ -228,8 +225,8 @@
       }
 
       .checkbox {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         border-radius: 4px;
         background: #22c55e;
         display: flex;
@@ -237,40 +234,8 @@
         justify-content: center;
         margin-right: 1rem;
         color: white;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         flex-shrink: 0;
-      }
-
-      .environments-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin: 2rem 0;
-      }
-
-      .env-card {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        border: 2px solid #e5e7eb;
-        transition: all 0.3s ease;
-      }
-
-      .env-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      }
-
-      .env-card.dev {
-        border-top: 6px solid #22c55e;
-      }
-
-      .env-card.staging {
-        border-top: 6px solid #f59e0b;
-      }
-
-      .env-card.prod {
-        border-top: 6px solid #ef4444;
       }
 
       .warning-box {
@@ -307,80 +272,55 @@
         flex-shrink: 0;
       }
 
-      .git-flow {
-        background: #f1f5f9;
-        border-radius: 12px;
-        padding: 2rem;
-        margin: 2rem 0;
-      }
-
-      .git-branches {
-        display: flex;
-        flex-direction: column;
+      .environments {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 1rem;
         margin: 1rem 0;
       }
 
-      .branch {
-        display: flex;
-        align-items: center;
+      .env-card {
+        background: white;
+        border-radius: 8px;
         padding: 1rem;
-        background: white;
+        border: 2px solid #e5e7eb;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .env-card.dev {
+        border-top: 4px solid #22c55e;
+      }
+
+      .env-card.staging {
+        border-top: 4px solid #f59e0b;
+      }
+
+      .env-card.prod {
+        border-top: 4px solid #ef4444;
+      }
+
+      .env-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .time-estimate {
+        background: #f1f5f9;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        color: #475569;
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+
+      .quick-commands {
+        background: #f8fafc;
         border-radius: 8px;
-        border-left: 4px solid #22c55e;
-      }
-
-      .branch.feature {
-        border-left-color: #3b82f6;
-      }
-
-      .branch.main {
-        border-left-color: #ef4444;
-      }
-
-      .branch-icon {
-        margin-right: 1rem;
-        font-size: 1.2rem;
-      }
-
-      .timeline {
-        position: relative;
-        margin: 2rem 0;
-      }
-
-      .timeline::before {
-        content: "";
-        position: absolute;
-        left: 30px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: #e5e7eb;
-      }
-
-      .timeline-item {
-        position: relative;
-        margin: 2rem 0;
-        padding-left: 80px;
-      }
-
-      .timeline-dot {
-        position: absolute;
-        left: 20px;
-        top: 0;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: #667eea;
-        border: 4px solid white;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .timeline-content {
-        background: white;
         padding: 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin: 2rem 0;
+        border-left: 4px solid #8b5cf6;
       }
 
       @media (max-width: 768px) {
@@ -390,10 +330,10 @@
 
         .flow-arrow {
           transform: rotate(90deg);
-          margin: 1rem 0;
+          margin: 0.5rem 0;
         }
 
-        .environments-grid {
+        .environments {
           grid-template-columns: 1fr;
         }
       }
@@ -402,8 +342,9 @@
   <body>
     <div class="container">
       <header>
-        <h1>🚀 Sesión de Trabajo Completa</h1>
-        <p>Guía paso a paso para developers: De branch a producción</p>
+        <h1>🚀 Guía de Trabajo</h1>
+        <p class="subtitle">De Feature a Producción - Paso a Paso</p>
+        <p style="font-size: 1rem; opacity: 0.8;">Para desarrolladores trabajando solo</p>
       </header>
 
       <div class="nav">
@@ -411,925 +352,459 @@
       </div>
 
       <div class="main-content">
+        
+        <!-- RESUMEN DEL FLUJO -->
         <div class="workflow-overview">
-          <h2>🎯 Resumen del Flujo de Trabajo</h2>
-          <p>
-            Esta guía te lleva desde la creación de un branch hasta el deployment en producción.
-            Perfecta para developers juniors que quieren entender todo el proceso.
-          </p>
+          <h2>📋 Resumen del Flujo Completo</h2>
+          <p>Este es el proceso completo que seguirás desde que empiezas a trabajar en una feature hasta que llega a producción:</p>
 
           <div class="flow-diagram">
-            <div class="flow-box local">
-              <h4>🔧 Local</h4>
-              <p>Desarrollo</p>
+            <div class="flow-box completed">
+              <h4>💻 Desarrollo</h4>
+              <p>Local</p>
             </div>
             <div class="flow-arrow"></div>
-            <div class="flow-box ci">
-              <h4>🧪 CI/CD</h4>
-              <p>Testing</p>
+            <div class="flow-box completed">
+              <h4>📤 Pull Request</h4>
+              <p>GitHub</p>
             </div>
             <div class="flow-arrow"></div>
-            <div class="flow-box deploy">
+            <div class="flow-box completed">
+              <h4>🤖 CI/CD</h4>
+              <p>Tests</p>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-box active">
               <h4>🚀 Deploy</h4>
               <p>Staging</p>
             </div>
             <div class="flow-arrow"></div>
-            <div class="flow-box prod">
-              <h4>✅ Prod</h4>
-              <p>Producción</p>
+            <div class="flow-box">
+              <h4>✅ Producción</h4>
+              <p>Live</p>
             </div>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+            <strong>⏱️ Tiempo total estimado:</strong> 30-60 minutos (dependiendo de la complejidad)
           </div>
         </div>
 
-        <!-- PASO 1: CONFIGURACIÓN INICIAL -->
-        <div class="step-container">
+        <!-- PASO 1: DESARROLLO LOCAL -->
+        <div class="step-container completed">
           <div class="step-header">
             <div class="step-number">1</div>
             <div class="step-title">
-              <h3>📁 Configuración Inicial del Workspace</h3>
-              <p class="step-description">Preparar el entorno local antes de comenzar</p>
+              <h3>💻 Desarrollo Local</h3>
+              <p class="step-description">Crear tu branch y desarrollar la feature</p>
             </div>
           </div>
 
-          <div class="checklist">
-            <h4>✅ Checklist Pre-desarrollo</h4>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Estar en la branch main actualizada</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Verificar que todas las dependencias estén instaladas</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Asegurarse que los tests pasen localmente</div>
-            </div>
-          </div>
+          <div class="time-estimate">⏱️ Tiempo estimado: 15-30 minutos</div>
 
-          <h4>🔧 Comandos de Preparación</h4>
+          <h4>🌿 Crear tu branch</h4>
           <div class="command-block">git checkout main</div>
           <div class="command-block">git pull origin main</div>
-          <div class="command-block">pnpm install</div>
-          <div class="command-block">make check</div>
+          <div class="command-block">git checkout -b feature/nombre-de-tu-feature</div>
 
-          <div class="terminal-output">
-            Todo bien! Podés hacer push tranquilo. ✅ Biome lint: passed ✅ TypeScript: passed ✅
-            Unit tests: 50+ passing ✅ Build: successful
+          <h4>⌨️ Desarrollar tu código</h4>
+          <div class="checklist">
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div>Escribir el código de tu feature</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div>Probar que funciona localmente</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div>Hacer commits pequeños y frecuentes</div>
+            </div>
           </div>
 
           <div class="tip-box">
             <div class="tip-icon">💡</div>
             <div>
-              <strong>Tip:</strong> Siempre verifica que <code>make check</code> pase antes de crear
-              tu branch. Esto evita problemas más adelante.
+              <strong>Tip:</strong> Usa nombres descriptivos para tu branch. Ejemplo: 
+              <code>feature/login-social-google</code> o <code>bugfix/navbar-mobile</code>
             </div>
           </div>
         </div>
 
-        <!-- PASO 2: CREAR FEATURE BRANCH -->
-        <div class="step-container">
+        <!-- PASO 2: VERIFICAR CALIDAD -->
+        <div class="step-container completed">
           <div class="step-header">
             <div class="step-number">2</div>
             <div class="step-title">
-              <h3>🌿 Crear Feature Branch</h3>
-              <p class="step-description">Crear un branch específico para tu feature</p>
+              <h3>🔍 Verificar Calidad</h3>
+              <p class="step-description">Asegurarte que todo está bien antes del PR</p>
             </div>
           </div>
 
-          <div class="git-flow">
-            <h4>🔀 Git Flow Diagram</h4>
-            <div class="git-branches">
-              <div class="branch main">
-                <div class="branch-icon">🔴</div>
-                <div>
-                  <strong>main</strong> - Branch principal (protegida) <br /><small
-                    >Solo se actualiza via Pull Requests</small
-                  >
-                </div>
-              </div>
-              <div class="branch feature">
-                <div class="branch-icon">🔵</div>
-                <div>
-                  <strong>feature/nombre-descriptivo</strong> - Tu branch de trabajo <br /><small
-                    >Donde desarrollas tu feature</small
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="time-estimate">⏱️ Tiempo estimado: 5 minutos</div>
 
-          <h4>📝 Convenciones de Naming</h4>
-          <div class="command-block">git checkout -b feature/agregar-filtro-busqueda</div>
-          <div class="command-block">git checkout -b feature/dashboard-admin</div>
-          <div class="command-block">git checkout -b bugfix/login-redirect</div>
-          <div class="command-block">git checkout -b hotfix/security-patch</div>
+           <div style="background: #dcfce7; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #22c55e;">
+             <h4>✨ ¡Husky se encarga automáticamente!</h4>
+             <p>Cuando hagas <code>git commit</code>, Husky ejecutará automáticamente:</p>
+             <div style="margin: 0.5rem 0;">
+               <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                 <span style="color: #22c55e; margin-right: 0.5rem;">🎨</span>
+                 <span>Prettier en archivos modificados</span>
+               </div>
+               <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                 <span style="color: #22c55e; margin-right: 0.5rem;">🔧</span>
+                 <span>ESLint con auto-fix</span>
+               </div>
+               <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                 <span style="color: #22c55e; margin-right: 0.5rem;">🧪</span>
+                 <span>Tests completos</span>
+               </div>
+               <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                 <span style="color: #22c55e; margin-right: 0.5rem;">🏗️</span>
+                 <span>Type checking</span>
+               </div>
+             </div>
+           </div>
+
+           <h4>🧪 Verificación manual (opcional)</h4>
+           <div class="command-block">pnpm check:quick</div>
+
+           <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+             <p><strong>💡 Si quieres verificar antes del commit:</strong></p>
+             <p><code>pnpm check:quick</code> - Verificación rápida (sin build)</p>
+             <p><code>pnpm check</code> - Verificación completa (incluye build)</p>
+           </div>
 
           <div class="warning-box">
             <div class="warning-icon">⚠️</div>
             <div>
-              <strong>Importante:</strong> Usa nombres descriptivos y en español. Prefijos:
-              <code>feature/</code>, <code>bugfix/</code>, <code>hotfix/</code>
+              <strong>Importante:</strong> Si algún comando falla, arréglalo antes de continuar. 
+              No crees el PR con errores.
             </div>
           </div>
         </div>
 
-        <!-- PASO 3: DESARROLLO -->
-        <div class="step-container">
+        <!-- PASO 3: CREAR PULL REQUEST -->
+        <div class="step-container current">
           <div class="step-header">
             <div class="step-number">3</div>
             <div class="step-title">
-              <h3>⌨️ Desarrollo de la Feature</h3>
-              <p class="step-description">Escribir código, tests y documentación</p>
+              <h3>📤 Crear Pull Request</h3>
+              <p class="step-description">Subir tu código y crear el PR en GitHub</p>
             </div>
           </div>
 
-          <h4>🔄 Ciclo de Desarrollo</h4>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Escribir código</h5>
-                <p>Implementar la funcionalidad siguiendo las convenciones del proyecto</p>
-              </div>
+          <div class="time-estimate">⏱️ Tiempo estimado: 5-10 minutos</div>
+
+          <h4>📤 Push tu branch</h4>
+          <div class="command-block">git add .</div>
+          <div class="command-block">git commit -m "feat: descripción de tu feature"</div>
+          <div class="command-block">git push origin feature/nombre-de-tu-feature</div>
+
+          <h4>🌐 Crear PR en GitHub</h4>
+          <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+            <p><strong>1.</strong> Ve a GitHub.com → tu repositorio</p>
+            <p><strong>2.</strong> Verás un banner amarillo: "Compare & pull request"</p>
+            <p><strong>3.</strong> Haz clic en ese botón</p>
+            <p><strong>4.</strong> Completa el formulario del PR:</p>
+          </div>
+
+          <div class="checklist">
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div><strong>Título:</strong> Descripción clara de qué hace la feature</div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Ejecutar tests localmente</h5>
-                <div class="command-block">pnpm test</div>
-              </div>
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div><strong>Descripción:</strong> Explicar qué cambios hiciste y por qué</div>
             </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Verificar calidad</h5>
-                <div class="command-block">make check</div>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Commit frecuentes</h5>
-                <div class="command-block">git add .</div>
-                <div class="command-block">
-                  git commit -m "feat: agregar filtro de búsqueda por categoría"
-                </div>
-              </div>
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div><strong>Base branch:</strong> Verificar que apunta a <code>main</code></div>
             </div>
           </div>
 
           <div class="tip-box">
             <div class="tip-icon">💡</div>
             <div>
-              <strong>Buenas Prácticas:</strong>
-              <ul style="margin-top: 0.5rem; margin-left: 1rem">
-                <li>Commits pequeños y frecuentes</li>
-                <li>Mensajes descriptivos en español</li>
-                <li>Siempre correr tests antes de commit</li>
-              </ul>
+              <strong>Template sugerido para la descripción:</strong><br>
+              ## ¿Qué hace este PR?<br>
+              - Agrega funcionalidad X<br>
+              - Arregla bug Y<br><br>
+              ## ¿Cómo probarlo?<br>
+              - Ir a página Z<br>
+              - Hacer clic en botón W
             </div>
           </div>
         </div>
 
-        <!-- PASO 4: PUSH Y PR -->
+        <!-- PASO 4: CI/CD AUTOMÁTICO -->
         <div class="step-container">
           <div class="step-header">
             <div class="step-number">4</div>
             <div class="step-title">
-              <h3>📤 Push y Pull Request</h3>
-              <p class="step-description">Subir código y crear PR para revisión</p>
+              <h3>🤖 CI/CD Automático</h3>
+              <p class="step-description">GitHub Actions ejecuta tests automáticamente</p>
             </div>
           </div>
 
-          <h4>🚀 Push del Branch</h4>
-          <div class="command-block">git push origin feature/agregar-filtro-busqueda</div>
+          <div class="time-estimate">⏱️ Tiempo estimado: 3-5 minutos (automático)</div>
 
-          <h4>📋 Crear Pull Request en GitHub</h4>
-          <div class="checklist">
-            <h4>✅ Checklist del PR</h4>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Título descriptivo del PR</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Descripción detallada de los cambios</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Screenshots si hay cambios visuales</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Asignar reviewers apropiados</div>
+          <h4>🔄 Qué pasa automáticamente</h4>
+          <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+            <p>Cuando creas el PR, GitHub Actions automáticamente:</p>
+            <div style="margin: 1rem 0;">
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #22c55e; margin-right: 0.5rem;">✅</span>
+                <span>Ejecuta todos los tests</span>
+              </div>
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #22c55e; margin-right: 0.5rem;">✅</span>
+                <span>Verifica que el código compile</span>
+              </div>
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #22c55e; margin-right: 0.5rem;">✅</span>
+                <span>Revisa el formato del código</span>
+              </div>
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #22c55e; margin-right: 0.5rem;">✅</span>
+                <span>Escanea por problemas de seguridad</span>
+              </div>
             </div>
           </div>
 
+          <h4>📊 Ver el progreso</h4>
           <div class="terminal-output">
-            🔄 GitHub Actions iniciado automáticamente: - ✅ Biome lint check - ✅ TypeScript
-            compilation - ✅ Unit tests (50+ tests) - ✅ Build validation - ✅ E2E smoke tests - ✅
-            Security scan ✅ Todos los checks pasaron - PR listo para review
+🔄 GitHub Actions running...
+✅ Test Suite: 15/15 passing
+✅ Build: successful
+✅ Lint: no errors  
+✅ Security scan: no issues
+🎉 All checks passed!
+          </div>
+
+          <div class="warning-box">
+            <div class="warning-icon">⚠️</div>
+            <div>
+              <strong>Si algún check falla:</strong> Ve a la pestaña "Checks" en tu PR, 
+              mira qué falló, arréglalo en tu branch local y haz push. Los checks se ejecutarán automáticamente de nuevo.
+            </div>
           </div>
         </div>
 
-        <!-- PASO 5: CI/CD PIPELINE -->
+        <!-- PASO 5: MERGE DEL PR -->
         <div class="step-container">
           <div class="step-header">
             <div class="step-number">5</div>
             <div class="step-title">
-              <h3>🤖 CI/CD Pipeline Automático</h3>
-              <p class="step-description">Validación automática en GitHub Actions</p>
+              <h3>🔀 Merge del Pull Request</h3>
+              <p class="step-description">Integrar tu código a la rama principal</p>
             </div>
           </div>
 
-          <div class="flow-diagram">
-            <div class="flow-box">
-              <h4>🔍 Lint</h4>
-              <p>Biome check</p>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="flow-box">
-              <h4>🏗️ Build</h4>
-              <p>TypeScript</p>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="flow-box">
-              <h4>🧪 Test</h4>
-              <p>Unit + E2E</p>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="flow-box">
-              <h4>🔒 Security</h4>
-              <p>Audit</p>
-            </div>
+          <div class="time-estimate">⏱️ Tiempo estimado: 1 minuto</div>
+
+          <h4>✅ Cuando todos los checks pasen</h4>
+          <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+            <p><strong>1.</strong> Ve a tu PR en GitHub</p>
+            <p><strong>2.</strong> Verás un botón verde "Merge pull request"</p>
+            <p><strong>3.</strong> Haz clic y confirma el merge</p>
+            <p><strong>4.</strong> Tu código ya está en la rama <code>main</code></p>
           </div>
 
-          <h4>📊 Quality Gates</h4>
-          <div class="checklist">
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Code Quality:</strong> 0 lint errors, format consistente</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Tests:</strong> 100% tests pasando, cobertura >90%</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Build:</strong> Compilación exitosa en todos los packages</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Security:</strong> 0 vulnerabilidades críticas</div>
-            </div>
-          </div>
-
-          <div class="warning-box">
-            <div class="warning-icon">⚠️</div>
+          <div class="tip-box">
+            <div class="tip-icon">💡</div>
             <div>
-              <strong>Si algún check falla:</strong> El PR no se puede mergear. Revisa los errores,
-              corrígelos y haz push al mismo branch.
+              <strong>Como trabajas solo:</strong> No necesitas esperar review de otros desarrolladores. 
+              Si los checks automáticos pasan, puedes hacer merge directamente.
             </div>
           </div>
         </div>
 
-        <!-- PASO 6: REVIEW Y MERGE -->
+        <!-- PASO 6: DEPLOY AUTOMÁTICO A STAGING -->
         <div class="step-container">
           <div class="step-header">
             <div class="step-number">6</div>
             <div class="step-title">
-              <h3>👥 Code Review y Merge</h3>
-              <p class="step-description">Revisión por pares y merge a main</p>
+              <h3>🚀 Deploy Automático a Staging</h3>
+              <p class="step-description">Tu código se despliega automáticamente</p>
             </div>
           </div>
 
-          <h4>🔍 Proceso de Review</h4>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Reviewer asignado</h5>
-                <p>Un developer senior revisa el código</p>
+          <div class="time-estimate">⏱️ Tiempo estimado: 2-3 minutos (automático)</div>
+
+          <h4>🎯 Qué pasa automáticamente</h4>
+          <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+            <p>Al hacer merge a <code>main</code>, automáticamente:</p>
+            <div style="margin: 1rem 0;">
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #f59e0b; margin-right: 0.5rem;">🚀</span>
+                <span>GitHub Actions inicia el deploy</span>
               </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Feedback y cambios</h5>
-                <p>Posibles comentarios y ajustes solicitados</p>
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #f59e0b; margin-right: 0.5rem;">📦</span>
+                <span>Construye la aplicación</span>
               </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Approval</h5>
-                <p>✅ PR aprobado para merge</p>
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #f59e0b; margin-right: 0.5rem;">☁️</span>
+                <span>Despliega a Vercel (staging)</span>
               </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Merge a main</h5>
-                <p>Código integrado a la branch principal</p>
+              <div style="display: flex; align-items: center; margin: 0.5rem 0;">
+                <span style="color: #22c55e; margin-right: 0.5rem;">✅</span>
+                <span>Tu feature está live en staging</span>
               </div>
             </div>
           </div>
 
-          <div class="tip-box">
-            <div class="tip-icon">💡</div>
-            <div>
-              <strong>Durante el review:</strong> Mantente abierto al feedback. Los comentarios son
-              para mejorar el código, no críticas personales.
-            </div>
-          </div>
-        </div>
-
-        <!-- PASO 7: DEPLOYMENT AUTOMÁTICO -->
-        <div class="step-container">
-          <div class="step-header">
-            <div class="step-number">7</div>
-            <div class="step-title">
-              <h3>🚀 Deployment Automático</h3>
-              <p class="step-description">Deploy automático a DEV tras merge a main</p>
-            </div>
-          </div>
-
-          <div class="environments-grid">
-            <div class="env-card dev">
-              <h4>🟢 DEV Environment</h4>
-              <p><strong>Trigger:</strong> Automático al hacer merge</p>
-              <p><strong>URL:</strong> *-dev.josefermoso.workers.dev</p>
-              <p><strong>Validación:</strong> E2E tests post-deploy</p>
-            </div>
+          <div class="environments">
             <div class="env-card staging">
-              <h4>🟡 STAGING Environment</h4>
-              <p><strong>Trigger:</strong> Manual (workflow dispatch)</p>
-              <p><strong>URL:</strong> *-staging.josefermoso.workers.dev</p>
-              <p><strong>Validación:</strong> Full test suite</p>
-            </div>
-            <div class="env-card prod">
-              <h4>🔴 PROD Environment</h4>
-              <p><strong>Trigger:</strong> Manual (requiere aprobación)</p>
-              <p><strong>URL:</strong> *-prod.josefermoso.workers.dev</p>
-              <p><strong>Validación:</strong> Smoke tests críticos</p>
+              <h4>🟡 Staging</h4>
+              <p><strong>URL:</strong></p>
+              <div style="background: #f8fafc; padding: 0.5rem; border-radius: 4px; font-family: monospace; font-size: 0.8rem; margin: 0.5rem 0;">
+                udance-staging.vercel.app
+              </div>
+              <p style="font-size: 0.9rem; color: #64748b;">Aquí puedes probar tu feature</p>
             </div>
           </div>
 
           <div class="terminal-output">
-            🚀 Auto-deployment iniciado: 1. ✅ Deploy worker-auth-dev 2. ✅ Deploy udance-api-dev 3.
-            ✅ Deploy udance-web-app-dev 4. ✅ Post-deployment E2E validation 5. ✅ Notification
-            sent 🎉 Feature live en DEV environment!
+🚀 Deploy to staging started...
+📦 Building application...
+☁️ Deploying to Vercel...
+✅ Deploy successful!
+🌐 Live at: udance-staging.vercel.app
           </div>
         </div>
 
-        <!-- PASO 8: TESTING Y VALIDACIÓN -->
+        <!-- PASO 7: PROBAR EN STAGING -->
         <div class="step-container">
           <div class="step-header">
-            <div class="step-number">8</div>
+            <div class="step-number">7</div>
             <div class="step-title">
-              <h3>🧪 Testing y Validación</h3>
-              <p class="step-description">Verificar que todo funciona en DEV</p>
+              <h3>🧪 Probar en Staging</h3>
+              <p class="step-description">Verificar que tu feature funciona correctamente</p>
             </div>
           </div>
 
-          <h4>✅ Checklist de Validación</h4>
+          <div class="time-estimate">⏱️ Tiempo estimado: 5-10 minutos</div>
+
+          <h4>✅ Checklist de pruebas</h4>
           <div class="checklist">
             <div class="checklist-item">
               <div class="checkbox">✓</div>
-              <div>Feature funciona como se esperaba</div>
+              <div>Abrir la URL de staging en tu navegador</div>
             </div>
             <div class="checklist-item">
               <div class="checkbox">✓</div>
-              <div>No rompe funcionalidades existentes</div>
+              <div>Probar tu feature step by step</div>
             </div>
             <div class="checklist-item">
               <div class="checkbox">✓</div>
-              <div>UI/UX se ve correcta en diferentes devices</div>
+              <div>Verificar que no rompiste nada existente</div>
             </div>
             <div class="checklist-item">
               <div class="checkbox">✓</div>
-              <div>Performance aceptable (&lt;3s load time)</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div>Tests E2E automáticos pasando</div>
-            </div>
-          </div>
-
-          <h4>🔧 Comandos Útiles para Testing</h4>
-          <div class="command-block">make check:e2e:smoke # Quick E2E validation</div>
-          <div class="command-block">pnpm test:e2e # Full E2E suite</div>
-          <div class="command-block">
-            curl https://udance-api-dev.josefermoso.workers.dev/health
-          </div>
-        </div>
-
-        <!-- PASO 9: PROMOCIÓN A STAGING/PROD -->
-        <div class="step-container">
-          <div class="step-header">
-            <div class="step-number">9</div>
-            <div class="step-title">
-              <h3>📈 Promoción a Staging/Prod</h3>
-              <p class="step-description">Deploy manual usando GitHub Actions - Paso a Paso</p>
-            </div>
-          </div>
-
-          <h4>🎯 DEV → STAGING (Manual Deploy)</h4>
-          <div class="git-flow">
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>1️⃣ Ir a GitHub Repository</h5>
-                  <p>Navegar a:</p>
-                  <div
-                    class="command-block"
-                    style="background: #1f2937; color: #f3f4f6; padding: 1rem; border-radius: 8px"
-                  >
-                    🌐 https://github.com/your-username/my-turborepo
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>2️⃣ Ir a Actions Tab</h5>
-                  <p>En el repository, hacer clic en la pestaña:</p>
-                  <div
-                    style="
-                      background: #2563eb;
-                      color: white;
-                      padding: 0.8rem;
-                      border-radius: 6px;
-                      text-align: center;
-                      font-weight: bold;
-                      margin: 0.5rem 0;
-                    "
-                  >
-                    📋 Actions
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>3️⃣ Buscar "Deploy to Staging"</h5>
-                  <p>En la lista de workflows, buscar y hacer clic en:</p>
-                  <div
-                    style="
-                      background: #f59e0b;
-                      color: white;
-                      padding: 0.8rem;
-                      border-radius: 6px;
-                      text-align: center;
-                      font-weight: bold;
-                      margin: 0.5rem 0;
-                    "
-                  >
-                    🚀 Deploy to Staging
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>4️⃣ Ejecutar Workflow</h5>
-                  <p>Hacer clic en el botón azul:</p>
-                  <div
-                    style="
-                      background: #3b82f6;
-                      color: white;
-                      padding: 0.8rem;
-                      border-radius: 6px;
-                      text-align: center;
-                      font-weight: bold;
-                      margin: 0.5rem 0;
-                    "
-                  >
-                    ▶️ Run workflow
-                  </div>
-                  <p><strong>Branch:</strong> Seleccionar <code>main</code></p>
-                  <p>Luego hacer clic en <strong>"Run workflow"</strong> verde</p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>5️⃣ Monitorear el Deploy</h5>
-                  <div class="terminal-output">
-                    🚀 Deploy to Staging iniciado... ✅ worker-auth-staging deployed ✅
-                    udance-api-staging deployed ✅ udance-web-app-staging deployed ✅
-                    Post-deployment tests passed 🎉 Deploy completado en ~5 minutos
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h4>🌐 URLs de Staging para Probar</h4>
-          <div class="environments-grid">
-            <div class="env-card">
-              <h4>🎨 Frontend</h4>
-              <p><strong>URL:</strong></p>
-              <div class="command-block">
-                https://udance-web-app-staging.josefermoso.workers.dev
-              </div>
-              <p><em>Aquí probar toda la UI y funcionalidades</em></p>
-            </div>
-            <div class="env-card">
-              <h4>🔌 API</h4>
-              <p><strong>URL:</strong></p>
-              <div class="command-block">https://udance-api-staging.josefermoso.workers.dev</div>
-              <p><em>Verificar endpoints y responses</em></p>
-            </div>
-            <div class="env-card">
-              <h4>🔐 Auth</h4>
-              <p><strong>URL:</strong></p>
-              <div class="command-block">https://worker-auth-staging.josefermoso.workers.dev</div>
-              <p><em>Probar login y OAuth</em></p>
-            </div>
-          </div>
-
-          <h4>✅ Validar Staging Antes de Prod</h4>
-          <div class="checklist">
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Funcionalidad:</strong> Tu feature funciona correctamente</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Performance:</strong> Páginas cargan en menos de 3 segundos</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Login:</strong> GitHub OAuth funciona sin problemas</div>
-            </div>
-            <div class="checklist-item">
-              <div class="checkbox">✓</div>
-              <div><strong>Mobile:</strong> Se ve bien en dispositivos móviles</div>
-            </div>
-          </div>
-
-          <div
-            style="
-              background: #fef3c7;
-              padding: 1.5rem;
-              border-radius: 8px;
-              border-left: 4px solid #f59e0b;
-              margin: 1rem 0;
-            "
-          >
-            <h5 style="color: #92400e; margin-bottom: 0.5rem">🤔 ¿Todo funcionando en Staging?</h5>
-            <p style="color: #92400e; margin: 0">
-              <strong>SI:</strong> Proceder al deploy a producción 👇<br />
-              <strong>NO:</strong> Hacer hotfix y volver a deployar staging
-            </p>
-          </div>
-
-          <h4>🚀 STAGING → PRODUCCIÓN (Requiere Aprobación)</h4>
-          <div class="git-flow">
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>1️⃣ Solicitar Aprobación al Tech Lead</h5>
-                  <p>Crear un mensaje/issue con este template:</p>
-                  <div
-                    style="
-                      background: #f3f4f6;
-                      padding: 1rem;
-                      border-radius: 8px;
-                      border-left: 4px solid #22c55e;
-                    "
-                  >
-                    <strong>📋 Deploy Request to Production</strong><br /><br />
-                    <strong>Feature:</strong> [Descripción breve]<br />
-                    <strong>Staging URL:</strong>
-                    udance-web-app-staging.josefermoso.workers.dev<br />
-                    <strong>Status:</strong><br />
-                    ✅ Funcionalidad validada<br />
-                    ✅ Performance OK (&lt;3s)<br />
-                    ✅ Mobile responsive<br />
-                    ✅ No breaking changes<br /><br />
-                    <strong>Solicito aprobación para deploy a producción.</strong>
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>2️⃣ Esperar Aprobación</h5>
-                  <p>El tech lead o senior developer revisa y aprueba</p>
-                  <div class="warning-box">
-                    <div class="warning-icon">⚠️</div>
-                    <div>
-                      <strong>IMPORTANTE:</strong> No hacer deploy a prod sin aprobación. Es para
-                      proteger la estabilidad del sistema.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>3️⃣ Deploy a Producción (Solo con aprobación)</h5>
-                  <p>Repetir el proceso de GitHub Actions pero con:</p>
-                  <div
-                    style="
-                      background: #dc2626;
-                      color: white;
-                      padding: 0.8rem;
-                      border-radius: 6px;
-                      text-align: center;
-                      font-weight: bold;
-                      margin: 0.5rem 0;
-                    "
-                  >
-                    🔴 Deploy to Production
-                  </div>
-                  <p><em>Solo tech leads/seniors pueden ejecutar este workflow</em></p>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>4️⃣ Verificar Producción</h5>
-                  <p><strong>URL de Producción:</strong></p>
-                  <div class="command-block">
-                    https://udance-web-app-prod.josefermoso.workers.dev
-                  </div>
-                  <p>Hacer una verificación rápida de que todo funciona</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h4>🛠️ Comandos para Verificar Deploys</h4>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0">
-            <div>
-              <p><strong>Health Check Staging:</strong></p>
-              <div class="command-block">
-                curl https://udance-api-staging.josefermoso.workers.dev/health
-              </div>
-              <div class="terminal-output">{"status": "ok", "env": "staging"}</div>
-            </div>
-            <div>
-              <p><strong>Health Check Producción:</strong></p>
-              <div class="command-block">
-                curl https://udance-api-prod.josefermoso.workers.dev/health
-              </div>
-              <div class="terminal-output">{"status": "ok", "env": "production"}</div>
+              <div>Probar en móvil y desktop</div>
             </div>
           </div>
 
           <div class="tip-box">
             <div class="tip-icon">💡</div>
             <div>
-              <strong>Para Developers Juniors:</strong>
-              <ul style="margin: 0.5rem 0 0 1rem">
-                <li>✅ Siempre probar exhaustivamente en staging</li>
-                <li>📝 Documentar cualquier issue encontrado</li>
-                <li>🤝 Pedir ayuda si no estás seguro de algo</li>
-                <li>🚨 Reportar inmediatamente si algo falla en prod</li>
-              </ul>
+              <strong>Si encuentras problemas:</strong> Vuelve al paso 1, arregla el bug en tu local, 
+              crea un nuevo PR con el fix, y repite el proceso.
             </div>
           </div>
         </div>
 
-        <!-- PASO 10: MONITOREO POST-DEPLOY -->
+        <!-- PASO 8: DEPLOY A PRODUCCIÓN -->
         <div class="step-container">
           <div class="step-header">
-            <div class="step-number">10</div>
+            <div class="step-number">8</div>
             <div class="step-title">
-              <h3>📊 Monitoreo Post-Deploy</h3>
-              <p class="step-description">Verificar que todo sigue funcionando</p>
+              <h3>🏆 Deploy a Producción</h3>
+              <p class="step-description">Llevar tu feature al sitio público</p>
             </div>
           </div>
 
-          <h4>🔍 Herramientas de Monitoreo</h4>
-          <div class="environments-grid">
-            <div class="env-card">
-              <h4>📈 Sentry</h4>
-              <p>Error tracking y performance monitoring</p>
-              <p><strong>Alertas:</strong> Errores automáticos</p>
-            </div>
-            <div class="env-card">
-              <h4>📊 PostHog</h4>
-              <p>Analytics y user behavior tracking</p>
-              <p><strong>Métricas:</strong> Usage patterns</p>
-            </div>
-            <div class="env-card">
-              <h4>☁️ Cloudflare</h4>
-              <p>Worker performance y uptime</p>
-              <p><strong>Dashboards:</strong> Response times</p>
+          <div class="time-estimate">⏱️ Tiempo estimado: 3-5 minutos</div>
+
+          <h4>🎯 Deploy manual a producción</h4>
+          <div style="background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+            <p><strong>1.</strong> Ve a GitHub → Actions</p>
+            <p><strong>2.</strong> Busca "Deploy to Production"</p>
+            <p><strong>3.</strong> Haz clic en "Run workflow"</p>
+            <p><strong>4.</strong> Selecciona branch: <code>main</code></p>
+            <p><strong>5.</strong> Haz clic en "Run workflow" verde</p>
+          </div>
+
+          <div class="environments">
+            <div class="env-card prod">
+              <h4>🔴 Producción</h4>
+              <p><strong>URL:</strong></p>
+              <div style="background: #f8fafc; padding: 0.5rem; border-radius: 4px; font-family: monospace; font-size: 0.8rem; margin: 0.5rem 0;">
+                udance.com
+              </div>
+              <p style="font-size: 0.9rem; color: #64748b;">Tu feature live para usuarios</p>
             </div>
           </div>
 
-          <h4>⏰ Ventana de Monitoreo</h4>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Primeras 2 horas</h5>
-                <p>Monitoreo activo de errores y performance</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Primer día</h5>
-                <p>Revisión de métricas y user feedback</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content">
-                <h5>Primera semana</h5>
-                <p>Análisis de impacto y optimizaciones</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PASO 11: ACTUALIZAR DOCUMENTACIÓN -->
-        <div class="step-container">
-          <div class="step-header">
-            <div class="step-number">11</div>
-            <div class="step-title">
-              <h3>📚 Actualizar Documentación HTML</h3>
-              <p class="step-description">Mantener la documentación "viva" actualizada</p>
-            </div>
-          </div>
-
-          <div
-            style="
-              background: #fef3c7;
-              padding: 1.5rem;
-              border-radius: 8px;
-              border-left: 4px solid #f59e0b;
-              margin: 1rem 0;
-            "
-          >
-            <h5 style="color: #92400e; margin-bottom: 0.5rem">
-              📝 ¿Cuándo actualizar la documentación?
-            </h5>
-            <ul style="color: #92400e; margin: 0.5rem 0 0 1rem">
-              <li>✅ Cuando agregues una nueva feature importante</li>
-              <li>📊 Cuando cambies la arquitectura del sistema</li>
-              <li>🔧 Cuando actualices herramientas o procesos</li>
-              <li>🎯 Cuando completes una fase o milestone</li>
-            </ul>
-          </div>
-
-          <h4>📂 Estructura de Documentación HTML</h4>
-          <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin: 1rem 0">
-            <div style="font-family: monospace; font-size: 0.9rem">
-              📁 docs/<br />
-              ├── 📄 index.html (Hub principal)<br />
-              ├── 📄 tasks.html (Tracking de tareas)<br />
-              ├── 📄 progress.html (Progreso del proyecto)<br />
-              ├── 📄 activecontext.html (Contexto actual)<br />
-              ├── 📂 development/<br />
-              │ ├── 📄 work-session.html<br />
-              │ ├── 📄 quality-assurance.html<br />
-              │ └── 📄 testing-strategy.html<br />
-              ├── 📂 architecture/<br />
-              │ ├── 📄 system-patterns.html<br />
-              │ └── 📄 tech-context.html<br />
-              └── 📂 deployment/<br />
-              ├── 📄 ci-cd.html<br />
-              └── 📄 environments.html
-            </div>
-          </div>
-
-          <h4>🎨 Cómo Crear/Actualizar Páginas HTML</h4>
-          <div class="git-flow">
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>1️⃣ Identificar el Archivo a Actualizar</h5>
-                  <p>Determinar qué archivo HTML necesita actualización:</p>
-                  <ul style="font-size: 0.9rem">
-                    <li><strong>📊 progress.html</strong> - Para nuevos milestones o features</li>
-                    <li><strong>🔧 system-patterns.html</strong> - Para cambios de arquitectura</li>
-                    <li><strong>📋 tasks.html</strong> - Para tracking de nuevas tareas</li>
-                    <li><strong>🧪 quality-assurance.html</strong> - Para métricas de QA</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>2️⃣ Usar Visual Studio Code</h5>
-                  <div class="command-block">code docs/archivo-a-actualizar.html</div>
-                  <p><strong>Principios de diseño visual:</strong></p>
-                  <ul style="font-size: 0.9rem">
-                    <li>🎨 Usar CSS moderno con gradients y hover effects</li>
-                    <li>📱 Diseño responsive (mobile-first)</li>
-                    <li>🔄 Elementos interactivos con transiciones suaves</li>
-                    <li>📊 Visualizaciones de datos con progress bars/circles</li>
-                    <li>🎯 Color coding para status (verde/amarillo/rojo)</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>3️⃣ Estructura HTML Moderna</h5>
-                  <p>Template base para nuevas secciones:</p>
-                  <div class="command-block" style="font-size: 0.8rem">
-                    &lt;div class="feature-grid"&gt; &lt;div class="feature-card"&gt; &lt;h4&gt;🎯
-                    Feature Title&lt;/h4&gt; &lt;p&gt;Description with emojis and visual
-                    hierarchy&lt;/p&gt; &lt;div class="status-indicator success"&gt;✅
-                    Status&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;
-                  </div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                  <h5>4️⃣ Verificar en Browser</h5>
-                  <p>Abrir el archivo HTML localmente:</p>
-                  <div class="command-block">open docs/archivo.html</div>
-                  <p><em>Verificar que se vea bien en desktop y mobile</em></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h4>🎨 Elementos Visuales a Usar</h4>
-          <div
-            style="
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-              gap: 1rem;
-              margin: 1rem 0;
-            "
-          >
-            <div
-              style="
-                background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-                color: white;
-                padding: 1rem;
-                border-radius: 8px;
-              "
-            >
-              <h5 style="margin: 0 0 0.5rem 0">🎯 Status Cards</h5>
-              <p style="margin: 0; font-size: 0.9rem">
-                Para mostrar estado de features, tests, deploys
-              </p>
-            </div>
-            <div
-              style="
-                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-                color: white;
-                padding: 1rem;
-                border-radius: 8px;
-              "
-            >
-              <h5 style="margin: 0 0 0.5rem 0">📊 Progress Circles</h5>
-              <p style="margin: 0; font-size: 0.9rem">Para coverage, completion percentages</p>
-            </div>
-            <div
-              style="
-                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-                color: white;
-                padding: 1rem;
-                border-radius: 8px;
-              "
-            >
-              <h5 style="margin: 0 0 0.5rem 0">🔄 Interactive Timelines</h5>
-              <p style="margin: 0; font-size: 0.9rem">Para workflows y procesos paso-a-paso</p>
-            </div>
-            <div
-              style="
-                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-                color: white;
-                padding: 1rem;
-                border-radius: 8px;
-              "
-            >
-              <h5 style="margin: 0 0 0.5rem 0">🎭 Architecture Diagrams</h5>
-              <p style="margin: 0; font-size: 0.9rem">Para system layers y data flow</p>
-            </div>
+          <div class="terminal-output">
+🚀 Deploy to production started...
+📦 Building for production...
+☁️ Deploying to main domain...
+✅ Deploy successful!
+🌐 Live at: udance.com
+🎉 Feature live for users!
           </div>
 
           <div class="warning-box">
             <div class="warning-icon">⚠️</div>
             <div>
-              <strong>IMPORTANTE:</strong> No usar sync engine MD→HTML. Los archivos HTML se editan
-              directamente para mantener los estilos visuales y elementos interactivos.
+              <strong>Producción es crítico:</strong> Solo deploy si estás 100% seguro que tu feature 
+              funciona correctamente en staging. Los usuarios verán cualquier problema.
+            </div>
+          </div>
+        </div>
+
+        <!-- PASO 9: MONITOREO -->
+        <div class="step-container">
+          <div class="step-header">
+            <div class="step-number">9</div>
+            <div class="step-title">
+              <h3>📊 Monitoreo Post-Deploy</h3>
+              <p class="step-description">Vigilar que todo siga funcionando</p>
+            </div>
+          </div>
+
+          <div class="time-estimate">⏱️ Tiempo estimado: 15-30 minutos de vigilancia</div>
+
+          <h4>👀 Qué vigilar</h4>
+          <div class="checklist">
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div>Probar tu feature en producción</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div>Revisar que no hay errores en la consola</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div>Verificar performance (que cargue rápido)</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checkbox">✓</div>
+              <div>Estar atento a problemas en las primeras horas</div>
             </div>
           </div>
 
           <div class="tip-box">
             <div class="tip-icon">💡</div>
             <div>
-              <strong>Pro Tip:</strong> Inspecciona otros archivos HTML como
-              <code>system-patterns.html</code> o <code>quality-assurance.html</code> para ver
-              ejemplos de elementos visuales modernos que puedes reutilizar.
+              <strong>Si algo sale mal:</strong> Puedes hacer un rollback rápido volviendo al commit 
+              anterior o creando un hotfix urgente.
             </div>
           </div>
         </div>
@@ -1339,97 +814,66 @@
           <div class="step-header">
             <div class="step-number">✨</div>
             <div class="step-title">
-              <h3>🧹 Cleanup Final</h3>
-              <p class="step-description">Limpiar branches y documentar</p>
+              <h3>🧹 Cleanup</h3>
+              <p class="step-description">Limpiar tu workspace</p>
             </div>
           </div>
 
-          <h4>🗑️ Limpieza de Branches</h4>
+          <div class="time-estimate">⏱️ Tiempo estimado: 2 minutos</div>
+
+          <h4>🗑️ Limpiar branch local</h4>
           <div class="command-block">git checkout main</div>
           <div class="command-block">git pull origin main</div>
-          <div class="command-block">git branch -d feature/agregar-filtro-busqueda</div>
-          <div class="command-block">git push origin --delete feature/agregar-filtro-busqueda</div>
+          <div class="command-block">git branch -d feature/nombre-de-tu-feature</div>
 
-          <div class="tip-box">
-            <div class="tip-icon">💡</div>
-            <div>
-              <strong>¡Felicidades!</strong> Has completado exitosamente una sesión de trabajo
-              completa. Tu feature está live en producción y funcionando correctamente.
-            </div>
-          </div>
-        </div>
-
-        <!-- RESUMEN FINAL -->
-        <div
-          style="
-            margin-top: 3rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            color: white;
-            border-radius: 12px;
-          "
-        >
-          <h3 style="margin-bottom: 1rem">🎉 ¡Sesión de Trabajo Completada!</h3>
-          <div
-            style="
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-              gap: 1rem;
-            "
-          >
-            <div>
-              <strong>✅ 10 Pasos Completados</strong><br />
-              Desde branch hasta producción
-            </div>
-            <div>
-              <strong>🧪 Quality Gates Pasados</strong><br />
-              100% tests, lint, security
-            </div>
-            <div>
-              <strong>🚀 Deploy Automático</strong><br />
-              DEV → Staging → Prod
-            </div>
-            <div>
-              <strong>📊 Monitoring Activo</strong><br />
-              Sentry + PostHog + Cloudflare
-            </div>
+          <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+            <h3>🎉 ¡Felicidades!</h3>
+            <p>Tu feature está live en producción y siendo usada por usuarios reales.</p>
           </div>
         </div>
 
         <!-- COMANDOS RÁPIDOS -->
-        <div style="margin-top: 2rem; padding: 1.5rem; background: #f1f5f9; border-radius: 8px">
-          <h4 style="color: #1e293b; margin-bottom: 1rem">⚡ Comandos Rápidos de Referencia</h4>
-          <div
-            style="
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-              gap: 1rem;
-              font-family: monospace;
-              font-size: 0.9rem;
-            "
-          >
+        <div class="quick-commands">
+          <h4>⚡ Comandos Rápidos de Referencia</h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
             <div>
-              <strong>Setup:</strong><br />
-              <code>git checkout main && git pull</code><br />
-              <code>pnpm install && make check</code>
+              <strong>🌿 Nuevo branch:</strong><br>
+              <code style="font-size: 0.8rem;">git checkout -b feature/nombre</code>
+            </div>
+                         <div>
+               <strong>✨ Verificar código:</strong><br>
+               <code style="font-size: 0.8rem;">git commit (Husky automático)</code>
+             </div>
+            <div>
+              <strong>📤 Push branch:</strong><br>
+              <code style="font-size: 0.8rem;">git push origin feature/nombre</code>
             </div>
             <div>
-              <strong>Branch:</strong><br />
-              <code>git checkout -b feature/nombre</code><br />
-              <code>git push origin feature/nombre</code>
-            </div>
-            <div>
-              <strong>Testing:</strong><br />
-              <code>make check</code><br />
-              <code>pnpm test:e2e</code>
-            </div>
-            <div>
-              <strong>Cleanup:</strong><br />
-              <code>git branch -d feature/nombre</code><br />
-              <code>git push origin --delete feature/nombre</code>
+              <strong>🧹 Cleanup:</strong><br>
+              <code style="font-size: 0.8rem;">git branch -d feature/nombre</code>
             </div>
           </div>
         </div>
+
+        <!-- TIEMPOS TOTALES -->
+        <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+          <h4 style="color: #1e293b; margin-bottom: 1rem;">⏱️ Tiempos Totales Estimados</h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; color: #22c55e; font-weight: bold;">30-45min</div>
+              <div style="font-size: 0.9rem; color: #64748b;">Feature simple</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; color: #f59e0b; font-weight: bold;">45-90min</div>
+              <div style="font-size: 0.9rem; color: #64748b;">Feature compleja</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 2rem; color: #3b82f6; font-weight: bold;">15-20min</div>
+              <div style="font-size: 0.9rem; color: #64748b;">Bug fix pequeño</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </body>

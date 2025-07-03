@@ -108,6 +108,40 @@
         color: #5a67d8;
       }
 
+      .updated-tag {
+        background: linear-gradient(135deg, #ff6b6b, #ffa500);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 0.2rem 0.5rem;
+        border-radius: 12px;
+        margin-left: 0.5rem;
+        display: inline-block;
+        animation: glow 2s ease-in-out infinite alternate;
+        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+      }
+
+      @keyframes glow {
+        from {
+          box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+        }
+        to {
+          box-shadow: 0 4px 16px rgba(255, 107, 107, 0.6);
+        }
+      }
+
+      .priority-critical {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+      }
+
+      .priority-essential {
+        background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      }
+
+      .priority-important {
+        background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      }
+
       .status-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -181,20 +215,20 @@
 
       <div class="status-grid">
         <div class="status-item">
-          <span class="status-value">100%</span>
-          <span class="status-label">Infrastructure</span>
+          <span class="status-value">60%</span>
+          <span class="status-label">Project Complete</span>
         </div>
         <div class="status-item">
-          <span class="status-value">22/22</span>
-          <span class="status-label">E2E Tests Passing</span>
+          <span class="status-value">100%</span>
+          <span class="status-label">CI/CD Pipeline</span>
+        </div>
+        <div class="status-item">
+          <span class="status-value">3/3</span>
+          <span class="status-label">Jest Tests Passing</span>
         </div>
         <div class="status-item">
           <span class="status-value">3</span>
           <span class="status-label">Environments</span>
-        </div>
-        <div class="status-item">
-          <span class="status-value">99.5%</span>
-          <span class="status-label">Project Complete</span>
         </div>
       </div>
 
@@ -204,9 +238,9 @@
           <h3>Current Tasks</h3>
           <p>Active project tasks, progress tracking, and implementation status</p>
           <div class="card-links">
-            <a href="tasks.html">📄 Tasks Overview</a>
-            <a href="progress.html">📊 Progress Report</a>
-            <a href="activecontext.html">🎯 Active Context</a>
+            <a href="tasks.html">📄 Tasks Overview<span class="updated-tag priority-important">UPDATED</span></a>
+            <a href="progress.html">📊 Progress Report<span class="updated-tag priority-essential">UPDATED</span></a>
+            <a href="activecontext.html">🎯 Active Context<span class="updated-tag priority-critical">UPDATED</span></a>
           </div>
         </div>
 
@@ -215,8 +249,8 @@
           <h3>Architecture</h3>
           <p>System architecture, patterns, and technical documentation</p>
           <div class="card-links">
-            <a href="architecture/system-patterns.html">🔧 System Patterns</a>
-            <a href="architecture/tech-context.html">⚙️ Tech Stack</a>
+            <a href="architecture/system-patterns.html">🔧 System Patterns<span class="updated-tag priority-important">UPDATED</span></a>
+            <a href="architecture/tech-context.html">⚙️ Tech Stack<span class="updated-tag priority-essential">UPDATED</span></a>
             <a href="udance-architecture-comprehensive.html">🏢 Full Architecture</a>
           </div>
         </div>
@@ -237,8 +271,8 @@
           <h3>Deployment</h3>
           <p>Deployment guides, environment setup, and CI/CD documentation</p>
           <div class="card-links">
-            <a href="deployment/environments.html">🌍 Environments</a>
-            <a href="deployment/ci-cd.html">⚡ CI/CD Pipeline</a>
+            <a href="deployment/environments.html">🌍 Environments<span class="updated-tag priority-important">UPDATED</span></a>
+            <a href="deployment/ci-cd.html">⚡ CI/CD Pipeline<span class="updated-tag priority-essential">UPDATED</span></a>
             <a href="deployment/quality-gates.html">✅ Quality Gates</a>
           </div>
         </div>
@@ -270,7 +304,7 @@
           <h3>Project Archive</h3>
           <p>Historical documentation, completed phases, and project evolution</p>
           <div class="card-links">
-            <a href="archive/project-brief.html">📋 Project Brief</a>
+            <a href="archive/project-brief.html">📋 Project Brief<span class="updated-tag priority-important">UPDATED</span></a>
             <a href="archive/product-context.html">🎯 Product Context</a>
             <a href="archive/phase-history.html">📈 Phase History</a>
           </div>
