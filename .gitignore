@@ -10,15 +10,24 @@
 !.yarn/releases
 !.yarn/versions
 
+# Monorepo dependencies - ignore node_modules in all packages
+**/node_modules/
+**/.pnpm/
+
 # testing
 /coverage
+**/coverage/
 
 # next.js
 /.next/
 /out/
+**/.next/
+**/out/
 
 # production
 /build
+**/build/
+**/dist/
 
 # misc
 .DS_Store
@@ -39,6 +48,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+**/*.tsbuildinfo
+**/next-env.d.ts
 
 # Secrets and sensitive data
 secrets.md
@@ -48,3 +59,25 @@ secrets.md
 # Vercel configuration files with secrets
 vercel.*.json
 scripts/setup-vercel-env*.sh
+
+# Cache directories
+**/.cache/
+**/cache/
+.turbo/
+**/.turbo/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
