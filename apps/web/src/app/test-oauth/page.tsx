@@ -5,7 +5,7 @@ import { createClient } from '../../../utils/supabase/client';
 export default function TestOAuth() {
   const handleGoogleSignIn = async () => {
     const supabase = createClient();
-    
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -27,23 +27,30 @@ export default function TestOAuth() {
             OAuth Test
           </h2>
         </div>
-        
+
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-medium mb-4">Manual OAuth Test</h3>
-          
+
           <button
             onClick={handleGoogleSignIn}
             className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
           >
             Test Google Sign In
           </button>
-          
+
           <div className="mt-4 text-sm text-gray-600">
-            <p>Expected redirect URL: {typeof window !== 'undefined' && window.location.origin}/auth/callback</p>
-            <p>Current URL: {typeof window !== 'undefined' && window.location.href}</p>
+            <p>
+              Expected redirect URL:{' '}
+              {typeof window !== 'undefined' && window.location.origin}
+              /auth/callback
+            </p>
+            <p>
+              Current URL:{' '}
+              {typeof window !== 'undefined' && window.location.href}
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}

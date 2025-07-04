@@ -33,12 +33,16 @@ export const Button = ({
   label,
   ...props
 }: ButtonProps) => {
-  const mode = primary ? 'bg-blue-600 text-white' : 'bg-transparent border border-gray-400 text-gray-800';
-  const sizeClass = 
-    size === 'small' ? 'px-4 py-2 text-sm' :
-    size === 'large' ? 'px-6 py-3 text-lg' :
-    'px-5 py-2.5 text-base';
-  
+  const mode = primary
+    ? 'bg-blue-600 text-white'
+    : 'bg-transparent border border-gray-400 text-gray-800';
+  const sizeClass =
+    size === 'small'
+      ? 'px-4 py-2 text-sm'
+      : size === 'large'
+        ? 'px-6 py-3 text-lg'
+        : 'px-5 py-2.5 text-base';
+
   return (
     <button
       type="button"
@@ -49,4 +53,4 @@ export const Button = ({
       {label}
     </button>
   );
-}; 
+};

@@ -3,7 +3,9 @@ import Link from 'next/link';
 
 export default async function PWAApp() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400">
@@ -12,9 +14,7 @@ export default async function PWAApp() {
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold text-white">uDance PWA</h1>
-            <div className="text-white/80 text-sm">
-              {user?.email}
-            </div>
+            <div className="text-white/80 text-sm">{user?.email}</div>
           </div>
         </div>
       </div>
@@ -45,15 +45,21 @@ export default async function PWAApp() {
 
         {/* Featured Events */}
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/20">
-          <h3 className="text-lg font-semibold text-white mb-4">Eventos Destacados</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">
+            Eventos Destacados
+          </h3>
           <div className="space-y-3">
             <div className="bg-white/10 rounded-lg p-3 border border-white/20">
               <div className="font-medium text-white">Salsa Night</div>
-              <div className="text-white/70 text-sm">Hoy 8:00 PM • Club Latino</div>
+              <div className="text-white/70 text-sm">
+                Hoy 8:00 PM • Club Latino
+              </div>
             </div>
             <div className="bg-white/10 rounded-lg p-3 border border-white/20">
               <div className="font-medium text-white">Bachata Workshop</div>
-              <div className="text-white/70 text-sm">Mañana 7:00 PM • Studio Dance</div>
+              <div className="text-white/70 text-sm">
+                Mañana 7:00 PM • Studio Dance
+              </div>
             </div>
           </div>
         </div>
@@ -101,14 +107,14 @@ export default async function PWAApp() {
       <div className="fixed top-4 right-4">
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 border border-white/20">
           <div className="flex space-x-2">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="text-white/80 hover:text-white text-sm px-2 py-1 rounded"
             >
               Web
             </Link>
-            <Link 
-              href="/admin" 
+            <Link
+              href="/admin"
               className="text-white/80 hover:text-white text-sm px-2 py-1 rounded"
             >
               Admin
@@ -118,4 +124,4 @@ export default async function PWAApp() {
       </div>
     </div>
   );
-} 
+}

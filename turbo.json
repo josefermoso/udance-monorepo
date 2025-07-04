@@ -15,9 +15,12 @@
     "test": {
       "dependsOn": ["^build"]
     },
+    "type-check": {
+      "dependsOn": ["^type-check"]
+    },
     "storybook": {
       "cache": false,
       "persistent": true
     }
   }
-} 
+}

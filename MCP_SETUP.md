@@ -15,7 +15,7 @@ MCP (Model Context Protocol) es un protocolo estándar que permite a los LLMs co
 ## Estado de Configuración
 
 ✅ **Archivo de configuración creado**: `.cursor/mcp.json`
-✅ **Token de Supabase configurado**: `sbp_12778f3e...` 
+✅ **Token de Supabase configurado**: `sbp_12778f3e...`
 ✅ **Token de GitHub configurado**: `ghp_eoxA64c0...`
 ✅ **Modo read-only activado** para seguridad
 
@@ -32,6 +32,7 @@ MCP (Model Context Protocol) es un protocolo estándar que permite a los LLMs co
 ### 2. Reiniciar Cursor (si es necesario)
 
 Si no ves los servidores activos:
+
 1. Cierra Cursor completamente
 2. Reabre Cursor
 3. Los servidores MCP se cargarán automáticamente
@@ -41,6 +42,7 @@ Si no ves los servidores activos:
 ¡Ya puedes usar estos comandos directamente en Cursor!
 
 ### 🗃️ Supabase Commands:
+
 ```
 - "¿Qué proyectos de Supabase tengo disponibles?"
 - "Muéstrame el esquema de mi base de datos"
@@ -50,6 +52,7 @@ Si no ves los servidores activos:
 ```
 
 ### 🐙 GitHub Commands:
+
 ```
 - "Muestra los issues abiertos en este repositorio"
 - "¿Cuáles son los últimos commits?"
@@ -61,12 +64,14 @@ Si no ves los servidores activos:
 ## Funcionalidades Disponibles
 
 ### Supabase MCP Server
+
 - 📋 **Gestión de proyectos**: Listar, crear, configurar proyectos
 - 🗄️ **Operaciones de base de datos**: Consultas SQL (solo lectura)
 - 📊 **Análisis de esquemas**: Explorar tablas, columnas, relaciones
 - 🔍 **Información de proyecto**: Configuración, estadísticas
 
-### GitHub MCP Server  
+### GitHub MCP Server
+
 - 📂 **Repositorios**: Listar, buscar, información de repos
 - 🐛 **Issues**: Listar, crear, buscar issues
 - 📝 **Pull Requests**: Información de PRs
@@ -76,6 +81,7 @@ Si no ves los servidores activos:
 ## Seguridad Implementada
 
 🔒 **Configuración Segura:**
+
 - ✅ Modo **read-only** para operaciones de base de datos
 - ✅ Tokens protegidos en `.gitignore`
 - ✅ Archivo template disponible para otros desarrolladores
@@ -84,11 +90,13 @@ Si no ves los servidores activos:
 ## Próximos Pasos
 
 1. **Prueba la conexión** preguntando a Cursor:
+
    ```
    "¿Puedes conectarte a mis proyectos de Supabase?"
    ```
 
 2. **Explora tu base de datos** preguntando:
+
    ```
    "¿Qué proyectos de Supabase tengo y cuál sería el mejor para UDance?"
    ```

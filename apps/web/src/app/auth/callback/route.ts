@@ -8,7 +8,11 @@ export async function GET(request: Request) {
   // if "next" is in param, use it as the redirect URL
   let next = searchParams.get('next') ?? '/';
 
-  console.log('Auth callback triggered:', { code: code ? 'present' : 'missing', next, origin });
+  console.log('Auth callback triggered:', {
+    code: code ? 'present' : 'missing',
+    next,
+    origin,
+  });
 
   if (!next.startsWith('/')) {
     // if "next" is not a relative URL, use the default
@@ -18,18 +22,22 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-    
+
     if (error) {
       console.error('Exchange error:', error);
-      return NextResponse.redirect(`${origin}/debug/auth?error=${encodeURIComponent(error.message)}`);
+      return NextResponse.redirect(
+        `${origin}/debug/auth?error=${encodeURIComponent(error.message)}`
+      );
     }
-    
+
     if (data?.session?.user) {
       console.log('Session established for user:', data.session.user.email);
       console.log('Redirecting to auth success page');
-      
+
       // Redirect to a client-side success page that will handle the final redirect
-      return NextResponse.redirect(`${origin}/auth/success?next=${encodeURIComponent(next)}`);
+      return NextResponse.redirect(
+        `${origin}/auth/success?next=${encodeURIComponent(next)}`
+      );
     }
   }
 
