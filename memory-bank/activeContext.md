@@ -1,11 +1,11 @@
 # 🎯 UDance Active Context
 
 ## Current Focus
-**PHASE**: API Development & Core Endpoints ✅ CI/CD Infrastructure Complete
-**STATUS**: Ready for Core API Expansion - CI/CD Pipeline Operational  
-**PRIORITY**: HIGH - Build essential CRUD endpoints (venues, events, profiles)
+**PHASE**: Design System Architecture & Component Library Development 🎨
+**STATUS**: READY TO START - Infrastructure Complete + Tailwind 4.x Operational  
+**PRIORITY**: HIGH - Foundational UI development (4-week milestone)
 
-## Recent Achievements ✅ (JUST COMPLETED!)
+## Recent Achievements ✅ (FOUNDATION COMPLETE!)
 - **🚀 CI/CD Pipeline**: Complete GitHub Actions workflow operational
 - **📦 Vercel Deployments**: Automated staging & production deployments
 - **🔐 GitHub Secrets**: All deployment secrets configured automatically
@@ -13,179 +13,200 @@
 - **✅ Branch-Based Deployments**: 
   - Push to `dev` → udance-staging.vercel.app
   - Push to `main` → udance-prod.vercel.app
-- **🗄️ Database Schema**: Deployed to staging and production environments
-- **🔌 Database Connection**: Verified working with live data
-- **🚀 First API Endpoint**: `/api/events` returning database records
-- **📊 Seed Data**: Sample venues and events loaded successfully
-- **🔧 Migration System**: Supabase migrations operational
-- **🐛 API Bug Fix**: Column name mismatch resolved (name → title)
-- **✅ Full System Test**: Authentication + Database + API + CI/CD working together
+- **🗄️ Database Schema**: Deployed to staging and production with operational API endpoints
+- **🔑 Authentication**: Google OAuth working across Web/Admin/PWA applications
+- **⚡ Performance Optimizations**: Next.js rendering optimizations applied (force-dynamic removed)
+- **📋 Multi-App Architecture**: Web, Admin, PWA applications fully functional
+- **🎨 Tailwind CSS 4.x**: Now fully operational across all apps with proper PostCSS configuration
 
-## Infrastructure Status 🏗️
-### ✅ PRODUCTION READY
-- **Authentication**: Google OAuth + Supabase working across all apps
-- **Database**: Supabase production + staging with migrations
-- **Deployments**: Automated Vercel deployments via GitHub Actions
-- **Quality**: Pre-commit hooks, formatting, linting enforced
-- **Monitoring**: GitHub Actions CI/CD pipeline with notifications
+## 🎨 NEXT MAJOR MILESTONE: Design System & Component Library
 
-### 🎯 NEXT PRIORITIES (Week 3)
-1. **Core API Development**
-   - `/api/venues` - CRUD operations for venue management
-   - `/api/events` - Enhanced event management with filtering
-   - `/api/profiles` - User profile management
-   - `/api/registrations` - Event registration system
+### Current Task Status
+- **Task Type**: Level 4 - Complex System Architecture
+- **Duration**: 3-4 weeks estimated
+- **Scope**: Comprehensive design system implementation
+- **Dependencies**: Foundation infrastructure ✅ COMPLETE
+- **Tailwind CSS 4.x**: ✅ OPERATIONAL (Next.js + Storybook)
 
-2. **API Features**
-   - Pagination and filtering
-   - Error handling and validation
-   - Rate limiting and security
-   - API documentation
+### 🔥 Design System Phases Planned:
 
-3. **Dashboard Enhancement** 
-   - Admin dashboard for event management
-   - User dashboard for registrations
-   - Analytics and reporting views
+#### **PHASE 1**: Foundation & Design Tokens (Week 1)
+- Color system with UDance branding (purple/pink gradients)
+- Typography scale with responsive variants
+- Spacing system (4px/8px grid)
+- Animation tokens and motion system
+- Light/Dark theme architecture
 
-## Development Workflow 🔄
-```bash
-# Development Branch
-git checkout dev
-# Make changes, commit (pre-commit hooks run automatically)
-git push origin dev  # → Auto-deploys to udance-staging.vercel.app
+#### **PHASE 2**: Core Component Architecture (Week 1-2)  
+- Layout primitives (Box, Stack, Grid, Container)
+- Form components (Input, Select, Checkbox, Button)
+- Base components with design token integration
+- Component variant system architecture
 
-# Production Release  
-git checkout main
-git merge dev
-git push origin main  # → Auto-deploys to udance-prod.vercel.app
+#### **PHASE 3**: Complex Components & Patterns (Week 2-3)
+- Modal/Popover/Tooltip overlay systems
+- Data display (Cards, Tables, Lists)
+- Navigation components
+- Notification system
+
+#### **PHASE 4**: UDance-Specific Components (Week 3-4)
+- Event components (cards, lists, registration forms)
+- Venue components (cards, maps, booking)
+- User profile components
+- PWA-optimized mobile components
+
+#### **PHASE 5**: Developer Experience & Documentation (Week 4)
+- Storybook 9.x with interactive documentation
+- Visual regression testing with Chromatic
+- Accessibility testing infrastructure
+- Performance optimization and bundle analysis
+
+### 🎯 Success Criteria
+- **50+ Core Components**: Complete component library
+- **Design Token System**: Consistent visual language
+- **Storybook Documentation**: Interactive component explorer  
+- **90%+ Test Coverage**: Comprehensive testing
+- **WCAG 2.1 AA Compliance**: Full accessibility
+- **<100KB Bundle**: Optimized performance
+
+### 🚨 Creative Phase Requirements
+**Components requiring creative design exploration:**
+1. Animation system and micro-interactions
+2. Complex data visualizations
+3. Mobile interaction patterns
+4. Layout composition algorithms
+5. Theme architecture design
+6. Icon system and custom illustrations
+
+## Technical Context ⚙️
+
+### Current Infrastructure Status
+- **Next.js 15**: Multi-app architecture operational ✅
+- **Supabase**: Database + auth fully integrated ✅
+- **Tailwind CSS 4.1.11**: Fully operational with proper PostCSS config ✅
+- **Storybook 9.0.15**: Running successfully on port 6006 ✅
+- **TypeScript**: Full type safety configured ✅
+- **Vercel**: Auto-deployment pipeline active ✅
+- **Testing**: Jest + RTL foundation ready for expansion ✅
+
+### Existing UI Foundation
+- **packages/ui**: Basic Button component with Storybook ✅
+- **Tailwind Configuration**: Ready for design token integration ✅
+- **Component Architecture**: Established patterns for extension ✅
+- **PostCSS Configuration**: Properly configured for Tailwind 4.x across all apps ✅
+
+### Integration Requirements
+- **Cross-Platform**: Components must work across Web/Admin/PWA
+- **Performance**: Tree-shaking and bundle optimization
+- **Accessibility**: WCAG compliance across all components
+- **Developer Experience**: TypeScript IntelliSense and comprehensive docs
+
+## Technical Resolution Completed 🔧
+
+### Tailwind CSS 4.x Configuration Fix
+**Issue**: PostCSS configuration conflicts between apps causing build failures
+**Resolution**: 
+- Updated all PostCSS configs to use `@tailwindcss/postcss` plugin
+- Removed conflicting `tailwindcss` plugin references
+- Verified compatibility across Next.js and Storybook environments
+
+**Current Configuration:**
+```javascript
+// postcss.config.mjs (all apps)
+const config = {
+  plugins: {
+    '@tailwindcss/postcss': {},
+    autoprefixer: {},
+  },
+};
 ```
 
-## Technical Stack Status ⚙️
-- **Frontend**: Next.js 15 + TypeScript + Tailwind ✅
-- **Authentication**: Supabase + Google OAuth ✅  
-- **Database**: Supabase PostgreSQL with RLS ✅
-- **Deployments**: Vercel with GitHub Actions ✅
-- **Quality**: Husky + ESLint + Prettier + TypeScript ✅
-- **Testing**: Jest + Playwright configured ✅
+**Status**: ✅ All builds now successful (Next.js + Storybook)
 
-## Critical Notes 📝
-- **CI/CD**: All workflows tested and operational
-- **Secrets**: Stored securely in GitHub Actions secrets
-- **Database**: Both staging and production seeded with test data
-- **Performance**: PostCSS plugin issues resolved, dev server stable
-- **Security**: RLS policies active, authentication required
+## Decision Points & Considerations 🤔
 
-## Immediate Next Steps 🎯
-1. Start with `/api/venues` endpoint development
-2. Add comprehensive error handling
-3. Implement proper API validation
-4. Create admin dashboard views
-5. Add user registration flows
+### Design System Architecture Decisions
+1. **Component Composition Strategy**: How components combine and extend
+2. **Variant System**: Flexible styling and behavior patterns
+3. **State Management Integration**: Global state interaction patterns
+4. **Performance Strategy**: Bundle splitting and lazy loading
+5. **Accessibility Implementation**: Advanced a11y patterns
+6. **Cross-Platform Adaptation**: Component adaptation across apps
 
-**Current Branch**: `test-ci-pipeline-final` (ready to merge to main)
+### Technical Decisions Requiring Creative Input
+1. **Animation Framework**: Framer Motion integration patterns
+2. **Theme System**: Advanced theming and customization architecture
+3. **Icon System**: SVG optimization and custom iconography
+4. **Mobile Optimization**: Touch interaction and gesture patterns
+5. **Responsive Strategy**: Mobile-first component responsiveness
 
-## CURRENT LIVE SYSTEM STATUS 🚀
+## Immediate Next Steps 📋
 
-### ✅ Working Applications (localhost:3000) 
-1. **Web App** (`/`) - Full authentication + dashboard
-2. **Admin Panel** (`/admin`) - Management interface
-3. **PWA Mobile** (`/app`) - Native-like mobile experience
-4. **Authentication** (`/login`) - Google OAuth flow
-5. **API Endpoints** (`/api/events`) - Live database data ✅ NEW
+### Pre-Implementation Phase (This Week)
+1. **Design Audit**: Review current UI patterns across all apps
+2. **Component Inventory**: Catalog existing components for migration
+3. **Design Token Extraction**: Extract tokens from current styles
+4. **Storybook Enhancement**: Configure advanced Storybook setup
 
-### 🔑 Authentication Status
-- **User**: `josefermoso@gmail.com` 
-- **Status**: Fully authenticated across all apps
-- **Session**: Persistent and stable
-- **Flow**: Complete OAuth integration working
+### Week 1 Goals
+1. **Design Token System**: Establish foundational design tokens
+2. **Component Architecture**: Set up standardized component patterns
+3. **Build Optimization**: Configure tree-shaking and performance monitoring
+4. **Testing Infrastructure**: Enhance testing setup for component library
 
-### 🗄️ Database Status ✅ OPERATIONAL
-- **Staging DB**: `gctierjrldbymtyvqkod` ✅ Connected
-- **Production DB**: `gcjdwjsexwxxwbciqvkl` ✅ Connected  
-- **Schema**: 4 tables deployed (profiles, venues, events, registrations)
-- **Sample Data**: 5 venues + 6 events loaded
-- **API Test**: `/api/events` returns `[{id, title, date_time}]` ✅
+## Risk Mitigation 🛡️
 
-## Current Task: Core API Development - READY TO START
+### Potential Challenges
+- **Complexity Management**: Large scope requiring systematic approach
+- **Cross-Platform Consistency**: Ensuring components work across all apps
+- **Performance Impact**: Bundle size management with comprehensive library
+- **Migration Strategy**: Smooth transition from existing components
 
-### 🎯 Immediate Next Steps (Priority Order)
-1. **TASK-001: Venues API** - Create GET endpoints for venue listing and details
-2. **TASK-002: Enhanced Events API** - Add filtering, pagination, venue joins
-3. **TASK-003: User Profiles API** - Current user profile management
-4. **TASK-004: Event Registration** - Protected signup/cancel operations
-5. **TASK-005: Auth Middleware** - Reusable API authentication
+### Mitigation Strategies
+- **Phased Implementation**: Weekly milestones with validation checkpoints
+- **Early Testing**: Continuous testing throughout development
+- **Performance Monitoring**: Real-time bundle analysis and optimization
+- **Documentation First**: Comprehensive docs for team adoption
 
-### 📋 Implementation Strategy - SIMPLIFIED
-- **Phase 1**: Core CRUD APIs (venues, events, profiles) - Days 1-3
-- **Phase 2**: Protected operations (registrations, auth) - Days 4-6  
-- **Phase 3**: TypeScript/Zod enhancement - Days 7-9 (DEFERRED)
-- **Phase 4**: Advanced features (search, admin) - Days 10-12
+## Success Metrics 📊
 
-### 🛠️ Technology Stack Ready
-- **Database**: ✅ Supabase operational with live data
-- **API Framework**: ✅ Next.js API routes working
-- **Authentication**: ✅ Middleware ready for protected endpoints
-- **TypeScript**: ✅ Basic types working (enhancement deferred)
-- **Validation**: Zod installation deferred to Phase 3
+### Development Metrics
+- **Component Count**: Target 50+ core components
+- **Test Coverage**: Maintain 90%+ coverage
+- **Bundle Size**: Keep core library <100KB gzipped
+- **Build Performance**: Storybook builds <30 seconds
 
-## Architecture Success Summary 🎉
+### Quality Metrics
+- **Accessibility**: 100% WCAG 2.1 AA compliance
+- **Performance**: <200ms component initialization
+- **TypeScript**: Full type safety and IntelliSense
+- **Cross-Browser**: Modern browser compatibility verified
 
-### Database Integration (NEW! ✅)
-```
-Database Schema → Supabase Migration → API Routes → Live Data
-✅ Tables created → ✅ Seed data loaded → ✅ /api/events working
-```
+### Business Metrics
+- **Development Velocity**: Faster feature development post-completion
+- **Design Consistency**: Unified UDance brand experience
+- **Code Quality**: Reduced component-related bugs
+- **Team Productivity**: Accelerated UI development across teams
 
-### Complete System Flow (FULLY OPERATIONAL)
-```
-1. User authentication → Google OAuth → Supabase session
-2. Protected routes → Middleware check → Access granted  
-3. API calls → Database queries → Live data returned
-4. Multi-app navigation → Seamless between web/admin/pwa
-```
+---
 
-### Technical Achievements ✅
-- ✅ **Zero Auth Issues**: Google OAuth 100% reliable
-- ✅ **Database Connected**: Both staging and production operational
-- ✅ **API Working**: First endpoint returning live data
-- ✅ **Multi-App**: All three applications functional
-- ✅ **Session Management**: Persistent across all apps
-- ✅ **Error-Free**: Development environment stable
+## Live System Status 🚀
 
-## Next Actions (Immediate Priority)
-1. **Create Venues API** - `/api/venues` GET with neighborhood filtering
-2. **Enhance Events API** - Add venue data, date filtering, pagination  
-3. **Build Profile Management** - `/api/profiles/me` for current user
-4. **Add Event Registration** - Protected signup/cancel endpoints
-5. **Create Auth Middleware** - Reusable authentication for API routes
+### Deployment Status
+- **Production**: udance-prod.vercel.app ✅ OPERATIONAL
+- **Staging**: udance-staging.vercel.app ✅ OPERATIONAL  
+- **Local Development**: localhost:3000 ✅ OPERATIONAL
 
-## Current Technical State ✅
-- **Development Server**: ✅ Running stable (localhost:3000)
-- **Authentication**: ✅ Google OAuth working perfectly
-- **Database**: ✅ Connected with live data in staging/production
-- **API**: ✅ First endpoint operational, ready for expansion
-- **Multi-App**: ✅ Web, Admin, PWA all functional
-- **Error States**: ✅ All resolved, clean development environment
+### Application Status
+- **Web App** (`/`): User interface ✅ FUNCTIONAL
+- **Admin Panel** (`/admin`): Management dashboard ✅ FUNCTIONAL
+- **PWA Mobile** (`/app`): Progressive web app ✅ FUNCTIONAL
+- **API Endpoints**: Database connectivity ✅ OPERATIONAL
 
-## Context for Next Session
-If continuing this project:
-
-1. **🏆 FOUNDATION 100% COMPLETE** - Auth + Apps + Database working
-2. **🚀 DATABASE CONNECTED** - Live data flowing through first API endpoint  
-3. **🎯 NEXT PHASE**: Expand API endpoints for core functionality
-4. **📊 CURRENT STATE**: Full-stack foundation ready for feature development
-5. **🛠️ READY FOR**: Core CRUD operations and user interactions
-
-## Success Metrics (ACHIEVED! ✅)
-- [x] ✅ Authentication working across all apps
-- [x] ✅ Multi-app architecture operational  
-- [x] ✅ Database schema deployed and connected
-- [x] ✅ First API endpoint returning live data
-- [x] ✅ Session persistence reliable
-- [x] ✅ Cross-app navigation seamless
-- [x] ✅ Development environment error-free
-- [x] ✅ Production-ready infrastructure
-
-**🎉 STATUS**: Full-Stack Foundation 100% Complete + Database API Started!
-
-**🚀 ACHIEVEMENT**: Database connected, first API working, ready for core feature development!** 
+### Development Environment
+- **Authentication**: Google OAuth ✅ WORKING
+- **Database**: Supabase staging/production ✅ CONNECTED
+- **CI/CD Pipeline**: GitHub Actions ✅ OPERATIONAL
+- **Quality Gates**: All checks passing ✅ VALIDATED
+- **Tailwind CSS 4.x**: Next.js + Storybook ✅ OPERATIONAL
+- **Storybook 9.x**: Interactive documentation ✅ RUNNING 

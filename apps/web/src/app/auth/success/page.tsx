@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { createClient } from '../../../../utils/supabase/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function AuthSuccess() {
+function AuthSuccessInner() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -79,5 +79,19 @@ export default function AuthSuccess() {
         <p className="text-sm text-gray-500 mt-2">Redirecting to: {nextUrl}</p>
       </div>
     </div>
+  );
+}
+
+export default function AuthSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen w-full flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <AuthSuccessInner />
+    </Suspense>
   );
 }
