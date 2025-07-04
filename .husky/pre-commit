@@ -1,0 +1,8 @@
+echo "🔍 Running pre-commit checks on staged files..."
+npx lint-staged
+
+echo "🧪 Running tests..."
+pnpm test
+
+echo "🏗️ Type checking..."
+pnpm type-check

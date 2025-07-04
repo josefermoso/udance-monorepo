@@ -1,0 +1,9 @@
+.cursor/
+docs/
+memory-bank/
+pnpm-lock.yaml
+.next/
+node_modules/
+coverage/
+dist/
+build/ 
