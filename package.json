@@ -18,6 +18,7 @@
     "dev:web": "pnpm --filter web dev",
     "dev:admin": "pnpm --filter admin dev",
     "dev:pwa": "pnpm --filter pwa dev",
+    "dev:all": "turbo run dev --parallel",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "turbo run type-check",
@@ -30,7 +31,9 @@
     "lint-staged": "^16.1.2",
     "prettier": "^3.0.0",
     "turbo": "^1.11.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "jest": "^30.0.0",
+    "jest-environment-jsdom": "^30.0.0"
   },
   "dependencies": {
     "autoprefixer": "^10.4.16",

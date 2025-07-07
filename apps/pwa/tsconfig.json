@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "preserve",
-    "types": ["react"]
+    "types": ["react", "jest", "@testing-library/jest-dom"]
   },
   "include": ["src", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

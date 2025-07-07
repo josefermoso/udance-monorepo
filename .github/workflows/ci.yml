@@ -38,17 +38,16 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Type Check Web App
-        run: pnpm --filter @udance/web run type-check
+      # ------------------------- Quality Gates -------------------------
+      - name: Type Check (All Apps)
+        run: pnpm run type-check
 
-      - name: Lint Check
-        run: pnpm run lint
+      - name: Lint & Format Check
+        run: pnpm run lint && pnpm run format:check
 
-      - name: Format Check
-        run: pnpm run format:check
-
-      - name: Build Web Application
-        run: pnpm --filter @udance/web run build
+      # ------------------------- Builds -------------------------
+      - name: Build All Applications
+        run: pnpm run build
 
       - name: Run Tests
         run: pnpm run test

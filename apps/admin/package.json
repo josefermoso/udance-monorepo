@@ -7,22 +7,28 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "jest"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@udance/shared": "workspace:*",
+    "@udance/styles": "workspace:*",
+    "@udance/ui-admin": "workspace:*",
     "next": "15.3.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "@udance/shared": "workspace:*",
-    "@udance/ui-admin": "workspace:*",
-    "@udance/styles": "workspace:*",
-    "tailwindcss": "^4.1.11",
-    "daisyui": "^4.0.0",
-    "@tailwindcss/postcss": "^4.1.11"
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/jest": "^30.0.0",
     "@types/react": "^19",
-    "@types/react-dom": "^19"
+    "@types/react-dom": "^19",
+    "daisyui": "^5.0.46",
+    "jest": "^30.0.0",
+    "jest-environment-jsdom": "^30.0.0",
+    "typescript": "^5"
   }
 }

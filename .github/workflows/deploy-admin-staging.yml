@@ -1,0 +1,38 @@
+name: Deploy - Admin (Staging)
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  deploy-admin-staging:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies (workspace root)
+        run: pnpm install --frozen-lockfile
+
+      - name: Deploy Admin to Vercel (staging)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_ADMIN_STAGING }}
+          working-directory: apps/admin
+          scope: staging
+          alias-domains: ${{ secrets.VERCEL_STAGING_ALIAS_ADMIN }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} 
