@@ -29,7 +29,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "^3.0.0",
-    "turbo": "^1.11.0"
+    "turbo": "^1.11.0",
+    "typescript": "^5"
   },
   "dependencies": {
     "autoprefixer": "^10.4.16",

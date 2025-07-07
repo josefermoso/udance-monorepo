@@ -36,6 +36,9 @@ importers:
       turbo:
         specifier: ^1.11.0
         version: 1.13.4
+      typescript:
+        specifier: ^5
+        version: 5.8.3
 
   apps/admin:
     dependencies:
@@ -51,6 +54,9 @@ importers:
       '@udance/ui-admin':
         specifier: workspace:*
         version: link:../../packages/ui-admin
+      daisyui:
+        specifier: ^4.0.0
+        version: 4.12.24(postcss@8.5.6)
       next:
         specifier: 15.3.4
         version: 15.3.4(@babel/core@7.27.7)(@playwright/test@1.53.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -70,9 +76,6 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.1.6(@types/react@19.1.8)
-      daisyui:
-        specifier: ^5.0.46
-        version: 5.0.46
       typescript:
         specifier: ^5
         version: 5.8.3
@@ -2461,9 +2464,6 @@ packages:
   daisyui@4.12.24:
     resolution: {integrity: sha512-JYg9fhQHOfXyLadrBrEqCDM6D5dWCSSiM6eTNCRrBRzx/VlOCrLS8eDfIw9RVvs64v2mJdLooKXY8EwQzoszAA==}
     engines: {node: '>=16.9.0'}
-
-  daisyui@5.0.46:
-    resolution: {integrity: sha512-vMDZK1tI/bOb2Mc3Mk5WpquBG3ZqBz1YKZ0xDlvpOvey60dOS4/5Qhdowq1HndbQl7PgDLDYysxAjjUjwR7/eQ==}
 
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -7444,8 +7444,6 @@ snapshots:
       postcss-js: 4.0.1(postcss@8.5.6)
     transitivePeerDependencies:
       - postcss
-
-  daisyui@5.0.46: {}
 
   damerau-levenshtein@1.0.8: {}
 
