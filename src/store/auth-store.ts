@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createClient } from '@/lib/supabase';
+import { createClient } from '@udance/shared';
 import type { User, Session } from '@supabase/supabase-js';
 
 interface AuthState {

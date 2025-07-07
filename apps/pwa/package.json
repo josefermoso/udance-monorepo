@@ -1,0 +1,27 @@
+{
+  "name": "@udance/pwa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 5000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "15.3.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "@udance/shared": "workspace:*",
+    "@udance/ui-pwa": "workspace:*",
+    "@udance/styles": "workspace:*",
+    "tailwindcss": "^4.1.11",
+    "@tailwindcss/postcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  }
+}

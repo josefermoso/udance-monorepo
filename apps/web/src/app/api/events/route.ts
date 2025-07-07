@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@udance/shared/src/supabase/server';
+import { createServerClient } from '@udance/shared';
 
 export async function GET() {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
 
   const { data: events, error } = await supabase
     .from('events')

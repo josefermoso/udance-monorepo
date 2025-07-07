@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from '../../utils/supabase/server';
+import { createServerClient } from '@udance/shared';
 
 // Public server action
 export async function publicAction() {
@@ -10,7 +10,7 @@ export async function publicAction() {
 
 // Protected server action
 export async function protectedAction() {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
 
   // Use getUser() for server-side authentication check
   const {

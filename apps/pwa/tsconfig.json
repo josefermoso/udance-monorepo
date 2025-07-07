@@ -1,0 +1,10 @@
+{
+  "extends": "../../tools/tsconfig/base.json",
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "preserve",
+    "types": ["react"]
+  },
+  "include": ["src", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

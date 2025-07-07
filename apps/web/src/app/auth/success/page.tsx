@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
-import { createClient } from '../../../../utils/supabase/client';
+import { createClient } from '@udance/shared';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function AuthSuccessInner() {

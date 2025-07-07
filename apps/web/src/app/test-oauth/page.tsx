@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '../../../utils/supabase/client';
+import { createClient } from '@udance/shared';
 
 export default function TestOAuth() {
   const handleGoogleSignIn = async () => {

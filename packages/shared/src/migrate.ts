@@ -152,7 +152,7 @@ CREATE TRIGGER update_venues_updated_at BEFORE UPDATE ON venues FOR EACH ROW EXE
 `;
 
 export async function runMigration() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     console.log('🚀 Starting database migration...');

@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '../../../utils/supabase/client';
+import { createClient } from '@udance/shared';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {

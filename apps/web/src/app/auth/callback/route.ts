@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 // The client you created from the Server-Side Auth instructions
-import { createClient } from '../../../../utils/supabase/server';
+import { createServerClient } from '@udance/shared';
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   }
 
   if (code) {
-    const supabase = await createClient();
+    const supabase = await createServerClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {

@@ -5,6 +5,7 @@
     "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
+    "noEmit": false,
     "lib": ["ES2022"],
     "target": "ES2022",
     "module": "CommonJS",
@@ -15,11 +16,5 @@
     "strict": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/migrate.ts",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

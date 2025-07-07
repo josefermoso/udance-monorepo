@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { createClient } from '../../../../utils/supabase/server';
+import { createServerClient } from '@udance/shared';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
@@ -8,7 +8,7 @@ export default async function DebugAuth({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const params = await searchParams;
   const urlError = params.error;
 

@@ -1,0 +1,12 @@
+{
+  "name": "@udance/styles",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/globals-web.css",
+  "files": [
+    "src"
+  ],
+  "sideEffects": [
+    "*.css"
+  ]
+}
