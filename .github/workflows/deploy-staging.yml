@@ -35,4 +35,11 @@ jobs:
           scope: staging
           alias-domains: ${{ secrets.VERCEL_STAGING_ALIAS }}
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} 
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Smoke Test
+        run: |
+          echo "Waiting for deployment to be ready..."
+          sleep 30
+          curl -f ${{ secrets.VERCEL_STAGING_ALIAS }}/api/healthz || exit 1
+          echo "✅ Smoke test passed - deployment is healthy" 

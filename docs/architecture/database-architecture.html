@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Database Architecture</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fafafa;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .status-complete { background: #d4edda; color: #155724; }
+        .status-ready { background: #fff3cd; color: #856404; }
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+        .file-structure {
+            background: #f1f3f4;
+            border-left: 4px solid #4285f4;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .workflow-step {
+            background: #e8f4fd;
+            border-left: 4px solid #1976d2;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .tab-container {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .tab-header {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+        }
+        .tab-content {
+            padding: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        .nav-toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+        .nav-toc ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .nav-toc a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .nav-toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗄️ UDance Database Architecture</h1>
+        <p>Comprehensive guide to Drizzle ORM, Supabase integration, and database management</p>
+        <span class="status-badge status-complete">Production Ready ✅</span>
+    </div>
+
+    <div class="nav-toc">
+        <h3>📋 Table of Contents</h3>
+        <ul>
+            <li><a href="#overview">Database Stack Overview</a></li>
+            <li><a href="#architecture">Database Architecture</a></li>
+            <li><a href="#configuration">Configuration & Setup</a></li>
+            <li><a href="#migration-workflow">Migration Workflow</a></li>
+            <li><a href="#query-patterns">Query Patterns</a></li>
+            <li><a href="#type-safety">Type Safety & Validation</a></li>
+            <li><a href="#environment">Environment Configuration</a></li>
+            <li><a href="#development">Development Workflow</a></li>
+            <li><a href="#deployment">Deployment Guide</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ul>
+    </div>
+
+    <div id="overview" class="section">
+        <h2>🎯 Database Stack Overview</h2>
+        <div class="success">
+            <strong>Status:</strong> Production-ready database infrastructure with type-safe operations and professional migration workflow.
+        </div>
+        
+        <h3>Technology Stack</h3>
+        <table>
+            <tr>
+                <th>Component</th>
+                <th>Technology</th>
+                <th>Purpose</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>Database</td>
+                <td>Supabase PostgreSQL</td>
+                <td>Primary data storage with real-time capabilities</td>
+                <td><span class="status-badge status-complete">✅ Operational</span></td>
+            </tr>
+            <tr>
+                <td>ORM</td>
+                <td>Drizzle ORM</td>
+                <td>Type-safe database queries and operations</td>
+                <td><span class="status-badge status-complete">✅ Operational</span></td>
+            </tr>
+            <tr>
+                <td>Migrations</td>
+                <td>Drizzle Kit</td>
+                <td>Schema management and migration generation</td>
+                <td><span class="status-badge status-complete">✅ Operational</span></td>
+            </tr>
+            <tr>
+                <td>Validation</td>
+                <td>Zod</td>
+                <td>Runtime type validation for inputs</td>
+                <td><span class="status-badge status-complete">✅ Operational</span></td>
+            </tr>
+            <tr>
+                <td>Type Safety</td>
+                <td>TypeScript</td>
+                <td>Compile-time type checking</td>
+                <td><span class="status-badge status-complete">✅ Operational</span></td>
+            </tr>
+        </table>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li><strong>Type Safety:</strong> End-to-end TypeScript types from database to UI</li>
+            <li><strong>Migration System:</strong> Professional database change management</li>
+            <li><strong>Real-time:</strong> Supabase real-time subscriptions available</li>
+            <li><strong>Connection Pooling:</strong> Optimized for serverless environments</li>
+            <li><strong>Domain-Driven:</strong> Organized by business domains</li>
+        </ul>
+    </div>
+
+    <div id="architecture" class="section">
+        <h2>🏗️ Database Architecture</h2>
+        
+        <h3>File Structure</h3>
+        <div class="file-structure">
+packages/
+├── shared/src/
+│   ├── db.ts                    # Drizzle client configuration
+│   └── supabase/               # Supabase client utilities
+│       ├── client.ts           # Browser client
+│       ├── server.ts           # Server client
+│       └── middleware.ts       # Auth middleware
+├── domain/
+│   └── news/                   # News domain package (example)
+│       ├── schema.ts           # Drizzle table definitions
+│       ├── zod.ts              # Zod validation schemas
+│       ├── queries.ts          # Query functions
+│       └── commands.ts         # CRUD operations
+├── db/
+│   └── migrations/             # Generated SQL migrations
+│       ├── 0000_spicy_johnny_storm.sql
+│       └── _meta/              # Migration metadata
+│           ├── _journal.json
+│           └── 0000_snapshot.json
+└── apps/
+    ├── web/src/app/(public)/news/
+    │   └── actions.ts          # Server actions
+    ├── admin/                  # Admin app
+    └── pwa/                    # PWA app
+        </div>
+
+        <h3>Domain Package Structure</h3>
+        <p>Each business domain (news, events, users, etc.) follows this pattern:</p>
+        
+        <div class="tab-container">
+            <div class="tab-header">📁 packages/domain/[domain]/</div>
+            <div class="tab-content">
+                <ul>
+                    <li><strong>schema.ts:</strong> Drizzle table definitions and relationships</li>
+                    <li><strong>zod.ts:</strong> Input validation schemas and types</li>
+                    <li><strong>queries.ts:</strong> Read operations (SELECT queries)</li>
+                    <li><strong>commands.ts:</strong> Write operations (INSERT, UPDATE, DELETE)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="configuration" class="section">
+        <h2>⚙️ Configuration & Setup</h2>
+        
+        <h3>Drizzle Configuration</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 drizzle.config.ts</div>
+            <div class="tab-content">
+                <div class="code-block">
+import 'dotenv/config';
+import { defineConfig } from 'drizzle-kit';
+
+export default defineConfig({
+  dialect: "postgresql",
+  schema: "packages/domain/news/schema.ts",
+  out: "packages/db/migrations",
+  dbCredentials: {
+    url: process.env.SUPABASE_DATABASE_URL!,
+  },
+});
+                </div>
+            </div>
+        </div>
+
+        <h3>Database Client Configuration</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 packages/shared/src/db.ts</div>
+            <div class="tab-content">
+                <div class="code-block">
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+
+const client = postgres(process.env.SUPABASE_DATABASE_URL!);
+export const db = drizzle(client);
+
+// Usage in domain functions
+// import { db } from '@udance/shared/db';
+                </div>
+            </div>
+        </div>
+
+        <h3>Schema Definition Example</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 packages/domain/news/schema.ts</div>
+            <div class="tab-content">
+                <div class="code-block">
+import { pgTable, uuid, text, timestamp, boolean } from 'drizzle-orm/pg-core';
+
+export const news = pgTable('news', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  author: text('author').notNull(),
+  excerpt: text('excerpt'),
+  featured: boolean('featured').default(false),
+  published_at: timestamp('published_at').defaultNow(),
+  created_at: timestamp('created_at').defaultNow(),
+  updated_at: timestamp('updated_at').defaultNow(),
+});
+
+// Export types for use in other files
+export type News = typeof news.$inferSelect;
+export type NewsInsert = typeof news.$inferInsert;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="migration-workflow" class="section">
+        <h2>🔄 Migration Workflow</h2>
+        
+        <div class="success">
+            <strong>✅ Migration System Operational:</strong> Professional database change management with version control.
+        </div>
+
+        <h3>Step-by-Step Migration Process</h3>
+        
+        <div class="workflow-step">
+            <h4>1. Schema Definition</h4>
+            <p>Define or modify tables in <code>packages/domain/[domain]/schema.ts</code></p>
+            <div class="code-block">
+// Add new fields or tables to your schema file
+export const news = pgTable('news', {
+  // ... existing fields
+  new_field: text('new_field'), // New field added
+});
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <h4>2. Generate Migration</h4>
+            <div class="code-block">
+pnpm drizzle-kit generate
+            </div>
+            <p>This creates a new SQL migration file in <code>packages/db/migrations/</code></p>
+        </div>
+
+        <div class="workflow-step">
+            <h4>3. Review Generated SQL</h4>
+            <p>Always review the generated migration SQL before applying:</p>
+            <div class="code-block">
+cat packages/db/migrations/0001_new_migration.sql
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <h4>4. Apply Migration</h4>
+            <div class="code-block">
+pnpm drizzle-kit migrate
+            </div>
+            <p>This applies the migration to your database</p>
+        </div>
+
+        <div class="workflow-step">
+            <h4>5. Verify Changes</h4>
+            <div class="code-block">
+# Test database connection and verify schema
+source .env && psql $SUPABASE_DATABASE_URL -c "\d news"
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <h4>6. Update Seed Data (if needed)</h4>
+            <p>Modify <code>supabase/seed.sql</code> and reload:</p>
+            <div class="code-block">
+source .env && psql $SUPABASE_DATABASE_URL -f supabase/seed.sql
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Always backup your database before running migrations in production. Test migrations thoroughly in staging environment first.
+        </div>
+    </div>
+
+    <div id="query-patterns" class="section">
+        <h2>🔍 Query Patterns</h2>
+        
+        <h3>Domain Query Functions</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 packages/domain/news/queries.ts</div>
+            <div class="tab-content">
+                <div class="code-block">
+import { db } from '@udance/shared/db';
+import { news } from './schema';
+import { eq, desc, and, isNotNull } from 'drizzle-orm';
+
+// Get all published news
+export async function getPublishedNews() {
+  return await db
+    .select()
+    .from(news)
+    .where(isNotNull(news.published_at))
+    .orderBy(desc(news.created_at));
+}
+
+// Get featured news with limit
+export async function getFeaturedNews(limit = 3) {
+  return await db
+    .select()
+    .from(news)
+    .where(eq(news.featured, true))
+    .orderBy(desc(news.created_at))
+    .limit(limit);
+}
+
+// Get news by ID
+export async function getNewsById(id: string) {
+  const result = await db
+    .select()
+    .from(news)
+    .where(eq(news.id, id))
+    .limit(1);
+  
+  return result[0] ?? null;
+}
+
+// Search news by title or content
+export async function searchNews(searchTerm: string) {
+  return await db
+    .select()
+    .from(news)
+    .where(
+      or(
+        ilike(news.title, `%${searchTerm}%`),
+        ilike(news.content, `%${searchTerm}%`)
+      )
+    )
+    .orderBy(desc(news.created_at));
+}
+                </div>
+            </div>
+        </div>
+
+        <h3>Domain Command Functions</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 packages/domain/news/commands.ts</div>
+            <div class="tab-content">
+                <div class="code-block">
+import { db } from '@udance/shared/db';
+import { news, type NewsInsert } from './schema';
+import { eq } from 'drizzle-orm';
+
+// Create news article
+export async function createNews(data: Omit&lt;NewsInsert, 'id' | 'created_at' | 'updated_at'&gt;) {
+  const result = await db
+    .insert(news)
+    .values({
+      ...data,
+      created_at: new Date(),
+      updated_at: new Date(),
+    })
+    .returning();
+  
+  return result[0];
+}
+
+// Update news article
+export async function updateNews(
+  id: string, 
+  data: Partial&lt;Omit&lt;NewsInsert, 'id' | 'created_at'&gt;&gt;
+) {
+  const result = await db
+    .update(news)
+    .set({
+      ...data,
+      updated_at: new Date(),
+    })
+    .where(eq(news.id, id))
+    .returning();
+  
+  return result[0] ?? null;
+}
+
+// Delete news article
+export async function deleteNews(id: string) {
+  const result = await db
+    .delete(news)
+    .where(eq(news.id, id))
+    .returning();
+  
+  return result[0] ?? null;
+}
+
+// Toggle featured status
+export async function toggleFeatured(id: string) {
+  const current = await db
+    .select({ featured: news.featured })
+    .from(news)
+    .where(eq(news.id, id))
+    .limit(1);
+  
+  if (!current[0]) return null;
+  
+  return await updateNews(id, { 
+    featured: !current[0].featured 
+  });
+}
+                </div>
+            </div>
+        </div>
+
+        <h3>Server Actions</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 apps/web/src/app/(public)/news/actions.ts</div>
+            <div class="tab-content">
+                <div class="code-block">
+'use server';
+import { getPublishedNews, getFeaturedNews } from '@udance/domain/news/queries';
+import { createNews } from '@udance/domain/news/commands';
+import { NewsInputSchema } from '@udance/domain/news/zod';
+
+// Server action for listing news
+export async function listNewsAction() {
+  return await getPublishedNews();
+}
+
+// Server action for featured news
+export async function getFeaturedNewsAction(limit?: number) {
+  return await getFeaturedNews(limit);
+}
+
+// Server action for creating news (admin only)
+export async function createNewsAction(formData: FormData) {
+  const rawData = {
+    title: formData.get('title'),
+    content: formData.get('content'),
+    author: formData.get('author'),
+    excerpt: formData.get('excerpt'),
+  };
+  
+  // Validate with Zod
+  const validatedData = NewsInputSchema.parse(rawData);
+  
+  return await createNews(validatedData);
+}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="type-safety" class="section">
+        <h2>🛡️ Type Safety & Validation</h2>
+        
+        <h3>Zod Validation Schemas</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 packages/domain/news/zod.ts</div>
+            <div class="tab-content">
+                <div class="code-block">
+import { z } from 'zod';
+
+// Input validation for creating/updating news
+export const NewsInputSchema = z.object({
+  title: z.string()
+    .min(1, 'Title is required')
+    .max(200, 'Title must be less than 200 characters'),
+  content: z.string()
+    .min(10, 'Content must be at least 10 characters')
+    .max(10000, 'Content must be less than 10,000 characters'),
+  author: z.string()
+    .min(1, 'Author is required')
+    .max(100, 'Author name must be less than 100 characters'),
+  excerpt: z.string()
+    .max(500, 'Excerpt must be less than 500 characters')
+    .optional(),
+  featured: z.boolean().optional(),
+});
+
+// Filter schema for querying news
+export const NewsFilterSchema = z.object({
+  limit: z.number().min(1).max(100).optional(),
+  offset: z.number().min(0).optional(),
+  featured: z.boolean().optional(),
+  search: z.string().optional(),
+});
+
+// Export inferred types
+export type NewsInput = z.infer&lt;typeof NewsInputSchema&gt;;
+export type NewsFilter = z.infer&lt;typeof NewsFilterSchema&gt;;
+
+// Utility function for validation
+export function validateNewsInput(data: unknown): NewsInput {
+  return NewsInputSchema.parse(data);
+}
+
+export function validateNewsFilter(data: unknown): NewsFilter {
+  return NewsFilterSchema.parse(data);
+}
+                </div>
+            </div>
+        </div>
+
+        <h3>TypeScript Type Flow</h3>
+        <div class="code-block">
+Database Schema (Drizzle) 
+    ↓ (auto-generated)
+TypeScript Types (News, NewsInsert)
+    ↓ (used in)
+Domain Functions (queries.ts, commands.ts)
+    ↓ (used in)
+Server Actions (actions.ts)
+    ↓ (used in)
+UI Components (NewsCard.tsx)
+    ↓ (type-safe)
+Frontend Application
+        </div>
+
+        <h3>Example Type Usage</h3>
+        <div class="code-block">
+// In UI component
+import type { News } from '@udance/domain/news/schema';
+
+interface NewsCardProps {
+  news: News; // Type-safe props from database
+}
+
+export function NewsCard({ news }: NewsCardProps) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{news.title}&lt;/h3&gt; {/* TypeScript knows this is a string */}
+      &lt;p&gt;{news.content}&lt;/p&gt;
+      &lt;small&gt;By {news.author}&lt;/small&gt;
+    &lt;/div&gt;
+  );
+}
+        </div>
+    </div>
+
+    <div id="environment" class="section">
+        <h2>🔐 Environment Configuration</h2>
+        
+        <div class="warning">
+            <strong>⚠️ Critical:</strong> Use <code>.env</code> (not <code>.env.local</code>) for Drizzle Kit as per official documentation.
+        </div>
+
+        <h3>Required Environment Variables</h3>
+        <div class="tab-container">
+            <div class="tab-header">📄 .env</div>
+            <div class="tab-content">
+                <div class="code-block">
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+
+# Database Connection (for Drizzle)
+SUPABASE_DATABASE_URL=postgresql://postgres.your-project:password@aws-0-region.pooler.supabase.com:6543/postgres
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# NextAuth
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+                </div>
+            </div>
+        </div>
+
+        <h3>Environment Configuration Notes</h3>
+        <table>
+            <tr>
+                <th>Setting</th>
+                <th>Requirement</th>
+                <th>Notes</th>
+            </tr>
+            <tr>
+                <td>File Location</td>
+                <td><code>.env</code></td>
+                <td>Drizzle Kit reads <code>.env</code> by default, not <code>.env.local</code></td>
+            </tr>
+            <tr>
+                <td>Database URL</td>
+                <td>Pooler URL</td>
+                <td>Use port <code>6543</code> (pooler) not <code>5432</code> (direct)</td>
+            </tr>
+            <tr>
+                <td>Connection Format</td>
+                <td>PostgreSQL URL</td>
+                <td><code>postgresql://user:pass@host:port/db</code></td>
+            </tr>
+            <tr>
+                <td>SSL Mode</td>
+                <td>Required</td>
+                <td>Supabase requires SSL connections</td>
+            </tr>
+        </table>
+
+        <h3>Testing Database Connection</h3>
+        <div class="code-block">
+# Test basic connection
+source .env && psql $SUPABASE_DATABASE_URL -c "SELECT version();"
+
+# Test news table
+source .env && psql $SUPABASE_DATABASE_URL -c "SELECT COUNT(*) FROM news;"
+
+# List all tables
+source .env && psql $SUPABASE_DATABASE_URL -c "\dt"
+        </div>
+    </div>
+
+    <div id="development" class="section">
+        <h2>💻 Development Workflow</h2>
+        
+        <h3>Daily Development Commands</h3>
+        <div class="workflow-step">
+            <h4>Start Development Environment</h4>
+            <div class="code-block">
+# Start all applications
+pnpm dev:all
+
+# Or start individual apps
+pnpm --filter web dev        # Port 3000
+pnpm --filter admin dev      # Port 4000
+pnpm --filter pwa dev        # Port 5000
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <h4>Database Operations</h4>
+            <div class="code-block">
+# Generate migration after schema changes
+pnpm drizzle-kit generate
+
+# Apply migrations to database
+pnpm drizzle-kit migrate
+
+# Load seed data
+source .env && psql $SUPABASE_DATABASE_URL -f supabase/seed.sql
+
+# Open Drizzle Studio (optional database GUI)
+pnpm drizzle-kit studio
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <h4>Code Quality & Testing</h4>
+            <div class="code-block">
+# Type checking
+pnpm run type-check
+
+# Linting
+pnpm lint
+
+# Build all apps
+pnpm build
+
+# Run tests
+pnpm test
+            </div>
+        </div>
+
+        <h3>Adding New Database Features</h3>
+        <ol>
+            <li><strong>Create Domain Package:</strong> <code>packages/domain/[feature]/</code></li>
+            <li><strong>Define Schema:</strong> Add tables to <code>schema.ts</code></li>
+            <li><strong>Create Validation:</strong> Add Zod schemas to <code>zod.ts</code></li>
+            <li><strong>Implement Queries:</strong> Add read operations to <code>queries.ts</code></li>
+            <li><strong>Implement Commands:</strong> Add write operations to <code>commands.ts</code></li>
+            <li><strong>Generate Migration:</strong> <code>pnpm drizzle-kit generate</code></li>
+            <li><strong>Apply Migration:</strong> <code>pnpm drizzle-kit migrate</code></li>
+            <li><strong>Create Server Actions:</strong> In relevant app directory</li>
+            <li><strong>Build UI Components:</strong> Type-safe components using domain types</li>
+        </ol>
+    </div>
+
+    <div id="deployment" class="section">
+        <h2>🚀 Deployment Guide</h2>
+        
+        <h3>Production Deployment Process</h3>
+        
+        <div class="workflow-step">
+            <h4>1. Environment Variables</h4>
+            <p>Set production database URLs in Vercel dashboard:</p>
+            <div class="code-block">
+SUPABASE_DATABASE_URL=postgresql://postgres.prod-project:password@aws-0-region.pooler.supabase.com:6543/postgres
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <h4>2. Database Migration</h4>
+            <p>Migrations are handled automatically via deployment scripts or manually:</p>
+            <div class="code-block">
+# Production migration (manual if needed)
+SUPABASE_DATABASE_URL="production_url" pnpm drizzle-kit migrate
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <h4>3. Multi-App Deployment</h4>
+            <table>
+                <tr>
+                    <th>App</th>
+                    <th>Directory</th>
+                    <th>Production URL</th>
+                </tr>
+                <tr>
+                    <td>Web</td>
+                    <td><code>apps/web/</code></td>
+                    <td>udance-prod.vercel.app</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td><code>apps/admin/</code></td>
+                    <td>udance-admin-prod.vercel.app</td>
+                </tr>
+                <tr>
+                    <td>PWA</td>
+                    <td><code>apps/pwa/</code></td>
+                    <td>udance-pwa-prod.vercel.app</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>Deployment Checklist</h3>
+        <ul>
+            <li>✅ All migrations tested in staging</li>
+            <li>✅ Environment variables configured in Vercel</li>
+            <li>✅ Database backups taken</li>
+            <li>✅ Build process successful for all apps</li>
+            <li>✅ Type checking passes</li>
+            <li>✅ Tests passing</li>
+        </ul>
+    </div>
+
+    <div id="troubleshooting" class="section">
+        <h2>🔧 Troubleshooting</h2>
+        
+        <h3>Common Issues & Solutions</h3>
+        
+        <div class="warning">
+            <h4>❌ Migration Command Fails with "url: ''"</h4>
+            <p><strong>Problem:</strong> <code>pnpm drizzle-kit migrate</code> shows empty URL error</p>
+            <p><strong>Solution:</strong> Use <code>.env</code> instead of <code>.env.local</code></p>
+            <div class="code-block">
+# Copy .env.local to .env
+cp .env.local .env
+
+# Then run migration
+pnpm drizzle-kit migrate
+            </div>
+        </div>
+
+        <div class="warning">
+            <h4>❌ Database Connection Refused</h4>
+            <p><strong>Problem:</strong> psql connection fails with "connection refused"</p>
+            <p><strong>Solution:</strong> Check environment variable loading</p>
+            <div class="code-block">
+# Load environment variables explicitly
+source .env
+echo "Database URL: $SUPABASE_DATABASE_URL"
+
+# Then try connection
+psql $SUPABASE_DATABASE_URL -c "SELECT version();"
+            </div>
+        </div>
+
+        <div class="warning">
+            <h4>❌ Column Does Not Exist Error</h4>
+            <p><strong>Problem:</strong> Query fails with "column does not exist"</p>
+            <p><strong>Solution:</strong> Check migration was applied and column names match</p>
+            <div class="code-block">
+# Check table structure
+source .env && psql $SUPABASE_DATABASE_URL -c "\d table_name"
+
+# Check if migration was applied
+source .env && psql $SUPABASE_DATABASE_URL -c "SELECT * FROM __drizzle_migrations__;"
+            </div>
+        </div>
+
+        <div class="warning">
+            <h4>❌ Type Errors in Domain Functions</h4>
+            <p><strong>Problem:</strong> TypeScript errors when using database types</p>
+            <p><strong>Solution:</strong> Regenerate types and check imports</p>
+            <div class="code-block">
+# Regenerate migration (updates types)
+pnpm drizzle-kit generate
+
+# Check imports are correct
+import { news, type News } from './schema';
+import { db } from '@udance/shared/db';
+            </div>
+        </div>
+
+        <h3>Debugging Commands</h3>
+        <div class="code-block">
+# Check Drizzle configuration
+cat drizzle.config.ts
+
+# Test database connection
+source .env && psql $SUPABASE_DATABASE_URL -c "SELECT NOW();"
+
+# Check migration status
+source .env && psql $SUPABASE_DATABASE_URL -c "SELECT * FROM __drizzle_migrations__ ORDER BY id DESC;"
+
+# List all tables
+source .env && psql $SUPABASE_DATABASE_URL -c "\dt"
+
+# Check specific table structure
+source .env && psql $SUPABASE_DATABASE_URL -c "\d news"
+
+# View recent news entries
+source .env && psql $SUPABASE_DATABASE_URL -c "SELECT id, title, created_at FROM news ORDER BY created_at DESC LIMIT 5;"
+        </div>
+
+        <h3>Performance Monitoring</h3>
+        <ul>
+            <li><strong>Query Performance:</strong> Monitor slow queries in Supabase dashboard</li>
+            <li><strong>Connection Pool:</strong> Watch connection usage patterns</li>
+            <li><strong>Migration Time:</strong> Track migration execution time</li>
+            <li><strong>Bundle Size:</strong> Monitor impact of database code on bundle size</li>
+        </ul>
+
+        <div class="success">
+            <h4>✅ Health Check Commands</h4>
+            <div class="code-block">
+# Quick health check script
+source .env
+
+echo "🔍 Testing database connection..."
+psql $SUPABASE_DATABASE_URL -c "SELECT 'Database connected!' as status;"
+
+echo "📊 Checking news table..."
+psql $SUPABASE_DATABASE_URL -c "SELECT COUNT(*) as news_count FROM news;"
+
+echo "🕒 Last migration..."
+psql $SUPABASE_DATABASE_URL -c "SELECT id, hash FROM __drizzle_migrations__ ORDER BY id DESC LIMIT 1;"
+
+echo "✅ All systems operational!"
+            </div>
+        </div>
+    </div>
+
+    <div class="section" style="text-align: center; background: #f8f9fa;">
+        <h2>📚 Additional Resources</h2>
+        <p>
+            <a href="https://orm.drizzle.team/docs/overview" target="_blank">Drizzle ORM Documentation</a> |
+            <a href="https://supabase.com/docs/guides/database" target="_blank">Supabase Database Guide</a> |
+            <a href="https://zod.dev/" target="_blank">Zod Validation</a>
+        </p>
+        <p style="margin-top: 20px; color: #666;">
+            Last updated: January 2025 | UDance Database Architecture v1.0
+        </p>
+    </div>
+</body>
+</html> 

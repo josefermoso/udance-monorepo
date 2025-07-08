@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Admin - Mockup</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- App Header -->
+    <div class="app-header admin">
+        <div class="breadcrumb">
+            <a href="../index.html">← Volver al selector</a>
+        </div>
+        <div class="app-title">👑 Platform Admin - uDance</div>
+        <div class="app-subtitle">
+            Supervisión, gestión y mantenimiento de la plataforma uDance.
+        </div>
+        <div style="margin-top: 1rem;">
+            <span class="complexity-indicator complexity-high">Estado: Finalizado (Schema-Aligned)</span>
+            <span class="status-indicator">✅</span>
+        </div>
+    </div>
+
+    <!-- WIREFRAME LAYOUT SECTION -->
+    <div class="wireframe-container">
+        <div class="wireframe-title">📐 Layout Visual - Admin Dashboard</div>
+        <div class="wireframe-layout layout-admin-dashboard">
+            <div class="wire-box sidebar">
+                <h4>🗂️ Sidebar Nav</h4>
+                <div class="wire-internal">
+                    <div class="wire-item active">📈 Dashboard</div>
+                    <div class="wire-item">👥 User Management</div>
+                    <div class="wire-item">🏛️ Studio Agreements</div>
+                    <div class="wire-item">📚 Taxonomy (Styles, etc.)</div>
+                    <div class="wire-item">📢 Announcements</div>
+                    <div class="wire-item">🛡️ Moderation</div>
+                    <div class="wire-item">📜 Audit Logs</div>
+                </div>
+            </div>
+            
+            <div class="wire-box topbar">
+                <h4>🔝 Top Bar</h4>
+                <div class="wire-internal horizontal">
+                    <div class="wire-item input flex-grow">🔍 Buscar en el panel...</div>
+                    <div class="wire-item">🔔 Notificaciones</div>
+                    <div class="wire-item">👤 Admin Profile ▼</div>
+                </div>
+            </div>
+            
+            <div class="wire-box content">
+                <h4>📦 Content Area</h4>
+                <div class="wire-internal horizontal">
+                    <div class="wire-item widget">
+                        <strong>Usuarios Activos</strong><br/>
+                        <span class="big-number">1,234</span>
+                    </div>
+                    <div class="wire-item widget">
+                        <strong>Eventos Publicados</strong><br/>
+                        <span class="big-number">56</span>
+                    </div>
+                    <div class="wire-item widget">
+                        <strong>Content Reports</strong><br/>
+                        <span class="big-number">12</span>
+                    </div>
+                </div>
+                <div class="wire-item table">
+                    <strong>Admin Action Logs</strong><br/>
+                    - admin@udance deleted user @test<br/>
+                    - admin@udance updated agreement for Studio XYZ<br/>
+                    - admin@udance published new announcement
+                </div>
+            </div>
+        </div>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+            <strong>Admin Layout:</strong> Sidebar (izquierda, fija) + Topbar (superior) + Content (área principal).<br/>
+            <strong>Componentes Clave:</strong> Tablas de datos, formularios, modales y widgets de información.
+        </p>
+    </div>
+
+    <!-- COMPONENT DETAILS -->
+    <div class="component-details">
+        <h3>🔧 Detalles de Cada Componente</h3>
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h4>🗂️ Sidebar Navigation</h4>
+                <div class="detail-visual">
+[Logo]
+- 📈 Dashboard
+- 👥 User Management
+- 🏛️ Studio Agreements
+- 📚 Taxonomy (Styles, Categories)
+- 📢 Platform Announcements
+- 🛡️ Moderation (Content Reports)
+- 📜 Audit Logs
+</div>
+                <div class="detail-tech admin">
+                    <strong>Implementación:</strong><br>
+                    • Navegación principal del panel de admin.<br>
+                    • Cada item corresponde a una sección de gestión.<br>
+                    • Acceso controlado por permisos del rol `platform_admin`.<br>
+                    • <strong>Tablas Relevantes:</strong> `roles`, `permissions`, `role_permissions`.
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h4>🔝 Top Bar</h4>
+                <div class="detail-visual">
+[🔍 Buscar...] [🔔 (3)] [👤 Admin ▼]
+</div>
+                <div class="detail-tech admin">
+                    <strong>Implementación:</strong><br>
+                    • Búsqueda global del panel<br>
+                    • Dropdown de notificaciones<br>
+                    • Menú de perfil de admin<br>
+                    • DaisyUI `navbar` component
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h4>📦 Content Area con Widgets</h4>
+                <div class="detail-visual">
+[Widget: 1,234 Usuarios]
+[Widget: 56 Eventos]
+[Widget: 12 Content Reports]
+[Tabla: Admin Action Logs]
+[Gráfico: Registros por semana]
+</div>
+                <div class="detail-tech admin">
+                    <strong>Implementación:</strong><br>
+                    • Widgets con métricas clave de la plataforma.<br>
+                    • Tabla con las últimas acciones de administradores.<br>
+                    • <strong>Tablas Relevantes:</strong> `users`, `events`, `content_reports`, `admin_action_logs`.<br>
+                    • API: /api/admin/dashboard/overview
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Sections Grid -->
+    <div class="section-grid">
+        <div class="section-card admin">
+            <div class="status-indicator">✅</div>
+            <div class="section-title">📚 Taxonomy Management</div>
+            <div class="section-description">
+                Gestionar catálogos de datos maestros como `dance_styles` y `event_categories` para mantener la consistencia en toda la plataforma.
+            </div>
+            <div class="section-details">
+                <strong>Tablas:</strong> `dance_styles`, `event_categories`, `tags`
+            </div>
+        </div>
+        <div class="section-card admin">
+            <div class="status-indicator">✅</div>
+            <div class="section-title">🛡️ Content Moderation</div>
+            <div class="section-description">
+                Revisar y accionar sobre el contenido reportado por los usuarios (perfiles, comentarios, reseñas) para mantener una comunidad segura.
+            </div>
+            <div class="section-details">
+                <strong>Tablas:</strong> `content_reports`, `users`, `reviews`
+            </div>
+        </div>
+        <div class="section-card admin">
+            <div class="status-indicator">✅</div>
+            <div class="section-title">📜 Audit & Action Logs</div>
+            <div class="section-description">
+                Ver un registro inmutable de todas las acciones críticas realizadas por los administradores para seguridad y rendición de cuentas.
+            </div>
+            <div class="section-details">
+                <strong>Tablas:</strong> `admin_action_logs`, `users`
+            </div>
+        </div>
+        <div class="section-card admin">
+            <div class="status-indicator">✅</div>
+            <div class="section-title">📢 Platform Announcements</div>
+            <div class="section-description">
+                Crear y gestionar anuncios globales que se muestran a todos los usuarios en las aplicaciones web y móvil.
+            </div>
+            <div class="section-details">
+                <strong>Tablas:</strong> `platform_announcements`
+            </div>
+        </div>
+    </div>
+
+    <!-- User Flow Diagram -->
+    <div class="flow-diagram">
+        <h3>🔄 Flujo Principal de Administrador</h3>
+        <div style="margin: 1rem 0;">
+            <span class="flow-step">Dashboard</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Gestión Eventos</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Crear/Editar</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Preview</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Publicar</span>
+        </div>
+    </div>
+
+    <!-- Technical Notes -->
+    <div class="tech-notes">
+        <h3>🔧 Consideraciones Técnicas - Admin App</h3>
+        <ul>
+            <li><strong>Framework:</strong> Next.js 15 con renderizado de cliente (CSR)</li>
+            <li><strong>UI Kit:</strong> DaisyUI v5 sobre Tailwind CSS para componentes rápidos</li>
+            <li><strong>Componentes Clave:</strong> Tablas de datos, formularios, modales, notificaciones</li>
+            <li><strong>Seguridad:</strong> Acceso restringido por roles, protección de endpoints API</li>
+            <li><strong>Estado:</strong> Foundation 100% completa, listo para features</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="nav-links">
+            <a href="../index.html" class="nav-link">🏠 Inicio</a>
+            <a href="../web/index.html" class="nav-link web">🌐 Ver Web App</a>
+            <a href="../mobile/index.html" class="nav-link mobile">📱 Ver Mobile App</a>
+        </div>
+    </div>
+</body>
+</html>

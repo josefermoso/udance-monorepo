@@ -1,0 +1,10 @@
+{
+  "name": "@udance/domain",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./news/index.ts",
+  "types": "./news/index.ts",
+  "exports": {
+    "./news": "./news/index.ts"
+  }
+}

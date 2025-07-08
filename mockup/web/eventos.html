@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Web App - Todos los Eventos</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- App Header -->
+    <div class="app-header web">
+        <div class="breadcrumb">
+            <a href="index.html">← Volver al Dashboard</a>
+        </div>
+        <div class="app-title">📅 Todos los Eventos</div>
+        <div class="app-subtitle">
+            Explora todos los eventos, clases y talleres disponibles.
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-content-grid">
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar">
+            <h3>Filtrar Eventos</h3>
+            <div class="filter-group">
+                <h4>Estilo de Baile</h4>
+                <label><input type="checkbox" name="style" value="1"> Salsa</label>
+                <label><input type="checkbox" name="style" value="2" checked> Bachata</label>
+                <label><input type="checkbox" name="style" value="3"> Kizomba</label>
+                <small>Datos de `dance_styles`</small>
+            </div>
+            <div class="filter-group">
+                <h4>Categoría de Evento</h4>
+                <label><input type="checkbox" name="category" value="1"> Workshop</label>
+                <label><input type="checkbox" name="category" value="2"> Social</label>
+                <label><input type="checkbox" name="category" value="3"> Competencia</label>
+                <small>Datos de `event_categories`</small>
+            </div>
+            <div class="filter-group">
+                <h4>Ubicación</h4>
+                <input type="text" placeholder="Ciudad o barrio...">
+            </div>
+            <button class="btn-primary">Aplicar Filtros</button>
+        </aside>
+
+        <!-- Event List -->
+        <main class="event-list-container">
+            <h2>Resultados de Eventos</h2>
+            <p>Lista de eventos que coinciden con los filtros seleccionados.</p>
+            <div class="wire-internal" style="margin-top: 1rem;">
+                 <a href="evento-detalle.html" class="wire-item event-card clickable">
+                    📅 <strong>JUE 15</strong> | Clase de Bachata<br/>
+                    💰 $25 | 📍 Studio XYZ | ⭐ 4.8
+                </a>
+                <a href="evento-detalle.html" class="wire-item event-card clickable">
+                    📅 <strong>VIE 16</strong> | Social de Bachata<br/>
+                    💰 $10 | 📍 Club Bachatero | ⭐ 4.5
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Technical Notes -->
+    <div class="tech-notes">
+        <h3>🔧 Consideraciones Técnicas - Lista de Eventos y Filtros</h3>
+        <ul>
+            <li><strong>Modelo de Datos:</strong> La página consulta la tabla <code>events</code>.</li>
+            <li><strong>Filtros:</strong> Los filtros de la barra lateral se construyen dinámicamente poblando los checkboxes desde las tablas de taxonomía:
+                <ul>
+                    <li>"Estilo de Baile" se llena con datos de la tabla <code>dance_styles</code>.</li>
+                    <li>"Categoría de Evento" se llena con datos de la tabla <code>event_categories</code>.</li>
+                </ul>
+            </li>
+            <li><strong>API Endpoint:</strong> La búsqueda se realiza a través de un único endpoint que acepta parámetros de consulta.
+                <br>Ejemplo: <code>GET /api/events?dance_style_id=2&category_id=2&city=Palermo</code>
+            </li>
+            <li>La API debe ser capaz de manejar múltiples IDs para un mismo filtro (ej. `dance_style_id=1,2`).</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="nav-links">
+            <a href="index.html" class="nav-link web">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Web App - Perfil de Profesor</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- App Header -->
+    <div class="app-header web">
+        <div class="breadcrumb">
+            <a href="profesores.html">← Volver a Profesores</a>
+        </div>
+        <div class="app-title">👨‍🏫 Perfil de Profesor</div>
+        <div class="app-subtitle">
+            Alex D. - Instructor de Salsa y Bachata
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="detail-content">
+        <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-info">
+                <h2>Alex D.</h2>
+                <p class="profile-bio">Instructor apasionado con más de 10 años de experiencia en Salsa y Bachata. Mi objetivo es que mis estudiantes no solo aprendan a bailar, sino que también disfruten del proceso y se conecten con la música. (Datos de `instructor_profiles.bio` y `instructor_profiles.years_of_experience`)</p>
+                <div class="tags-container">
+                    <span class="tag">Salsa On1</span>
+                    <span class="tag">Bachata Sensual</span>
+                    <span class="tag">Kizomba</span>
+                </div>
+                <small>Estilos de baile gestionados desde la tabla `instructor_dance_styles`.</small>
+            </div>
+        </div>
+
+        <hr style="margin: 2rem 0;">
+
+        <h3>Estadísticas Clave</h3>
+        <div class="stats-grid">
+            <div class="stat-card teacher">
+                <span class="stat-icon">⭐</span>
+                <span class="stat-number">4.8</span>
+                <span class="stat-label">Rating (de `reviews`)</span>
+            </div>
+            <div class="stat-card teacher">
+                <span class="stat-icon">👥</span>
+                <span class="stat-number">156</span>
+                <span class="stat-label">Estudiantes (de `stats.total_students`)</span>
+            </div>
+            <div class="stat-card teacher">
+                <span class="stat-icon">📚</span>
+                <span class="stat-number">10</span>
+                <span class="stat-label">Años Exp. (de `years_of_experience`)</span>
+            </div>
+        </div>
+
+        <hr style="margin: 2rem 0;">
+
+        <h3>Próximas Clases</h3>
+        <ul class="recent-list">
+            <li class="recent-item">
+                <div class="recent-info">
+                    <div class="recent-title">Salsa Intermedio</div>
+                    <div class="recent-meta">Hoy 19:00 • Studio Dance Center</div>
+                </div>
+                <a href="evento-detalle.html" class="btn-secondary">Ver Clase</a>
+            </li>
+            <li class="recent-item">
+                <div class="recent-info">
+                    <div class="recent-title">Workshop Salsa en Línea</div>
+                    <div class="recent-meta">Mañana 15:00 • Studio Elite</div>
+                </div>
+                <a href="evento-detalle.html" class="btn-secondary">Ver Clase</a>
+            </li>
+        </ul>
+
+        <hr style="margin: 2rem 0;">
+
+        <h3>Reseñas de Estudiantes</h3>
+        <div class="review-section">
+            <h4>Deja tu reseña para Alex D.</h4>
+            <div class="rating-input">
+                <span>Tu calificación:</span>
+                <span class="star">☆</span><span class="star">☆</span><span class="star">☆</span><span class="star">☆</span><span class="star">☆</span>
+            </div>
+            <textarea placeholder="Comparte tu experiencia con Alex D. aquí..."></textarea>
+            <button class="btn-primary">Enviar Reseña</button>
+        </div>
+
+        <div class="comments-section">
+            <div class="comment">
+                <p><strong>@usuario1:</strong> ⭐⭐⭐⭐⭐</p>
+                <p>¡Alex es un profesor increíble! Sus clases son dinámicas y siempre aprendo algo nuevo.</p>
+            </div>
+            <div class="comment">
+                <p><strong>@usuario2:</strong> ⭐⭐⭐⭐</p>
+                <p>Muy buen instructor, explica con paciencia. A veces las clases están muy llenas.</p>
+            </div>
+        </div>
+
+        <hr style="margin: 2rem 0;">
+
+        <div class="action-buttons">
+            <a href="#" class="btn-primary">Contactar a Alex D.</a>
+        </div>
+    </div>
+
+    <!-- Technical Notes -->
+    <div class="tech-notes">
+        <h3>🔧 Consideraciones Técnicas - Perfil de Instructor</h3>
+        <ul>
+            <li><strong>Modelo de Datos:</strong> La vista se centra en <code>instructor_profiles</code>, que está vinculado a un <code>user</code>.</li>
+            <li>Se realizan joins con las siguientes tablas:
+                <ul>
+                    <li><code>instructor_dance_styles</code> y <code>dance_styles</code> para listar las especialidades del instructor.</li>
+                    <li><code>reviews</code> (donde <code>reviewable_type = 'instructor_profile'</code>) para calcular el rating promedio y mostrar las reseñas.</li>
+                    <li><code>class_instructors</code> y <code>class_schedules</code> para listar las "Próximas Clases".</li>
+                </ul>
+            </li>
+            <li><strong>Estadísticas:</strong> Datos como "Estudiantes Totales" o "Clases Impartidas" se almacenan en el campo JSONB <code>stats</code> de la tabla <code>instructor_profiles</code> para un acceso rápido.</li>
+            <li><strong>API Endpoint Principal:</strong> <code>GET /api/instructors/:id</code>. Este endpoint debe devolver un objeto JSON con el perfil del instructor y sus especialidades, reseñas y próximas clases.</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="nav-links">
+            <a href="index.html" class="nav-link web">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+</body>
+</html>

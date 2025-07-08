@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Web App - Detalle del Evento</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- App Header -->
+    <div class="app-header web">
+        <div class="breadcrumb">
+            <a href="index.html">← Volver al Dashboard</a>
+        </div>
+        <div class="app-title">📅 Detalle del Evento</div>
+        <div class="app-subtitle">
+            Clase de Bachata - Jueves 15
+        </div>
+    </div>
+
+    <!-- UX Note -->
+    <div class="ux-note">
+        <p><strong>Nota de UX:</strong> En la aplicación final, esta vista de detalle probablemente se abriría en un <strong>modal</strong> sobre la página principal para no perder el contexto de navegación. Para este mockup, se presenta como una página separada.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="detail-content">
+        <h2>Clase de Bachata Sensual</h2>
+        <div class="tags-container">
+            <span class="tag">Bachata Sensual</span>
+            <span class="tag">Intermedio</span>
+        </div>
+        <p><strong>Fecha:</strong> Jueves 15 de Agosto, 2025 | <strong>Hora:</strong> 19:00 - 21:00</p>
+        <p><strong>Lugar:</strong> <a href="lugar-perfil.html">Studio XYZ</a>, Calle Falsa 123</p>
+        <p><strong>Precio:</strong> $25</p>
+        <p><strong>Rating:</strong> ⭐ 4.8 (basado en 34 opiniones)</p>
+
+        <div class="detail-image">
+            <img src="https://via.placeholder.com/800x400.png?text=Foto+del+Evento" alt="Foto del Evento">
+        </div>
+
+        <h3>Descripción</h3>
+        <p>Sumérgete en los movimientos fluidos y la conexión de la bachata sensual. Esta clase está diseñada para niveles intermedios que buscan perfeccionar su técnica y aprender nuevas combinaciones.</p>
+
+        <h3>Instructores</h3>
+        <div class="contact-points-section">
+             <div class="contact-card">
+                <div class="contact-avatar">👨‍🏫</div>
+                <div class="contact-info">
+                    <strong><a href="profesor-perfil.html">Alex D.</a></strong>
+                    <small>Instructor Principal (via `event_instructors`)</small>
+                </div>
+            </div>
+             <div class="contact-card">
+                <div class="contact-avatar">👩‍🏫</div>
+                <div class="contact-info">
+                    <strong><a href="profesor-perfil.html">Maria F.</a></strong>
+                    <small>Instructora Asistente (via `event_instructors`)</small>
+                </div>
+            </div>
+        </div>
+
+        <h3>Acciones</h3>
+        <div class="action-buttons">
+            <a href="#" class="btn-primary">Comprar Ticket (Genera QR en tabla `tickets`)</a>
+            <a href="#" class="btn-secondary">👍 Me Interesa</a>
+            <a href="#" class="btn-secondary">❤️ Guardar en Favoritos</a>
+            <a href="#" class="btn-secondary">🔗 Compartir</a>
+        </div>
+
+        <hr style="margin: 2rem 0;">
+
+        <h3>Reseñas y Comentarios</h3>
+        <div class="review-section">
+            <h4>Deja tu reseña</h4>
+            <div class="rating-input">
+                <span>Tu calificación:</span>
+                <span class="star">☆</span><span class="star">☆</span><span class="star">☆</span><span class="star">☆</span><span class="star">☆</span>
+            </div>
+            <textarea placeholder="Escribe tu comentario aquí..."></textarea>
+            <button class="btn-primary">Enviar Comentario</button>
+        </div>
+
+        <div class="comments-section">
+            <div class="comment">
+                <p><strong>@usuario1:</strong> ⭐⭐⭐⭐⭐</p>
+                <p>¡La mejor clase de Bachata! El profesor es excelente.</p>
+            </div>
+            <div class="comment">
+                <p><strong>@usuario2:</strong> ⭐⭐⭐⭐</p>
+                <p>Muy buen ambiente, aunque el lugar estaba un poco lleno.</p>
+            </div>
+        </div>
+
+        <hr style="margin: 2rem 0;">
+
+        <h3>Venta de Tickets y Promotores</h3>
+        <p>Contacta a nuestros promotores autorizados para obtener tus tickets. La venta a través de un promotor queda registrada en la tabla `tickets` con el `seller_user_id`.</p>
+        <div class="contact-points-section">
+            <div class="contact-card">
+                <div class="contact-avatar">🎟️</div>
+                <div class="contact-info">
+                    <strong>Laura G. (Promotora)</strong>
+                    <small>Relacionada via `event_sellers`</small>
+                </div>
+                <a href="#" class="btn-contact">Contactar</a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-avatar">🎟️</div>
+                <div class="contact-info">
+                    <strong>Carlos R. (Promotor)</strong>
+                    <small>Cada promotor tiene un enlace único para trackear ventas.</small>
+                </div>
+                <a href="#" class="btn-contact">Contactar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Notes -->
+    <div class="tech-notes">
+        <h3>🔧 Consideraciones Técnicas - Detalle de Evento</h3>
+        <ul>
+            <li><strong>Modelo de Datos:</strong> Esta vista se alimenta principalmente de la tabla <code>events</code>.</li>
+            <li>Se realizan joins con las siguientes tablas para obtener toda la información:
+                <ul>
+                    <li><code>event_instructors</code> y <code>instructor_profiles</code> para listar los instructores.</li>
+                    <li><code>event_dance_styles</code> y <code>dance_styles</code> para los estilos de baile.</li>
+                    <li><code>event_sellers</code> y <code>users</code> para los puntos de contacto/promotores.</li>
+                    <li><code>reviews</code> para mostrar las reseñas (con <code>reviewable_type = 'event'</code>).</li>
+                </ul>
+            </li>
+            <li><strong>API Endpoint Principal:</strong> <code>GET /api/events/:id</code>. Este endpoint debe devolver un objeto JSON anidado con toda la información relacionada.</li>
+            <li><strong>Acción de Comprar Ticket:</strong> Realiza un <code>POST /api/tickets</code>, que crea una nueva entrada en la tabla <code>tickets</code>, asociando el <code>user_id</code>, <code>event_id</code>, y opcionalmente un <code>seller_user_id</code>. El backend genera el <code>qr_code_identifier</code> y lo devuelve.</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="nav-links">
+            <a href="index.html" class="nav-link web">🏠 Volver al Inicio</a>
+            <a href="eventos.html" class="nav-link web">📅 Ver todos los Eventos</a>
+        </div>
+    </div>
+
+</body>
+</html>

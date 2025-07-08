@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Web App - Mockup</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- App Header -->
+    <div class="app-header web">
+        <div class="breadcrumb">
+            <a href="../index.html">← Volver al selector</a>
+        </div>
+        <div class="app-title">🌐 Web App - Dashboard Principal</div>
+        <div class="app-subtitle">
+            Aplicación web para usuarios finales | Puerto 3000 | Target: Desktop users
+        </div>
+        <div style="margin-top: 1rem;">
+            <span class="complexity-indicator complexity-medium">Estado: Base operativa</span>
+            <span class="status-indicator">📋</span>
+        </div>
+    </div>
+
+    <!-- WIREFRAME LAYOUT SECTION -->
+    <div class="wireframe-container">
+        <div class="wireframe-title">📐 Layout Visual - Página Principal Web</div>
+        <div class="wireframe-layout layout-web-home">
+            <div class="wire-box header">
+                <h4>🧭 Header Navigation</h4>
+                <div class="wire-internal horizontal">
+                    <div class="wire-item">🕺 UDance</div>
+                    <div class="wire-item">Eventos</div>
+                    <div class="wire-item">Lugares</div>
+                    <div class="wire-item">Noticias</div>
+                    <div class="wire-item"><a href="profesores.html">Profesores</a></div>
+                    <div class="wire-item">🔍</div>
+                    <div class="wire-item">👤 Profile ▼</div>
+                </div>
+            </div>
+            
+            <div class="wire-box news">
+                <h4>📰 Noticias Destacadas</h4>
+                <div class="wire-internal">
+                    <a href="noticia-detalle.html" class="wire-item news-card clickable">
+                        📸 [Foto]<br/>
+                        <strong>Noticia 1</strong><br/>
+                        "Festival de Salsa 2025..."<br/>
+                        👤 Por @autor | 2 días<br/>
+                        💬 12 | 👍 45
+                    </a>
+                    <a href="noticia-detalle.html" class="wire-item news-card clickable">
+                        📸 [Foto]<br/>
+                        <strong>Noticia 2</strong><br/>
+                        "Nueva escuela de bachata..."<br/>
+                        👤 Por @autor2 | 1 día<br/>
+                        💬 8 | 👍 23
+                    </a>
+                    <a href="noticia-detalle.html" class="wire-item news-card clickable">
+                        📸 [Foto]<br/>
+                        <strong>Noticia 3</strong><br/>
+                        "Competencia nacional..."<br/>
+                        👤 Por @autor3 | 3 días<br/>
+                        💬 24 | 👍 67
+                    </a>
+                    <a href="noticias.html" class="wire-item small clickable">...ver todas las noticias</a>
+                </div>
+            </div>
+            
+            <div class="wire-box events">
+                <h4>📅 Eventos</h4>
+                <div class="wire-internal">
+                    <a href="evento-detalle.html" class="wire-item event-card clickable">
+                        📅 <strong>JUE 15</strong> | Clase de Bachata<br/>
+                        👨‍🏫 por <a href="profesor-perfil.html">Alex D.</a> | 📍 <a href="lugar-detalle.html">Studio XYZ</a><br/>
+                        💰 $25 | ⭐ 4.8
+                    </a>
+                    <a href="evento-detalle.html" class="wire-item event-card clickable">
+                        📅 <strong>VIE 16</strong> | Competencia Salsa<br/>
+                        👨‍🏫 por Varios | 📍 <a href="lugar-detalle.html">Plaza Central</a><br/>
+                        💰 Gratis | ⭐ 4.9
+                    </a>
+                    <a href="eventos.html" class="wire-item small clickable">...ver más eventos</a>
+                </div>
+            </div>
+            
+            <div class="wire-box map">
+                <h4>🗺️ "¿Dónde quieres ir a bailar?"</h4>
+                <div class="wire-internal">
+                    <div class="wire-item input">
+                        🔍 Buscar lugar, género de baile, zona...
+                    </div>
+                    <div class="wire-internal horizontal">
+                        <div class="wire-item filter-sidebar">
+                            <div style="font-weight: bold; margin-bottom: 0.2rem;">Filtros</div>
+                            <div class="wire-item small">📍 Cerca de mí</div>
+                            <div class="wire-item small">🕺 Salsa</div>
+                            <div class="wire-item small">💃 Bachata</div>
+                            <div class="wire-item small">🎭 Tango</div>
+                            <div class="wire-item small">💰 Precio</div>
+                            <div class="wire-item small">⭐ Rating</div>
+                        </div>
+                        <div class="wire-item results-list">
+                            <a href="lugar-detalle.html" class="wire-item place-card clickable">
+                                <strong>Studio XYZ</strong><br/>
+                                📍 Calle Falsa 123 | ⭐ 4.9<br/>
+                                🕺 Salsa, Bachata
+                            </a>
+                            <a href="lugar-detalle.html" class="wire-item place-card clickable">
+                                <strong>Club Latino</strong><br/>
+                                📍 Av. Siempre Viva 456 | ⭐ 4.6<br/>
+                                🕺 Salsa, Merengue
+                            </a>
+                            <a href="lugar-detalle.html" class="wire-item place-card clickable">
+                                <strong>Academia Tango</strong><br/>
+                                📍 Pasaje Gardel 789 | ⭐ 4.8<br/>
+                                🎭 Tango, Milonga
+                            </a>
+                        </div>
+                        <div class="wire-item map-area">
+                            🗺️ <strong>MAPA INTERACTIVO</strong><br/>
+                            📍📍📍 Markers de estudios<br/>
+                            📍📍 Lugares de eventos<br/>
+                            🎯 Tu ubicación
+                        </div>
+                    </div>
+                    <div class="wire-internal horizontal">
+                        <div class="wire-item small">[📋 Lista]</div>
+                        <div class="wire-item small">[🗺️ Mapa]</div>
+                        <div class="wire-item small">📍 Usar mi ubicación</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+            <strong>Desktop Layout:</strong> Noticias (izquierda) + Eventos (derecha, misma altura) | Mapa (abajo, ancho completo)<br/>
+            <strong>Responsive:</strong> En mobile se apilan verticalmente: Header → Noticias → Eventos → Mapa
+        </p>
+    </div>
+
+    <!-- COMPONENT DETAILS -->
+    <div class="component-details">
+        <h3>🔧 Detalles de Cada Componente</h3>
+        <div class="detail-grid">
+            <!-- Noticias Detail -->
+            <div class="detail-card">
+                <h4>📰 Sección Noticias</h4>
+                <div class="detail-visual">
+[Header con foto] 
+"Nuevo Festival de Salsa en..."
+Por: @autor | 2 días
+[Preview text...]
+💬 12 comentarios | 👍 45 likes
+</div>
+                <div class="detail-tech web">
+                    <strong>Implementación:</strong><br>
+                    • Cards con imagen hero<br>
+                    • Pagination infinite scroll<br>
+                    • Filtros por género de baile<br>
+                    • Sistema de reacciones<br>
+                    • API: /api/articles?page=1&category=salsa
+                </div>
+            </div>
+
+            <!-- Eventos Detail -->
+            <div class="detail-card">
+                <h4>📅 Lista Eventos (Vertical)</h4>
+                <div class="detail-visual">
+[📅 JUE 15] Clase de Bachata
+💰 $25 | 📍 Studio XYZ | ⭐ 4.8
+[🔗 Ver detalles] [❤️ Guardar]
+
+[📅 VIE 16] Competencia Salsa
+💰 Gratis | 📍 Plaza Central | ⭐ 4.9
+[🔗 Ver detalles] [❤️ Guardar]
+</div>
+                <div class="detail-tech web">
+                    <strong>Implementación:</strong><br>
+                    • Cards verticales compactas<br>
+                    • Filtros sticky (fecha, precio, género)<br>
+                    • Sistema de favoritos<br>
+                    • Rating stars<br>
+                    • API: /api/events?location=current&date=upcoming
+                </div>
+            </div>
+
+            <!-- Mapa Detail -->
+            <div class="detail-card">
+                <h4>🗺️ "¿Dónde quieres ir a bailar?"</h4>
+                <div class="detail-visual">
+[🔍 Buscar lugar o género...]
+┌─────────────────┐
+│  🗺️ Mapa        │
+│  📍📍📍       │
+│  Markers de     │
+│  estudios       │
+└─────────────────┘
+[Lista] [Mapa] | 📍 Usar mi ubicación
+</div>
+                <div class="detail-tech web">
+                    <strong>Implementación:</strong><br>
+                    • Google Maps integration<br>
+                    • Geolocalización del usuario<br>
+                    • Clustering de markers<br>
+                    • Search autocomplete<br>
+                    • Toggle vista Lista/Mapa<br>
+                    • API: /api/places/nearby?lat=X&lng=Y
+                </div>
+            </div>
+
+            <!-- Header Detail -->
+            <div class="detail-card">
+                <h4>🧭 Header Navigation</h4>
+                <div class="detail-visual">
+[🕺 UDance] [Eventos] [Lugares] [Noticias] [Comunidad] [🔍] [👤 Profile ▼]
+</div>
+                <div class="detail-tech web">
+                    <strong>Implementación:</strong><br>
+                    • Sticky navigation<br>
+                    • Search bar expandible<br>
+                    • User dropdown menu<br>
+                    • Active page highlighting<br>
+                    • Responsive collapse en mobile
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Sections Grid -->
+    <div class="section-grid">
+        <!-- Eventos Section -->
+        <a href="eventos.html" class="section-card web">
+            <div class="status-indicator">❌</div>
+            <div class="section-title">📅 Eventos de Baile</div>
+            <div class="section-description">
+                Explorar y buscar eventos de baile, talleres y competencias. 
+                Sistema de filtros avanzados y vista de calendario.
+            </div>
+            <div class="section-details">
+                <strong>Funcionalidades:</strong>
+                <ul>
+                    <li>• Lista con filtros (fecha, tipo, ciudad)</li>
+                    <li>• Vista de calendario mensual</li>
+                    <li>• Detalles completos del evento</li>
+                    <li>• Sistema de favoritos</li>
+                    <li>• Compartir eventos</li>
+                </ul>
+                <strong>Complejidad:</strong> <span class="complexity-indicator complexity-complex">Alta</span><br>
+                <strong>API Endpoints:</strong> /api/events, /api/events/[id]
+            </div>
+        </a>
+
+        <!-- Noticias Section -->
+        <a href="noticias.html" class="section-card web">
+            <div class="status-indicator">❌</div>
+            <div class="section-title">📰 Noticias y Artículos</div>
+            <div class="section-description">
+                Feed de noticias sobre la comunidad de baile, entrevistas, 
+                reseñas y contenido editorial.
+            </div>
+            <div class="section-details">
+                <strong>Funcionalidades:</strong>
+                <ul>
+                    <li>• Feed cronológico de artículos</li>
+                    <li>• Categorías por género de baile</li>
+                    <li>• Sistema de comentarios</li>
+                    <li>• Artículos destacados</li>
+                    <li>• Búsqueda de contenido</li>
+                </ul>
+                <strong>Complejidad:</strong> <span class="complexity-indicator complexity-medium">Media</span><br>
+                <strong>API Endpoints:</strong> /api/articles, /api/comments
+            </div>
+        </a>
+
+        <!-- Lugares Section -->
+        <a href="lugares.html" class="section-card web">
+            <div class="status-indicator">❌</div>
+            <div class="section-title">🏢 Lugares de Baile</div>
+            <div class="section-description">
+                Directorio de estudios, escuelas y espacios de baile. 
+                Mapa interactivo y perfiles detallados.
+            </div>
+            <div class="section-details">
+                <strong>Funcionalidades:</strong>
+                <ul>
+                    <li>• Mapa interactivo con geolocalización</li>
+                    <li>• Lista con filtros por servicios</li>
+                    <li>• Perfiles de lugares con fotos</li>
+                    <li>• Horarios y precios</li>
+                    <li>• Reseñas y valoraciones</li>
+                </ul>
+                <strong>Complejidad:</strong> <span class="complexity-indicator complexity-complex">Alta</span><br>
+                <strong>Componentes Compartidos:</strong> Map Component, Rating System
+            </div>
+        </a>
+
+        <!-- Profesores Section -->
+        <a href="profesores.html" class="section-card web">
+            <div class="status-indicator">❌</div>
+            <div class="section-title">👨‍🏫 Profesores y Artistas</div>
+            <div class="section-description">
+                Perfiles de instructores, coreógrafos y artistas de la comunidad. 
+                Portfolio y agenda de clases.
+            </div>
+            <div class="section-details">
+                <strong>Funcionalidades:</strong>
+                <ul>
+                    <li>• Directorio de profesores</li>
+                    <li>• Perfiles con portfolio</li>
+                    <li>• Agenda de clases disponibles</li>
+                    <li>• Sistema de contacto</li>
+                    <li>• Especialidades por género</li>
+                </ul>
+                <strong>Complejidad:</strong> <span class="complexity-indicator complexity-medium">Media</span><br>
+                <strong>Integración:</strong> Sistema de usuarios, Google OAuth
+            </div>
+        </a>
+
+        <!-- Mi Perfil Section -->
+        <a href="perfil.html" class="section-card web">
+            <div class="status-indicator">🔄</div>
+            <div class="section-title">👤 Mi Perfil</div>
+            <div class="section-description">
+                Gestión del perfil personal, preferencias, favoritos 
+                y configuración de notificaciones.
+            </div>
+            <div class="section-details">
+                <strong>Funcionalidades:</strong>
+                <ul>
+                    <li>• Información personal editable</li>
+                    <li>• Eventos guardados como favoritos</li>
+                    <li>• Historial de participación</li>
+                    <li>• Configuración de privacidad</li>
+                    <li>• Notificaciones personalizadas</li>
+                </ul>
+                <strong>Complejidad:</strong> <span class="complexity-indicator complexity-simple">Baja</span><br>
+                <strong>Estado:</strong> Google OAuth ya integrado ✅
+            </div>
+        </a>
+
+        <!-- Comunidad Section -->
+        <a href="comunidad.html" class="section-card web">
+            <div class="status-indicator">❌</div>
+            <div class="section-title">🤝 Comunidad</div>
+            <div class="section-description">
+                Foros de discusión, grupos por intereses y networking 
+                entre miembros de la comunidad.
+            </div>
+            <div class="section-details">
+                <strong>Funcionalidades:</strong>
+                <ul>
+                    <li>• Foros por géneros de baile</li>
+                    <li>• Grupos de práctica locales</li>
+                    <li>• Mensajería entre usuarios</li>
+                    <li>• Eventos comunitarios</li>
+                    <li>• Sistema de moderación</li>
+                </ul>
+                <strong>Complejidad:</strong> <span class="complexity-indicator complexity-complex">Alta</span><br>
+                <strong>Nota:</strong> Feature para fases posteriores
+            </div>
+        </a>
+    </div>
+
+    <!-- User Flow Diagram -->
+    <div class="flow-diagram">
+        <h3>🔄 Flujo Principal de Usuario - Web App</h3>
+        <div style="margin: 1rem 0;">
+            <span class="flow-step">Landing</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Explorar Eventos</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Ver Detalles</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Guardar Favorito</span>
+        </div>
+        <div style="margin: 1rem 0;">
+            <span class="flow-step">Buscar Lugares</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Mapa/Lista</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Perfil Lugar</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Ver Eventos</span>
+        </div>
+        <div style="margin: 1rem 0;">
+            <span class="flow-step">Leer Noticias</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Artículo Completo</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Comentar</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Compartir</span>
+        </div>
+    </div>
+
+    <!-- Technical Notes -->
+    <div class="tech-notes">
+        <h3>🔧 Consideraciones Técnicas - Web App</h3>
+        <ul>
+            <li><strong>Layout:</strong> Desktop-first con navegación horizontal, sidebar filters</li>
+            <li><strong>Performance:</strong> Server-side rendering para SEO, image optimization</li>
+            <li><strong>SEO:</strong> Meta tags dinámicos, structured data para eventos</li>
+            <li><strong>Accesibilidad:</strong> ARIA labels, keyboard navigation, screen reader support</li>
+            <li><strong>Shared Components:</strong> Header, Footer, EventCard, PlaceCard, ArticleCard</li>
+            <li><strong>Unique Components:</strong> Calendar View, Map Integration, Advanced Filters</li>
+            <li><strong>Data Loading:</strong> SSR para landing, CSR para interacciones, ISR para contenido</li>
+            <li><strong>Authentication:</strong> Reutiliza el sistema OAuth ya configurado</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="nav-links">
+            <a href="../index.html" class="nav-link">🏠 Inicio</a>
+            <a href="../admin/index.html" class="nav-link admin">⚙️ Ver Admin App</a>
+            <a href="../mobile/index.html" class="nav-link mobile">📱 Ver Mobile App</a>
+            <a href="eventos.html" class="nav-link web">📅 Explorar Eventos</a>
+            <a href="noticias.html" class="nav-link web">📰 Ver Noticias</a>
+        </div>
+    </div>
+
+    <!-- 
+    DEVELOPMENT NOTES:
+    - Web App enfocada en descubrimiento de contenido y experiencia de lectura
+    - Desktop-first design con navegación horizontal y filtros laterales
+    - Prioridad en SEO y performance para contenido público
+    - Integración con mapas será compleja, considerar Google Maps vs Mapbox
+    - Sistema de favoritos requiere autenticación, sincronizar con mobile
+    - Comentarios necesitan moderación, considerar integración con admin app
+    -->
+</body>
+</html> 

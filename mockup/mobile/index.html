@@ -1,0 +1,169 @@
+b<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Mobile - Mockup</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- App Header -->
+    <div class="app-header mobile">
+        <div class="breadcrumb">
+            <a href="../index.html">← Volver al selector</a>
+        </div>
+        <div class="app-title">📱 Mobile App - Home (Revisado)</div>
+        <div class="app-subtitle">
+            PWA para usuarios móviles | Puerto 5000 | Target: Mobile users
+        </div>
+        <div style="margin-top: 1rem;">
+            <span class="complexity-indicator complexity-high">Estado: Mockup Actualizado</span>
+            <span class="status-indicator">✅</span>
+        </div>
+    </div>
+
+    <!-- WIREFRAME LAYOUT SECTION -->
+    <div class="wireframe-container">
+        <div class="wireframe-title">📐 Layout Visual - Mobile Home (Revisado)</div>
+        <div class="wireframe-layout layout-mobile-home-revised">
+            <div class="wire-box mobile-header">
+                <h4>🔝 Header</h4>
+                <div class="wire-internal horizontal">
+                    <div>📍 Palermo, CABA</div>
+                    <div class="wire-item flex-grow">🔍 Buscar...</div>
+                    <div class="wire-item">🔔</div>
+                </div>
+            </div>
+
+            <div class="wire-box mobile-filters">
+                <h4>⚡ Filtros Rápidos</h4>
+                <div class="wire-internal horizontal">
+                    <div class="wire-item filter-chip active">🎉 Hoy</div>
+                    <div class="wire-item filter-chip">📍 Cerca</div>
+                    <div class="wire-item filter-chip">🕺 Salsa (from `dance_styles`)</div>
+                    <div class="wire-item filter-chip">💃 Bachata (from `dance_styles`)</div>
+                    <div class="wire-item filter-chip">...Más</div>
+                </div>
+            </div>
+            
+            <div class="wire-box mobile-content">
+                <h4>📜 Content Feed (Tarjetas Enriquecidas)</h4>
+                <div class="wire-internal">
+                    <div class="wire-item event-card-mobile-rich">
+                        <div class="card-img">📸</div>
+                        <div class="card-info">
+                            <strong>Clase de Bachata</strong><br/>
+                            <small>👨‍🏫 por <a href="profesor-perfil.html">Alex D.</a> | 📍 <a href="lugar-detalle.html">Studio XYZ</a></small><br/>
+                            <small>👍 A 5 amigos les interesa</small>
+                        </div>
+                        <div class="card-actions">
+                            <div class="wire-item small-btn">❤️</div>
+                            <div class="wire-item small-btn primary">Comprar</div>
+                        </div>
+                    </div>
+                    <div class="wire-item event-card-mobile-rich">
+                        <div class="card-img">📸</div>
+                        <div class="card-info">
+                            <strong>Competencia de Salsa</strong><br/>
+                            <small>🏆 Anual | 📍 Plaza Central</small><br/>
+                            <small>👍 A 12 amigos les interesa</small>
+                        </div>
+                        <div class="card-actions">
+                            <div class="wire-item small-btn">❤️</div>
+                            <div class="wire-item small-btn primary">Ver</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wire-box mobile-bottom-nav">
+                <h4>👇 Bottom Navigation</h4>
+                <div class="wire-internal horizontal">
+                    <div class="wire-item nav-item active">🏠<br/>Explorar</div>
+                    <div class="wire-item nav-item">🗺️<br/>Mapa</div>
+                    <div class="wire-item nav-item">➕<br/>Crear</div>
+                    <div class="wire-item nav-item">❤️<br/>Social</div>
+                    <div class="wire-item nav-item">👤<br/>Perfil</div>
+                </div>
+            </div>
+        </div>
+        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+            <strong>Mobile Layout Revisado:</strong> Header + Filtros Rápidos + Feed de Tarjetas + Bottom Nav.<br/>
+            <strong>Prioridad:</strong> Acciones rápidas, información social y contexto local.
+        </p>
+    </div>
+
+    <!-- COMPONENT DETAILS -->
+    <div class="component-details">
+        <h3>🔧 Detalles de Componentes Revisados</h3>
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h4>⚡ Filtros Rápidos</h4>
+                <div class="detail-visual">
+[🎉 Hoy] [📍 Cerca de mí] [🕺 Salsa]
+</div>
+                <div class="detail-tech mobile">
+                    <strong>Implementación:</strong><br>
+                    <strong>Implementación:</strong><br>
+                    • Barra de chips scrollable.<br>
+                    • Los filtros de baile se cargan desde la tabla <code>dance_styles</code>.<br>
+                    • El filtro "Más" abre un modal con todas las opciones de <code>dance_styles</code> y <code>event_categories</code>.<br>
+                    • API: <code>GET /api/feed?dance_style_id=1,2</code>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h4>📜 Tarjeta de Evento Enriquecida</h4>
+                <div class="detail-visual">
+[FOTO] [Título del Evento]
+       [Instructor | Lugar]
+       [👍 A X amigos les interesa]
+       [❤️] [Comprar]
+</div>
+                <div class="detail-tech mobile">
+                    <strong>Implementación:</strong><br>
+                    • Componente con imagen, info y acciones<br>
+                    • Botones de acción directa (interés, compra).<br>
+                    • La "Prueba Social" (`A X amigos les interesa`) requiere una consulta que cruza <code>user_connections</code> con <code>favorites</code> o <code>bookings</code>.<br>
+                    • API: <code>GET /api/feed?location=current</code> que devuelve eventos enriquecidos con datos sociales.
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h4>👇 Bottom Navigation Optimizada</h4>
+                <div class="detail-visual">
+[🏠 Explorar] [🗺️ Mapa] [➕ Crear] [❤️ Social] [👤 Perfil]
+</div>
+                <div class="detail-tech mobile">
+                    <strong>Implementación:</strong><br>
+                    • 5 tabs para acciones clave<br>
+                    • "Explorar": Feed principal<br>
+                    • "Mapa": Vista de geolocalización<br>
+                    • "Crear": (Futuro) para subir eventos<br>
+                    • "Social": Feed de actividad de amigos (basado en la tabla <code>user_connections</code> y sus acciones).<br>
+                    • "Perfil": Tu perfil y configuración
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Notes -->
+    <div class="tech-notes">
+        <h3>🔧 Consideraciones Técnicas - Mobile App (Revisado)</h3>
+        <ul>
+            <li><strong>Modelo de Datos del Feed:</strong> El feed principal es una consulta compleja sobre <code>events</code>, enriquecida con datos de <code>studios</code>, <code>event_instructors</code>, y, crucialmente, <code>user_connections</code> para la prueba social.</li>
+            <li><strong>Prueba Social:</strong> La lógica para "A X amigos les interesa" implica: 1) Obtener los amigos del usuario actual desde <code>user_connections</code>. 2) Contar cuántos de esos amigos han marcado el evento como favorito (en <code>favorites</code>) o han reservado (en <code>bookings</code>).</li>
+            <li><strong>API del Feed:</strong> El endpoint <code>/api/feed</code> debe estar altamente optimizado, aceptando parámetros de geolocalización, <code>dance_style_id</code>, y <code>event_category_id</code> para devolver resultados relevantes rápidamente.</li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="nav-links">
+            <a href="../index.html" class="nav-link">🏠 Inicio</a>
+            <a href="../web/index.html" class="nav-link web">🌐 Ver Web App</a>
+            <a href="../admin/index.html" class="nav-link admin">⚙️ Ver Admin App</a>
+        </div>
+    </div>
+</body>
+</html>

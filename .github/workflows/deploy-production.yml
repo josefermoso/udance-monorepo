@@ -33,6 +33,13 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_PRODUCTION }}
           working-directory: apps/web
           scope: production
-          alias-domains: ${{ secrets.VERCEL_PROD_ALIAS }}
+          alias-domains: ${{ secrets.VERCEL_PRODUCTION_ALIAS }}
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} 
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Smoke Test
+        run: |
+          echo "Waiting for deployment to be ready..."
+          sleep 30
+          curl -f ${{ secrets.VERCEL_PRODUCTION_ALIAS }}/api/healthz || exit 1
+          echo "✅ Smoke test passed - deployment is healthy" 

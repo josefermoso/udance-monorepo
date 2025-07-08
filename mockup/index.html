@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance - Mockup System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Header -->
+    <div class="text-center">
+        <h1>🕺 UDance - Sistema de Mockups Interactivos</h1>
+        <p>Explorar la arquitectura de información de las 3 aplicaciones de la plataforma de baile</p>
+    </div>
+
+    <!-- Project Status Overview -->
+    <div class="tech-notes">
+        <h3>📊 Estado Actual del Proyecto</h3>
+        <ul>
+            <li><strong>Foundation Infrastructure:</strong> ✅ 100% Complete</li>
+            <li><strong>Multi-App Monorepo:</strong> ✅ Operacional (Web:3000, Admin:4000, PWA:5000)</li>
+            <li><strong>Authentication:</strong> ✅ Google OAuth integrado</li>
+            <li><strong>Database:</strong> ✅ Supabase configurado</li>
+            <li><strong>CI/CD:</strong> ✅ GitHub Actions multi-app</li>
+            <li><strong>Testing:</strong> ✅ Jest + Testing Library</li>
+            <li><strong>Styling:</strong> ✅ Tailwind CSS 4.x + DaisyUI v5 (admin)</li>
+            <li><strong>Next Phase:</strong> 🔄 Design System & Component Library (3-4 semanas)</li>
+        </ul>
+    </div>
+
+    <!-- App Selector -->
+    <div class="app-selector">
+        <!-- Web App -->
+        <a href="web/index.html" class="app-option web">
+            <div class="app-icon">🌐</div>
+            <div class="app-name">Web App</div>
+            <div class="app-description">
+                Aplicación web para usuarios finales. Búsqueda de eventos, noticias, 
+                lugares de baile y perfiles de profesores.
+            </div>
+            <div class="app-stats">
+                <strong>Target:</strong> Desktop users<br>
+                <strong>Puerto:</strong> 3000<br>
+                <strong>Estado:</strong> 📋 Base lista, features en desarrollo<br>
+                <strong>Pantallas:</strong> 5+ principales
+            </div>
+        </a>
+
+        <!-- Admin App -->
+        <a href="admin/index.html" class="app-option admin">
+            <div class="app-icon">⚙️</div>
+            <div class="app-name">Admin App</div>
+            <div class="app-description">
+                Panel administrativo para gestión de contenido, usuarios, eventos 
+                y moderación de la plataforma.
+            </div>
+            <div class="app-stats">
+                <strong>Target:</strong> Administradores<br>
+                <strong>Puerto:</strong> 4000<br>
+                <strong>Estado:</strong> ✅ DaisyUI v5 integrado<br>
+                <strong>Pantallas:</strong> 5+ de gestión
+            </div>
+        </a>
+
+        <!-- Mobile/PWA -->
+        <a href="mobile/index.html" class="app-option mobile">
+            <div class="app-icon">📱</div>
+            <div class="app-name">Mobile PWA</div>
+            <div class="app-description">
+                Aplicación móvil progresiva optimizada para touch, geolocalización 
+                y uso offline.
+            </div>
+            <div class="app-stats">
+                <strong>Target:</strong> Mobile users<br>
+                <strong>Puerto:</strong> 5000<br>
+                <strong>Estado:</strong> 📋 Base lista, PWA features pendientes<br>
+                <strong>Pantallas:</strong> 5+ mobile-optimized
+            </div>
+        </a>
+    </div>
+
+    <!-- Technology Stack -->
+    <div class="flow-diagram">
+        <h3>🔧 Stack Tecnológico</h3>
+        <div style="margin: 1rem 0;">
+            <span class="flow-step">Next.js 15</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Tailwind CSS 4.x</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Supabase</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">TypeScript</span>
+        </div>
+        <div style="margin: 1rem 0;">
+            <span class="flow-step">Monorepo</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Shared Packages</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Component Libraries</span>
+        </div>
+        <div style="margin: 1rem 0;">
+            <span class="flow-step">GitHub Actions</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Vercel Deployment</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Multi-Environment</span>
+        </div>
+    </div>
+
+    <!-- Cross-App Features -->
+    <div class="section-grid">
+        <div class="section-card" style="border-color: var(--neutral-color);">
+            <div class="section-title">🔗 Features Compartidas</div>
+            <div class="section-description">
+                Funcionalidades que se reutilizan entre aplicaciones
+            </div>
+            <div class="section-details">
+                <ul>
+                    <li>• Autenticación con Google OAuth</li>
+                    <li>• Sistema de notificaciones</li>
+                    <li>• Gestión de usuarios</li>
+                    <li>• Base de datos compartida</li>
+                    <li>• Components UI reutilizables</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-card" style="border-color: var(--neutral-color);">
+            <div class="section-title">🎯 Objetivos del Mockup</div>
+            <div class="section-description">
+                Para qué usamos este sistema de documentación
+            </div>
+            <div class="section-details">
+                <ul>
+                    <li>• Visualizar flujos de usuario</li>
+                    <li>• Planificar arquitectura de información</li>
+                    <li>• Identificar componentes reutilizables</li>
+                    <li>• Validar UX por tipo de aplicación</li>
+                    <li>• Guiar desarrollo iterativo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-card" style="border-color: var(--neutral-color);">
+            <div class="section-title">📈 Próximos Hitos</div>
+            <div class="section-description">
+                Roadmap de desarrollo planificado
+            </div>
+            <div class="section-details">
+                <ul>
+                    <li>• Semana 1-2: Component Library base</li>
+                    <li>• Semana 3-4: Features core por app</li>
+                    <li>• Semana 5-6: Integraciones avanzadas</li>
+                    <li>• Semana 7-8: PWA features y optimización</li>
+                    <li>• Semana 9+: Features premium y scaling</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Helper -->
+    <div class="navigation">
+        <h3>📖 Cómo usar este sistema</h3>
+        <p style="margin-bottom: 1rem;">
+            Haz clic en cualquier aplicación arriba para explorar sus pantallas. 
+            Cada pantalla muestra la funcionalidad esperada, complejidad, y conexiones con otras pantallas.
+            Usa esto para planificar el desarrollo y identificar oportunidades de reutilización.
+        </p>
+        <div class="nav-links">
+            <span class="nav-link" style="background: var(--bg-medium); color: var(--text-secondary);">
+                💡 Tip: Cada color representa una app distinta
+            </span>
+            <span class="nav-link" style="background: var(--bg-medium); color: var(--text-secondary);">
+                🎨 Los componentes compartidos se marcan especialmente
+            </span>
+            <span class="nav-link" style="background: var(--bg-medium); color: var(--text-secondary);">
+                🔄 El sistema está diseñado para evolucionar con el proyecto
+            </span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+            UDance Mockup System | Generado para planificación de desarrollo | 
+            <strong>Estado Foundation:</strong> 100% Complete
+        </p>
+    </div>
+
+    <!-- 
+    DEVELOPMENT NOTES:
+    - Este archivo sirve como entry point del sistema de mockups
+    - Cada app tiene su propia carpeta con index.html y pantallas específicas
+    - El CSS compartido maneja color coding y responsive design
+    - Los status indicators reflejan el estado real del proyecto según Memory Bank
+    - Designed para ser usado por LLMs para continuar el desarrollo iterativo
+    -->
+</body>
+</html> 

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDance Web App - Profesores</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- App Header -->
+    <div class="app-header web">
+        <div class="breadcrumb">
+            <a href="index.html">← Volver al Dashboard</a>
+        </div>
+        <div class="app-title">👨‍🏫 Profesores y Artistas</div>
+        <div class="app-subtitle">
+            Directorio de instructores, coreógrafos y artistas de la comunidad.
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content-grid">
+        <div class="filter-sidebar">
+            <h3>Filtros</h3>
+            <div class="filter-group">
+                <h4>Estilo de Baile</h4>
+                <label><input type="checkbox"> Salsa</label>
+                <label><input type="checkbox"> Bachata</label>
+                <label><input type="checkbox"> Tango</label>
+                <label><input type="checkbox"> Kizomba</label>
+                <label><input type="checkbox"> Hip Hop</label>
+            </div>
+            <div class="filter-group">
+                <h4>Nivel</h4>
+                <label><input type="checkbox"> Principiante</label>
+                <label><input type="checkbox"> Intermedio</label>
+                <label><input type="checkbox"> Avanzado</label>
+            </div>
+            <div class="filter-group">
+                <h4>Ubicación</h4>
+                <input type="text" placeholder="Ej: Palermo, CABA">
+            </div>
+            <button class="btn-primary">Aplicar Filtros</button>
+        </div>
+
+        <div class="main-list-area">
+            <h2>Directorio de Profesores</h2>
+            <p>Aquí se mostrará una lista completa y paginada de todos los profesores, con un sistema de filtros avanzados por especialidad, ubicación, etc.</p>
+
+            <!-- Placeholder for teacher list -->
+            <div class="contact-points-section" style="margin-top: 2rem;">
+                <div class="contact-card">
+                    <div class="contact-avatar">👤</div>
+                    <div class="contact-info">
+                        <strong>Alex D.</strong>
+                        <small>Bachata, Salsa</small>
+                        <div class="tags-container">
+                            <span class="tag">#Bachata</span>
+                            <span class="tag">#Salsa</span>
+                            <span class="tag">#Intermedio</span>
+                        </div>
+                    </div>
+                    <a href="profesor-perfil.html" class="btn-contact">Ver Perfil</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-avatar">👤</div>
+                    <div class="contact-info">
+                        <strong>Maria G.</strong>
+                        <small>Tango, Milonga</small>
+                        <div class="tags-container">
+                            <span class="tag">#Tango</span>
+                            <span class="tag">#Milonga</span>
+                            <span class="tag">#Principiante</span>
+                        </div>
+                    </div>
+                    <a href="profesor-perfil.html" class="btn-contact">Ver Perfil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="nav-links">
+            <a href="index.html" class="nav-link web">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+</body>
+</html>
