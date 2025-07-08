@@ -2,6 +2,8 @@ import { getFeaturedNews } from '@udance/domain/news';
 import { AuthSection } from './components/AuthSection';
 import type { News } from '@udance/domain/news';
 
+export const dynamic = 'force-dynamic';
+
 // Simple NewsCard component inline
 function NewsCard({
   article,
@@ -36,8 +38,14 @@ function NewsCard({
 
 // This is now a Server Component using Next.js 15 best practices
 export default async function HomePage() {
-  // Fetch news data on the server
-  const featuredNews = await getFeaturedNews(3);
+  // Fetch news data on the server with error handling
+  let featuredNews: News[] = [];
+  try {
+    featuredNews = await getFeaturedNews(3);
+  } catch (error) {
+    console.warn('Failed to fetch featured news:', error);
+    // Continue with empty array if database/table doesn't exist
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
