@@ -35,10 +35,16 @@ export function AuthSection() {
 
   const signInWithGoogle = async () => {
     const supabase = createClient();
+
+    // Use environment variable for redirect URL, fallback to current origin
+    const redirectTo =
+      process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL ||
+      `${window.location.origin}/auth/callback`;
+
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo,
       },
     });
   };
