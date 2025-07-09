@@ -15,15 +15,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'UDance - Dance Platform',
   description: 'Your ultimate dance platform experience',
-  manifest: '/manifest.json',
-  icons: {
-    apple: '/next.svg',
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'uDance',
-  },
 };
 
 export const viewport: Viewport = {
@@ -31,7 +22,6 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#7c3aed',
 };
 
 export default function RootLayout({
@@ -41,13 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="uDance" />
-        <link rel="apple-touch-icon" href="/next.svg" />
-      </head>
+      <head></head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

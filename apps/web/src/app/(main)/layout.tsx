@@ -25,24 +25,15 @@ export default function MainLayout({
               >
                 News
               </Link>
-              <Link
-                href="/events"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
-              >
+              <span className="text-gray-400 font-medium cursor-not-allowed">
                 Events
-              </Link>
-              <Link
-                href="/studios"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
-              >
+              </span>
+              <span className="text-gray-400 font-medium cursor-not-allowed">
                 Studios
-              </Link>
-              <Link
-                href="/instructors"
-                className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
-              >
+              </span>
+              <span className="text-gray-400 font-medium cursor-not-allowed">
                 Instructors
-              </Link>
+              </span>
             </div>
           </nav>
         </div>

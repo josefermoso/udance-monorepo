@@ -104,38 +104,23 @@ export default async function HomePage() {
               <p className="text-sm text-gray-600 mt-2">Latest updates</p>
             </Link>
 
-            <Link
-              href="/events"
-              className="bg-purple-50 hover:bg-purple-100 p-6 rounded-lg text-center transition-colors group"
-            >
-              <div className="text-purple-600 text-3xl mb-3">🎉</div>
-              <h3 className="font-semibold text-gray-800 group-hover:text-purple-600">
-                Events
-              </h3>
-              <p className="text-sm text-gray-600 mt-2">Upcoming events</p>
-            </Link>
+            <div className="bg-gray-50 p-6 rounded-lg text-center cursor-not-allowed opacity-60">
+              <div className="text-gray-400 text-3xl mb-3">🎉</div>
+              <h3 className="font-semibold text-gray-500">Events</h3>
+              <p className="text-sm text-gray-400 mt-2">Coming soon</p>
+            </div>
 
-            <Link
-              href="/studios"
-              className="bg-green-50 hover:bg-green-100 p-6 rounded-lg text-center transition-colors group"
-            >
-              <div className="text-green-600 text-3xl mb-3">🏢</div>
-              <h3 className="font-semibold text-gray-800 group-hover:text-green-600">
-                Studios
-              </h3>
-              <p className="text-sm text-gray-600 mt-2">Find studios</p>
-            </Link>
+            <div className="bg-gray-50 p-6 rounded-lg text-center cursor-not-allowed opacity-60">
+              <div className="text-gray-400 text-3xl mb-3">🏢</div>
+              <h3 className="font-semibold text-gray-500">Studios</h3>
+              <p className="text-sm text-gray-400 mt-2">Coming soon</p>
+            </div>
 
-            <Link
-              href="/instructors"
-              className="bg-orange-50 hover:bg-orange-100 p-6 rounded-lg text-center transition-colors group"
-            >
-              <div className="text-orange-600 text-3xl mb-3">👨‍🏫</div>
-              <h3 className="font-semibold text-gray-800 group-hover:text-orange-600">
-                Instructors
-              </h3>
-              <p className="text-sm text-gray-600 mt-2">Meet teachers</p>
-            </Link>
+            <div className="bg-gray-50 p-6 rounded-lg text-center cursor-not-allowed opacity-60">
+              <div className="text-gray-400 text-3xl mb-3">👨‍🏫</div>
+              <h3 className="font-semibold text-gray-500">Instructors</h3>
+              <p className="text-sm text-gray-400 mt-2">Coming soon</p>
+            </div>
           </div>
         </section>
       </div>
