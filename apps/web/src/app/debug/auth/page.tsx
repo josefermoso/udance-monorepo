@@ -1,5 +1,6 @@
 // @ts-nocheck
 // Added NEXTAUTH_URL to Preview environment - should fix staging OAuth
+// Force dev redeploy with GOOGLE_CLIENT_ID - should fix dev OAuth redirect
 import { createServerClient } from '@udance/shared';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
