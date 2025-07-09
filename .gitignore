@@ -81,3 +81,5 @@ scripts/setup-vercel-env*.sh
 .Trashes
 ehthumbs.db
 Thumbs.db
+.env*.local
+memory-bank/ci-cd-env.md
