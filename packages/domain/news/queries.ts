@@ -23,3 +23,9 @@ export async function getFeaturedNews(limit = 3) {
 export async function getAllNews(limit = 10) {
   return db.select().from(news).orderBy(desc(news.createdAt)).limit(limit);
 }
+
+export async function getNewsById(id: string) {
+  const result = await db.select().from(news).where(eq(news.id, id)).limit(1);
+
+  return result[0] || null;
+}
