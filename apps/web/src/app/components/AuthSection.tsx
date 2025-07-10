@@ -11,12 +11,13 @@ export function AuthSection() {
   useEffect(() => {
     const supabase = createClient();
 
-    // Get initial session
+    // Get initial session - use getUser to force cookie read
     const getInitialSession = async () => {
       const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+      setUser(user ?? null);
       setLoading(false);
     };
 

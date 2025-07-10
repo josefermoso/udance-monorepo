@@ -30,7 +30,12 @@ function AuthSuccessInner() {
           console.log('User authenticated, redirecting to:', nextUrl);
           // Small delay to ensure session is fully established
           setTimeout(() => {
-            router.push(nextUrl);
+            if (nextUrl === window.location.pathname) {
+              // Force reload when redirecting to same page to refresh Supabase state
+              window.location.href = nextUrl;
+            } else {
+              router.push(nextUrl);
+            }
           }, 500);
         } else {
           console.log('No user found, redirecting to login');
