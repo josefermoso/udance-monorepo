@@ -37,6 +37,16 @@
 - **Server State**: Next.js built-in data fetching
 - **Form State**: React built-in useState for forms
 
+### CI/CD Deployment Pattern
+- **Single Vercel Project (`udance-web`)**: manages Production, Preview, Development.
+- **GitHub → Vercel Integration**: push to `main` triggers Production build; PRs & `vercel --prod=false` trigger Preview.
+- **Environment Variables**: managed per-environment in Vercel dashboard; secrets never committed.
+- **Protected Main**: GitHub Secret-Scanning blocks any commit containing credentials; pre-commit hook + husky scripts enforce lint/type-check/test before commit.
+
+### Dynamic OAuth Redirect Pattern
+- `redirectTo` built at runtime using `window.location.origin` ensuring correct callback across local, preview, production without env vars.
+- Eliminates `NEXT_PUBLIC_AUTH_REDIRECT_URL` and reduces misconfiguration risk.
+
 ## Component Architecture
 ```
 src/

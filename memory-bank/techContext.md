@@ -196,29 +196,32 @@ export type NewsInsert = typeof news.$inferInsert;
 
 ### Environment Variables
 
-#### Required Variables (`.env`)
+The project now relies on **one Vercel project (`udance-web`)** with three built-in environments:
+
+| Scope | Purpose | Key differences |
+|-------|---------|-----------------|
+| **Production** | Public site (`udance-web.vercel.app` + custom domain) | `NEXTAUTH_URL` set to production URL. |
+| **Preview** | Ephemeral URL per pull-request / CLI preview | *No* `NEXTAUTH_URL` – NextAuth automatically picks `VERCEL_URL`. |
+| **Development** | Local dev via `pnpm dev` or `vercel dev` | `NEXTAUTH_URL=http://localhost:3000` |
+
+Redirects are built **dynamically in code** (`window.location.origin + '/auth/callback'`), so the deprecated `NEXT_PUBLIC_AUTH_REDIRECT_URL` var has been removed.
+
+#### Minimal `.env.local` for local development
 ```env
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://<project>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+SUPABASE_DATABASE_URL=postgresql://...
 
-# Database Connection (for Drizzle)
-SUPABASE_DATABASE_URL=postgresql://postgres.your-project:password@aws-0-region.pooler.supabase.com:6543/postgres
-
-# Google OAuth
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
+# OAuth
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
 
 # NextAuth
-NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_SECRET=...
 NEXTAUTH_URL=http://localhost:3000
 ```
-
-#### Environment Configuration Notes
-- **`.env` vs `.env.local`**: Use `.env` for Drizzle Kit (official recommendation)
-- **Database URL**: Use pooler URL for connection pooling
-- **Port 6543**: Supabase pooler port (not 5432)
 
 ### Database Schema Current State
 
